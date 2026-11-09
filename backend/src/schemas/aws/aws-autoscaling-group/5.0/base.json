@@ -1,0 +1,155 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_autoscaling_group",
+  "canvasType": "aws-autoscaling-group",
+  "displayName": "AWS Auto Scaling Group",
+  "category": "compute",
+  "icon": "Compute",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-launch-template",
+      "terraformType": "aws_launch_template",
+      "displayName": "Launch Template",
+      "reason": "Auto Scaling Group requires a Launch Template to define instance configurations.",
+      "linkField": "launchTemplateId",
+      "tfOutputRef": "aws_launch_template.{resourceName}.id",
+      "required": true
+    },
+    {
+      "resourceType": "aws-subnet",
+      "terraformType": "aws_subnet",
+      "displayName": "Subnets (VPC Zone Identifier)",
+      "reason": "Subnets where instances will be launched.",
+      "linkField": "vpcZoneIdentifier",
+      "tfOutputRef": "aws_subnet.{resourceName}.id",
+      "isMulti": true,
+      "required": true
+    },
+    {
+      "resourceType": "aws-lb-target-group",
+      "terraformType": "aws_lb_target_group",
+      "displayName": "Target Groups",
+      "reason": "Attaches instances to load balancer target groups for traffic distribution.",
+      "linkField": "targetGroupArns",
+      "tfOutputRef": "aws_lb_target_group.{resourceName}.arn",
+      "isMulti": true,
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Capacity & Configuration",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "health",
+      "label": "Health Checks & Networking",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Group Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Name of the Auto Scaling Group."
+    },
+    {
+      "key": "minSize",
+      "tfPath": "min_size",
+      "label": "Minimum Size",
+      "section": "general",
+      "order": 2,
+      "type": "number",
+      "default": 1,
+      "required": true,
+      "helpText": "Minimum number of instances in the group."
+    },
+    {
+      "key": "maxSize",
+      "tfPath": "max_size",
+      "label": "Maximum Size",
+      "section": "general",
+      "order": 3,
+      "type": "number",
+      "default": 5,
+      "required": true,
+      "helpText": "Maximum number of instances in the group."
+    },
+    {
+      "key": "desiredCapacity",
+      "tfPath": "desired_capacity",
+      "label": "Desired Capacity",
+      "section": "general",
+      "order": 4,
+      "type": "number",
+      "default": 2,
+      "required": true,
+      "helpText": "Number of Amazon EC2 instances that should be running in the group."
+    },
+    {
+      "key": "launchTemplateId",
+      "tfPath": "launch_template.id",
+      "label": "Launch Template ID",
+      "section": "general",
+      "order": 5,
+      "required": true,
+      "helpText": "Identifier of the launch template."
+    },
+    {
+      "key": "vpcZoneIdentifier",
+      "tfPath": "vpc_zone_identifier",
+      "label": "Subnet IDs",
+      "section": "health",
+      "order": 1,
+      "type": "list",
+      "required": true,
+      "helpText": "List of subnet IDs for a virtual private cloud (VPC)."
+    },
+    {
+      "key": "targetGroupArns",
+      "tfPath": "target_group_arns",
+      "label": "Target Group ARNs",
+      "section": "health",
+      "order": 2,
+      "type": "list",
+      "required": false,
+      "helpText": "Set of `aws_alb_target_group` ARNs, for use with Application or Network Load Balancing."
+    },
+    {
+      "key": "healthCheckType",
+      "tfPath": "health_check_type",
+      "label": "Health Check Type",
+      "section": "health",
+      "order": 3,
+      "type": "select",
+      "default": "EC2",
+      "options": [
+        "EC2",
+        "ELB"
+      ],
+      "required": false
+    },
+    {
+      "key": "healthCheckGracePeriod",
+      "tfPath": "health_check_grace_period",
+      "label": "Health Check Grace Period (seconds)",
+      "section": "health",
+      "order": 4,
+      "type": "number",
+      "default": 300,
+      "required": false
+    }
+  ],
+  "version": "5.0"
+}

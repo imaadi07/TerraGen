@@ -1,0 +1,95 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_health_check",
+  "canvasType": "gcp-compute-health-check",
+  "displayName": "GCP Health Check",
+  "icon": "Shield",
+  "color": "#4285F4",
+  "category": "networking",
+  "description": "Health check probe for load balancer backends (HTTP, HTTPS, TCP).",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Health Check Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "http-health-check"
+    },
+    {
+      "key": "checkIntervalSec",
+      "tfPath": "check_interval_sec",
+      "label": "Check Interval (Seconds)",
+      "section": "general",
+      "order": 2,
+      "default": 5,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "timeoutSec",
+      "tfPath": "timeout_sec",
+      "label": "Timeout (Seconds)",
+      "section": "general",
+      "order": 3,
+      "default": 5,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "healthyThreshold",
+      "tfPath": "healthy_threshold",
+      "label": "Healthy Threshold",
+      "section": "general",
+      "order": 4,
+      "default": 2,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "unhealthyThreshold",
+      "tfPath": "unhealthy_threshold",
+      "label": "Unhealthy Threshold",
+      "section": "general",
+      "order": 5,
+      "default": 2,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "httpHealthCheckPort",
+      "tfPath": "http_health_check.port",
+      "label": "HTTP Port",
+      "section": "general",
+      "order": 6,
+      "default": 80,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "httpHealthCheckRequestPath",
+      "tfPath": "http_health_check.request_path",
+      "label": "Request Path",
+      "section": "general",
+      "order": 7,
+      "default": "/healthz"
+    }
+  ],
+  "version": "5.0",
+  "compatibleWith": ">=5.0.0 <7.0.0"
+}

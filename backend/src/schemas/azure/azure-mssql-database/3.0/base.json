@@ -1,0 +1,95 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_mssql_database",
+  "canvasType": "azure-mssql-database",
+  "displayName": "Azure SQL Database",
+  "icon": "Database",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "database",
+  "description": "Deploy a managed relational SQL Database on Azure SQL Server.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Database Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "db-application"
+    },
+    {
+      "key": "serverId",
+      "tfPath": "server_id",
+      "label": "SQL Server ID",
+      "section": "general",
+      "order": 2,
+      "required": true
+    },
+    {
+      "key": "collation",
+      "tfPath": "collation",
+      "label": "Collation",
+      "section": "general",
+      "order": 3,
+      "default": "SQL_Latin1_General_CP1_CI_AS"
+    },
+    {
+      "key": "skuName",
+      "tfPath": "sku_name",
+      "label": "Database SKU",
+      "section": "general",
+      "order": 4,
+      "default": "S1",
+      "validation": {
+        "enum": [
+          "Basic",
+          "S0",
+          "S1",
+          "S2",
+          "GP_Gen5_2",
+          "GP_Gen5_4",
+          "BC_Gen5_2"
+        ]
+      }
+    },
+    {
+      "key": "maxSizeGb",
+      "tfPath": "max_size_gb",
+      "label": "Max Size (GB)",
+      "section": "general",
+      "order": 5,
+      "default": 50,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 6,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-mssql-server",
+      "linkField": "serverId",
+      "sourceOutput": "id"
+    }
+  ],
+  "version": "3.0"
+}

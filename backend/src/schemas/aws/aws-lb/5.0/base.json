@@ -1,0 +1,113 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_lb",
+  "canvasType": "aws-lb",
+  "displayName": "AWS Application / Network Load Balancer",
+  "category": "networking",
+  "icon": "Network",
+  "color": "#8C4FFF",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-subnet",
+      "terraformType": "aws_subnet",
+      "displayName": "Subnets",
+      "reason": "Load Balancers require at least two subnets across different Availability Zones.",
+      "linkField": "subnets",
+      "tfOutputRef": "aws_subnet.{resourceName}.id",
+      "isMulti": true,
+      "required": true
+    },
+    {
+      "resourceType": "aws-security-group",
+      "terraformType": "aws_security_group",
+      "displayName": "Security Groups",
+      "reason": "Application Load Balancers require security groups to control inbound and outbound traffic.",
+      "linkField": "securityGroups",
+      "tfOutputRef": "aws_security_group.{resourceName}.id",
+      "isMulti": true,
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Load Balancer Details",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "network",
+      "label": "Network & Security",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Load Balancer Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Unique name of the load balancer."
+    },
+    {
+      "key": "loadBalancerType",
+      "tfPath": "load_balancer_type",
+      "label": "Type",
+      "section": "general",
+      "order": 2,
+      "type": "select",
+      "default": "application",
+      "options": [
+        "application",
+        "network",
+        "gateway"
+      ],
+      "required": true
+    },
+    {
+      "key": "internal",
+      "tfPath": "internal",
+      "label": "Internal (Private)",
+      "section": "general",
+      "order": 3,
+      "type": "boolean",
+      "default": false,
+      "helpText": "If true, the LB will be internal and not accessible from the public internet."
+    },
+    {
+      "key": "subnets",
+      "tfPath": "subnets",
+      "label": "Subnet IDs",
+      "section": "network",
+      "order": 1,
+      "type": "list",
+      "required": true,
+      "helpText": "List of subnet IDs to attach to the LB (minimum 2 in different AZs)."
+    },
+    {
+      "key": "securityGroups",
+      "tfPath": "security_groups",
+      "label": "Security Group IDs",
+      "section": "network",
+      "order": 2,
+      "type": "list",
+      "required": false,
+      "helpText": "Security groups associated with the load balancer."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 4,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

@@ -1,0 +1,39 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_ecs_cluster",
+  "canvasType": "aws-ecs-cluster",
+  "displayName": "AWS ECS Cluster",
+  "category": "compute",
+  "icon": "Server",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Cluster Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Name of the ECS cluster (e.g. prod-apps-cluster)."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 2,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

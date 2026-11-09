@@ -1,0 +1,142 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_postgresql_flexible_server",
+  "canvasType": "azure-postgresql-flexible-server",
+  "displayName": "Azure PostgreSQL Flexible Server",
+  "icon": "Database",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "database",
+  "description": "Fully managed, production-grade PostgreSQL Flexible Server on Azure.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Server Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "psql-flex-app-prod"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "version",
+      "tfPath": "version",
+      "label": "PostgreSQL Version",
+      "section": "general",
+      "order": 4,
+      "default": "16",
+      "validation": {
+        "enum": [
+          "16",
+          "15",
+          "14",
+          "13",
+          "12"
+        ]
+      }
+    },
+    {
+      "key": "administratorLogin",
+      "tfPath": "administrator_login",
+      "label": "Admin Login",
+      "section": "general",
+      "order": 5,
+      "default": "psqladmin"
+    },
+    {
+      "key": "administratorPassword",
+      "tfPath": "administrator_password",
+      "label": "Admin Password",
+      "section": "general",
+      "order": 6,
+      "default": "P@ssw0rd1234!",
+      "validation": {
+        "sensitive": true
+      }
+    },
+    {
+      "key": "skuName",
+      "tfPath": "sku_name",
+      "label": "Server SKU",
+      "section": "general",
+      "order": 7,
+      "default": "GP_Standard_D2s_v3",
+      "validation": {
+        "enum": [
+          "B_Standard_B1ms",
+          "B_Standard_B2s",
+          "GP_Standard_D2s_v3",
+          "GP_Standard_D4s_v3"
+        ]
+      }
+    },
+    {
+      "key": "storageMb",
+      "tfPath": "storage_mb",
+      "label": "Storage (MB)",
+      "section": "general",
+      "order": 8,
+      "default": 32768,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "delegatedSubnetId",
+      "tfPath": "delegated_subnet_id",
+      "label": "Delegated Subnet ID",
+      "section": "general",
+      "order": 9
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 10,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-subnet",
+      "linkField": "delegatedSubnetId",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "3.0"
+}

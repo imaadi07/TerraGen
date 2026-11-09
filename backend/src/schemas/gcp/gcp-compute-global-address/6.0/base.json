@@ -1,0 +1,89 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_global_address",
+  "canvasType": "gcp-compute-global-address",
+  "displayName": "Global IP Address",
+  "category": "networking",
+  "icon": "Network",
+  "color": "#4285F4",
+  "compatibleWith": ">=6.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "IP Specifications",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Address Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "global-lb-ip",
+      "description": "Unique name of the global IP address reservation."
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": false,
+      "placeholder": "Global static IP for external HTTP load balancer",
+      "description": "An optional description of this IP resource."
+    },
+    {
+      "key": "addressType",
+      "tfPath": "address_type",
+      "label": "Address Type",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "select",
+      "required": false,
+      "defaultValue": "EXTERNAL",
+      "options": [
+        {
+          "label": "External (Public Internet IP for Load Balancers)",
+          "value": "EXTERNAL"
+        },
+        {
+          "label": "Internal (Private VPC peering / Service Networking)",
+          "value": "INTERNAL"
+        }
+      ],
+      "description": "The type of address to reserve."
+    },
+    {
+      "key": "purpose",
+      "tfPath": "purpose",
+      "label": "Purpose",
+      "sectionKey": "general",
+      "order": 4,
+      "type": "select",
+      "required": false,
+      "options": [
+        {
+          "label": "None (Standard Load Balancer)",
+          "value": ""
+        },
+        {
+          "label": "VPC Peering / Private Services Access",
+          "value": "VPC_PEERING"
+        },
+        {
+          "label": "Private Service Connect",
+          "value": "PRIVATE_SERVICE_CONNECT"
+        }
+      ],
+      "description": "The purpose of the resource (e.g. VPC_PEERING for Cloud SQL private IP)."
+    }
+  ],
+  "version": "6.0"
+}

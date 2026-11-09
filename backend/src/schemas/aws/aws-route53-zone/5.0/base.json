@@ -1,0 +1,62 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_route53_zone",
+  "canvasType": "aws-route53-zone",
+  "displayName": "AWS Route53 Hosted Zone",
+  "icon": "Globe",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "version": "5.0",
+  "category": "networking",
+  "description": "Create an Amazon Route 53 Hosted Zone for domain name management.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Domain Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "example.com",
+      "helpText": "Top-level domain or subdomain."
+    },
+    {
+      "key": "comment",
+      "tfPath": "comment",
+      "label": "Comment",
+      "section": "general",
+      "order": 2,
+      "default": "Managed by Terraform"
+    },
+    {
+      "key": "forceDestroy",
+      "tfPath": "force_destroy",
+      "label": "Force Destroy",
+      "section": "general",
+      "order": 3,
+      "default": false,
+      "validation": {
+        "type": "boolean"
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 4,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ]
+}

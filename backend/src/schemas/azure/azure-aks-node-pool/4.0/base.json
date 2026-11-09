@@ -1,0 +1,109 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_kubernetes_cluster_node_pool",
+  "canvasType": "azure-aks-node-pool",
+  "displayName": "Azure AKS Node Pool",
+  "icon": "Cpu",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "compute",
+  "description": "Add an additional worker node pool to an Azure AKS cluster.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Node Pool Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "userpool"
+    },
+    {
+      "key": "kubernetesClusterId",
+      "tfPath": "kubernetes_cluster_id",
+      "label": "AKS Cluster ID",
+      "section": "general",
+      "order": 2,
+      "required": true
+    },
+    {
+      "key": "vmSize",
+      "tfPath": "vm_size",
+      "label": "VM Size",
+      "section": "general",
+      "order": 3,
+      "default": "Standard_D4s_v5",
+      "validation": {
+        "enum": [
+          "Standard_D2s_v5",
+          "Standard_D4s_v5",
+          "Standard_D8s_v5"
+        ]
+      }
+    },
+    {
+      "key": "nodeCount",
+      "tfPath": "node_count",
+      "label": "Node Count",
+      "section": "general",
+      "order": 4,
+      "default": 2,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "mode",
+      "tfPath": "mode",
+      "label": "Pool Mode",
+      "section": "general",
+      "order": 5,
+      "default": "User",
+      "validation": {
+        "enum": [
+          "User",
+          "System"
+        ]
+      }
+    },
+    {
+      "key": "vnetSubnetId",
+      "tfPath": "vnet_subnet_id",
+      "label": "Subnet ID",
+      "section": "general",
+      "order": 6
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 7,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-kubernetes-cluster",
+      "linkField": "kubernetesClusterId",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "azure-subnet",
+      "linkField": "vnetSubnetId",
+      "sourceOutput": "id"
+    }
+  ],
+  "version": "4.0"
+}

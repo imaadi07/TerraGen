@@ -1,0 +1,76 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_db_subnet_group",
+  "canvasType": "aws-db-subnet-group",
+  "displayName": "AWS DB Subnet Group",
+  "category": "database",
+  "icon": "Database",
+  "color": "#E7157B",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-subnet",
+      "terraformType": "aws_subnet",
+      "displayName": "Subnets",
+      "reason": "A DB Subnet Group must contain at least 2 subnets across different Availability Zones.",
+      "linkField": "subnetIds",
+      "tfOutputRef": "aws_subnet.{resourceName}.id",
+      "required": true,
+      "isMulti": true,
+      "minCount": 2
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Subnet Group Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "The name of the DB subnet group."
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 2,
+      "required": false,
+      "default": "Managed DB subnet group",
+      "helpText": "The description of the DB subnet group."
+    },
+    {
+      "key": "subnetIds",
+      "tfPath": "subnet_ids",
+      "label": "Subnet IDs",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "type": "list",
+      "validation": {
+        "selectionMode": "multi",
+        "minLength": 2
+      },
+      "helpText": "A list of VPC subnet IDs (minimum 2 in distinct AZs)."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 4,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

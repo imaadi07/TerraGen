@@ -1,0 +1,117 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_instance_group_manager",
+  "canvasType": "gcp-compute-instance-group-manager",
+  "displayName": "GCP Managed Instance Group",
+  "category": "compute",
+  "icon": "Compute",
+  "color": "#4285F4",
+  "compatibleWith": ">=6.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-instance-template",
+      "terraformType": "google_compute_instance_template",
+      "displayName": "Instance Template",
+      "reason": "Managed Instance Group creates VMs based on this template.",
+      "linkField": "instanceTemplate",
+      "tfOutputRef": "google_compute_instance_template.{resourceName}.id",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Instance Group Settings",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "ports",
+      "label": "Named Ports",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Instance Group Name",
+      "type": "string",
+      "sectionKey": "general",
+      "order": 1,
+      "required": true,
+      "placeholder": "my-instance-group-manager",
+      "description": "Unique name of the managed instance group."
+    },
+    {
+      "key": "baseInstanceName",
+      "tfPath": "base_instance_name",
+      "label": "Base Instance Name",
+      "type": "string",
+      "sectionKey": "general",
+      "order": 2,
+      "required": true,
+      "defaultValue": "app-worker",
+      "description": "Base name used for instances created by this manager."
+    },
+    {
+      "key": "zone",
+      "tfPath": "zone",
+      "label": "Zone",
+      "type": "string",
+      "sectionKey": "general",
+      "order": 3,
+      "required": true,
+      "defaultValue": "us-central1-a",
+      "description": "The zone that instances should be created in."
+    },
+    {
+      "key": "targetSize",
+      "tfPath": "target_size",
+      "label": "Target Size (Instance Count)",
+      "type": "number",
+      "sectionKey": "general",
+      "order": 4,
+      "required": true,
+      "defaultValue": 2,
+      "description": "Target number of running instances in this managed instance group."
+    },
+    {
+      "key": "instanceTemplate",
+      "tfPath": "version.0.instance_template",
+      "label": "Instance Template",
+      "type": "string",
+      "sectionKey": "general",
+      "order": 5,
+      "required": true,
+      "placeholder": "Connect an Instance Template on canvas",
+      "description": "The full URI or ID to the instance template specification. Auto-populated by canvas link."
+    },
+    {
+      "key": "namedPortName",
+      "tfPath": "named_port.0.name",
+      "label": "Named Port Name",
+      "type": "string",
+      "sectionKey": "ports",
+      "order": 1,
+      "required": false,
+      "defaultValue": "http",
+      "description": "The name which the port will be mapped to."
+    },
+    {
+      "key": "namedPortPort",
+      "tfPath": "named_port.0.port",
+      "label": "Named Port Number",
+      "type": "number",
+      "sectionKey": "ports",
+      "order": 2,
+      "required": false,
+      "defaultValue": 80,
+      "description": "The port number."
+    }
+  ],
+  "version": "6.0"
+}

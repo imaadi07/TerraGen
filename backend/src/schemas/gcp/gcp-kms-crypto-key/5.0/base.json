@@ -1,0 +1,82 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_kms_crypto_key",
+  "canvasType": "gcp-kms-crypto-key",
+  "displayName": "GCP KMS CryptoKey",
+  "icon": "Key",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "category": "security",
+  "description": "Create a cryptographic key within a Cloud KMS KeyRing for CMEK encryption.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Key Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "app-crypto-key"
+    },
+    {
+      "key": "keyRing",
+      "tfPath": "key_ring",
+      "label": "KeyRing ID",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "projects/my-project/locations/us-central1/keyRings/app-keyring"
+    },
+    {
+      "key": "rotationPeriod",
+      "tfPath": "rotation_period",
+      "label": "Rotation Period",
+      "section": "general",
+      "order": 3,
+      "default": "7776000s"
+    },
+    {
+      "key": "purpose",
+      "tfPath": "purpose",
+      "label": "Purpose",
+      "section": "general",
+      "order": 4,
+      "default": "ENCRYPT_DECRYPT",
+      "validation": {
+        "enum": [
+          "ENCRYPT_DECRYPT",
+          "ASYMMETRIC_SIGN",
+          "ASYMMETRIC_DECRYPT",
+          "RAW_ENCRYPT_DECRYPT"
+        ]
+      }
+    },
+    {
+      "key": "labels",
+      "tfPath": "labels",
+      "label": "Labels",
+      "section": "general",
+      "order": 5,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "gcp-kms-key-ring",
+      "linkField": "keyRing",
+      "sourceOutput": "id"
+    }
+  ],
+  "version": "5.0"
+}

@@ -1,0 +1,86 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_sqs_queue",
+  "canvasType": "aws-sqs-queue",
+  "displayName": "AWS SQS Queue",
+  "category": "serverless",
+  "icon": "Serverless",
+  "color": "#FF4F8B",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "Queue Settings",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "timing",
+      "label": "Timeouts & Retention",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Queue Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "The name of the queue. For FIFO queues, must end with .fifo."
+    },
+    {
+      "key": "fifoQueue",
+      "tfPath": "fifo_queue",
+      "label": "FIFO Queue",
+      "section": "general",
+      "order": 2,
+      "type": "boolean",
+      "default": false,
+      "helpText": "Boolean designating a FIFO (first-in-first-out) queue."
+    },
+    {
+      "key": "visibilityTimeoutSeconds",
+      "tfPath": "visibility_timeout_seconds",
+      "label": "Visibility Timeout (Seconds)",
+      "section": "timing",
+      "order": 1,
+      "type": "number",
+      "default": 30,
+      "helpText": "The visibility timeout for the queue in seconds."
+    },
+    {
+      "key": "messageRetentionSeconds",
+      "tfPath": "message_retention_seconds",
+      "label": "Message Retention (Seconds)",
+      "section": "timing",
+      "order": 2,
+      "type": "number",
+      "default": 345600,
+      "helpText": "The number of seconds Amazon SQS retains a message (default: 4 days)."
+    },
+    {
+      "key": "delaySeconds",
+      "tfPath": "delay_seconds",
+      "label": "Delivery Delay (Seconds)",
+      "section": "timing",
+      "order": 3,
+      "type": "number",
+      "default": 0,
+      "helpText": "The time in seconds that the delivery of all messages in the queue is delayed."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 3,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

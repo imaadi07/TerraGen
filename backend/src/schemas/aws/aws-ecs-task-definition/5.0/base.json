@@ -1,0 +1,158 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_ecs_task_definition",
+  "canvasType": "aws-ecs-task-definition",
+  "displayName": "AWS ECS Task Definition",
+  "category": "compute",
+  "icon": "Server",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-iam-role",
+      "terraformType": "aws_iam_role",
+      "displayName": "Execution Role",
+      "reason": "IAM role that allows ECS to pull images and publish logs.",
+      "linkField": "executionRoleArn",
+      "tfOutputRef": "aws_iam_role.{resourceName}.arn",
+      "required": false
+    },
+    {
+      "resourceType": "aws-iam-role",
+      "terraformType": "aws_iam_role",
+      "displayName": "Task Role",
+      "reason": "IAM role providing AWS permissions to the running containers.",
+      "linkField": "taskRoleArn",
+      "tfOutputRef": "aws_iam_role.{resourceName}.arn",
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Task Config",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "resources",
+      "label": "CPU & Memory",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    },
+    {
+      "key": "container",
+      "label": "Container Definition",
+      "order": 3,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "family",
+      "tfPath": "family",
+      "label": "Family Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "A unique name for your task definition family."
+    },
+    {
+      "key": "networkMode",
+      "tfPath": "network_mode",
+      "label": "Network Mode",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "awsvpc",
+      "validation": {
+        "enum": [
+          "awsvpc",
+          "bridge",
+          "host",
+          "none"
+        ]
+      },
+      "helpText": "Docker networking mode to use for containers (awsvpc required for Fargate)."
+    },
+    {
+      "key": "cpu",
+      "tfPath": "cpu",
+      "label": "Task CPU (Units)",
+      "section": "resources",
+      "order": 1,
+      "required": true,
+      "default": "256",
+      "validation": {
+        "enum": [
+          "256",
+          "512",
+          "1024",
+          "2048",
+          "4096"
+        ]
+      },
+      "helpText": "Number of CPU units used by the task."
+    },
+    {
+      "key": "memory",
+      "tfPath": "memory",
+      "label": "Task Memory (MiB)",
+      "section": "resources",
+      "order": 2,
+      "required": true,
+      "default": "512",
+      "validation": {
+        "enum": [
+          "512",
+          "1024",
+          "2048",
+          "4096",
+          "8192"
+        ]
+      },
+      "helpText": "Amount of memory (in MiB) used by the task."
+    },
+    {
+      "key": "executionRoleArn",
+      "tfPath": "execution_role_arn",
+      "label": "Execution Role ARN",
+      "section": "general",
+      "order": 3,
+      "required": false,
+      "helpText": "ARN of the task execution role that gives ECS permission to pull container images and log to CloudWatch."
+    },
+    {
+      "key": "taskRoleArn",
+      "tfPath": "task_role_arn",
+      "label": "Task Role ARN",
+      "section": "general",
+      "order": 4,
+      "required": false,
+      "helpText": "ARN of the IAM role that allows containers in the task to call AWS APIs."
+    },
+    {
+      "key": "containerDefinitions",
+      "tfPath": "container_definitions",
+      "label": "Container Definitions (JSON)",
+      "section": "container",
+      "order": 1,
+      "type": "code",
+      "required": true,
+      "default": "[\n  {\n    \"name\": \"app\",\n    \"image\": \"nginx:latest\",\n    \"essential\": true,\n    \"portMappings\": [\n      {\n        \"containerPort\": 80,\n        \"hostPort\": 80\n      }\n    ]\n  }\n]",
+      "helpText": "JSON array of container definitions."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 5,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

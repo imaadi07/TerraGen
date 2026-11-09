@@ -1,0 +1,76 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_subnet",
+  "canvasType": "azure-subnet",
+  "displayName": "Azure Subnet",
+  "icon": "Network",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "networking",
+  "description": "Subdivide an Azure Virtual Network into individual Subnets.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Subnet Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "snet-workloads"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "virtualNetworkName",
+      "tfPath": "virtual_network_name",
+      "label": "Virtual Network Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "vnet-app-prod"
+    },
+    {
+      "key": "addressPrefixes",
+      "tfPath": "address_prefixes",
+      "label": "Address Prefixes",
+      "section": "general",
+      "order": 4,
+      "required": true,
+      "default": [
+        "10.0.1.0/24"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-virtual-network",
+      "linkField": "virtualNetworkName",
+      "sourceOutput": "name"
+    },
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "3.0"
+}

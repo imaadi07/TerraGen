@@ -1,0 +1,106 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_region_backend_service",
+  "canvasType": "gcp-compute-region-backend-service",
+  "displayName": "GCP Regional Backend Service",
+  "icon": "Network",
+  "color": "#4285F4",
+  "category": "networking",
+  "description": "Backend service for regional TCP/UDP and internal load balancers.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Backend Service Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "regional-backend-service"
+    },
+    {
+      "key": "region",
+      "tfPath": "region",
+      "label": "Region",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "us-central1"
+    },
+    {
+      "key": "protocol",
+      "tfPath": "protocol",
+      "label": "Protocol",
+      "section": "general",
+      "order": 3,
+      "default": "TCP",
+      "validation": {
+        "enum": [
+          "TCP",
+          "UDP",
+          "HTTP",
+          "HTTPS",
+          "GRPC"
+        ]
+      }
+    },
+    {
+      "key": "loadBalancingScheme",
+      "tfPath": "load_balancing_scheme",
+      "label": "Scheme",
+      "section": "general",
+      "order": 4,
+      "default": "INTERNAL",
+      "validation": {
+        "enum": [
+          "INTERNAL",
+          "INTERNAL_MANAGED",
+          "EXTERNAL"
+        ]
+      }
+    },
+    {
+      "key": "healthChecks",
+      "tfPath": "health_checks",
+      "label": "Health Checks",
+      "section": "general",
+      "order": 5,
+      "required": true,
+      "default": [
+        "health-check-id"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    },
+    {
+      "key": "timeoutSec",
+      "tfPath": "timeout_sec",
+      "label": "Timeout (Seconds)",
+      "section": "general",
+      "order": 6,
+      "default": 30,
+      "validation": {
+        "type": "number"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-health-check",
+      "linkField": "healthChecks",
+      "sourceOutput": "id",
+      "isMulti": true
+    }
+  ],
+  "version": "5.0",
+  "compatibleWith": ">=5.0.0 <7.0.0"
+}

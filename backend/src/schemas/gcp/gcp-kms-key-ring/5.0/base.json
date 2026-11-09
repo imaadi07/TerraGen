@@ -1,0 +1,41 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_kms_key_ring",
+  "canvasType": "gcp-kms-key-ring",
+  "displayName": "GCP KMS KeyRing",
+  "icon": "Key",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "category": "security",
+  "description": "Create a Cloud Key Management Service (KMS) KeyRing.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "KeyRing Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "app-keyring"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "us-central1"
+    }
+  ],
+  "version": "5.0"
+}

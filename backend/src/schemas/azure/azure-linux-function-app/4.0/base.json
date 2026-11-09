@@ -1,0 +1,107 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_linux_function_app",
+  "canvasType": "azure-linux-function-app",
+  "displayName": "Azure Function App (Linux)",
+  "icon": "Lightning",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "serverless",
+  "description": "Serverless event-driven compute engine for microservices and workflows.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Function App Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "func-app-prod"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "servicePlanId",
+      "tfPath": "service_plan_id",
+      "label": "App Service Plan ID",
+      "section": "general",
+      "order": 4,
+      "required": true
+    },
+    {
+      "key": "storageAccountName",
+      "tfPath": "storage_account_name",
+      "label": "Storage Account Name",
+      "section": "general",
+      "order": 5,
+      "required": true
+    },
+    {
+      "key": "siteConfigNodeVersion",
+      "tfPath": "site_config.application_stack.node_version",
+      "label": "Node.js Runtime Version",
+      "section": "general",
+      "order": 6,
+      "default": "20",
+      "validation": {
+        "enum": [
+          "20",
+          "18"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 7,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-service-plan",
+      "linkField": "servicePlanId",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "azure-storage-account",
+      "linkField": "storageAccountName",
+      "sourceOutput": "name"
+    },
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "4.0"
+}

@@ -1,0 +1,169 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_lambda_function",
+  "canvasType": "aws-lambda-function",
+  "displayName": "AWS Lambda Function",
+  "category": "serverless",
+  "icon": "Serverless",
+  "color": "#FF4F8B",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-iam-role",
+      "terraformType": "aws_iam_role",
+      "displayName": "Execution Role",
+      "reason": "Every Lambda function requires an IAM role for execution permissions.",
+      "linkField": "role",
+      "tfOutputRef": "aws_iam_role.{resourceName}.arn",
+      "required": true
+    },
+    {
+      "resourceType": "aws-subnet",
+      "terraformType": "aws_subnet",
+      "displayName": "VPC Subnets",
+      "reason": "Allows Lambda to access VPC resources privately.",
+      "linkField": "subnetIds",
+      "tfOutputRef": "aws_subnet.{resourceName}.id",
+      "isMulti": true,
+      "required": false
+    },
+    {
+      "resourceType": "aws-security-group",
+      "terraformType": "aws_security_group",
+      "displayName": "Security Groups",
+      "reason": "Security groups applied to Lambda ENIs inside the VPC.",
+      "linkField": "securityGroupIds",
+      "tfOutputRef": "aws_security_group.{resourceName}.id",
+      "isMulti": true,
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Runtime & Function",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "sizing",
+      "label": "Memory & Timeout",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    },
+    {
+      "key": "vpc",
+      "label": "VPC Networking",
+      "order": 3,
+      "defaultExpanded": false,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "functionName",
+      "tfPath": "function_name",
+      "label": "Function Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Unique name of the Lambda function."
+    },
+    {
+      "key": "runtime",
+      "tfPath": "runtime",
+      "label": "Runtime",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "nodejs20.x",
+      "validation": {
+        "enum": [
+          "nodejs20.x",
+          "nodejs18.x",
+          "python3.12",
+          "python3.11",
+          "java21",
+          "java17",
+          "dotnet8",
+          "provided.al2023"
+        ]
+      },
+      "helpText": "The runtime environment for the Lambda function."
+    },
+    {
+      "key": "handler",
+      "tfPath": "handler",
+      "label": "Handler",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "index.handler",
+      "helpText": "The function entrypoint in your code."
+    },
+    {
+      "key": "role",
+      "tfPath": "role",
+      "label": "IAM Role ARN",
+      "section": "general",
+      "order": 4,
+      "required": true,
+      "helpText": "Amazon Resource Name (ARN) of the function's execution role."
+    },
+    {
+      "key": "memorySize",
+      "tfPath": "memory_size",
+      "label": "Memory (MB)",
+      "section": "sizing",
+      "order": 1,
+      "type": "number",
+      "default": 128,
+      "helpText": "Amount of memory in MB your function can use at runtime (128 to 10240)."
+    },
+    {
+      "key": "timeout",
+      "tfPath": "timeout",
+      "label": "Timeout (Seconds)",
+      "section": "sizing",
+      "order": 2,
+      "type": "number",
+      "default": 30,
+      "helpText": "The amount of time your Lambda function has to run in seconds."
+    },
+    {
+      "key": "subnetIds",
+      "tfPath": "vpc_config.subnet_ids",
+      "label": "VPC Subnet IDs",
+      "section": "vpc",
+      "order": 1,
+      "type": "list",
+      "validation": {
+        "selectionMode": "multi"
+      },
+      "helpText": "List of subnet IDs associated with the Lambda function for VPC access."
+    },
+    {
+      "key": "securityGroupIds",
+      "tfPath": "vpc_config.security_group_ids",
+      "label": "VPC Security Group IDs",
+      "section": "vpc",
+      "order": 2,
+      "type": "list",
+      "validation": {
+        "selectionMode": "multi"
+      },
+      "helpText": "List of security group IDs associated with the Lambda function."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 5,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

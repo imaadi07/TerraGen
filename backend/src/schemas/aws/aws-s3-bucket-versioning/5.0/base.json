@@ -1,0 +1,56 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_s3_bucket_versioning",
+  "canvasType": "aws-s3-bucket-versioning",
+  "displayName": "AWS S3 Bucket Versioning",
+  "category": "storage",
+  "icon": "Storage",
+  "color": "#3F8600",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-s3",
+      "terraformType": "aws_s3_bucket",
+      "displayName": "S3 Bucket",
+      "reason": "Bucket versioning resource must attach to an S3 bucket.",
+      "linkField": "bucket",
+      "tfOutputRef": "aws_s3_bucket.{resourceName}.id",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Versioning Details",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "bucket",
+      "tfPath": "bucket",
+      "label": "Bucket Name / ID",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Name or ID of the S3 bucket to configure versioning for."
+    },
+    {
+      "key": "status",
+      "tfPath": "versioning_configuration.status",
+      "label": "Versioning Status",
+      "section": "general",
+      "order": 2,
+      "type": "select",
+      "default": "Enabled",
+      "options": [
+        "Enabled",
+        "Suspended"
+      ],
+      "required": true
+    }
+  ],
+  "version": "5.0"
+}

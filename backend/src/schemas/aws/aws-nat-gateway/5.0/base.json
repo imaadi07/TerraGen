@@ -1,0 +1,66 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_nat_gateway",
+  "canvasType": "aws-nat-gateway",
+  "displayName": "AWS NAT Gateway",
+  "category": "networking",
+  "icon": "Network",
+  "color": "#8C4FFF",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-subnet",
+      "terraformType": "aws_subnet",
+      "displayName": "Public Subnet",
+      "reason": "A NAT Gateway must be placed in a public subnet with internet route.",
+      "linkField": "subnetId",
+      "tfOutputRef": "aws_subnet.{resourceName}.id",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "subnetId",
+      "tfPath": "subnet_id",
+      "label": "Subnet ID",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "The Subnet ID of the subnet in which to place the gateway."
+    },
+    {
+      "key": "connectivityType",
+      "tfPath": "connectivity_type",
+      "label": "Connectivity Type",
+      "section": "general",
+      "order": 2,
+      "required": false,
+      "default": "public",
+      "validation": {
+        "enum": [
+          "public",
+          "private"
+        ]
+      },
+      "helpText": "Connectivity type for the gateway (public or private)."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 3,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

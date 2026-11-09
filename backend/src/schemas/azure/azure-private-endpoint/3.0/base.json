@@ -1,0 +1,125 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_private_endpoint",
+  "canvasType": "azure-private-endpoint",
+  "displayName": "Azure Private Endpoint",
+  "icon": "Network",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "networking",
+  "description": "Securely connect private subnets to Azure PaaS services using private IP addresses.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Private Endpoint Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "pe-app-service"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "subnetId",
+      "tfPath": "subnet_id",
+      "label": "Subnet ID",
+      "section": "general",
+      "order": 4,
+      "required": true
+    },
+    {
+      "key": "pscName",
+      "tfPath": "private_service_connection.name",
+      "label": "Connection Name",
+      "section": "general",
+      "order": 5,
+      "default": "psc-connection"
+    },
+    {
+      "key": "pscPrivateConnectionResourceId",
+      "tfPath": "private_service_connection.private_connection_resource_id",
+      "label": "Target Resource ID",
+      "section": "general",
+      "order": 6,
+      "required": true
+    },
+    {
+      "key": "pscIsManualConnection",
+      "tfPath": "private_service_connection.is_manual_connection",
+      "label": "Is Manual Connection",
+      "section": "general",
+      "order": 7,
+      "default": false,
+      "validation": {
+        "type": "boolean"
+      }
+    },
+    {
+      "key": "pscSubresourceNames",
+      "tfPath": "private_service_connection.subresource_names",
+      "label": "Subresource Names",
+      "section": "general",
+      "order": 8,
+      "default": [
+        "vault"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 9,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-subnet",
+      "linkField": "subnetId",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "azure-key-vault",
+      "linkField": "pscPrivateConnectionResourceId",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "3.0"
+}

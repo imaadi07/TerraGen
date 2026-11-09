@@ -1,0 +1,111 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_key_vault",
+  "canvasType": "azure-key-vault",
+  "displayName": "Azure Key Vault",
+  "icon": "Lock",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "security",
+  "description": "Safeguard cryptographic keys and secrets used by cloud apps and services.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Key Vault Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "kv-app-prod-vault"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "tenantId",
+      "tfPath": "tenant_id",
+      "label": "Azure Tenant ID",
+      "section": "general",
+      "order": 4,
+      "default": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "key": "skuName",
+      "tfPath": "sku_name",
+      "label": "SKU Name",
+      "section": "general",
+      "order": 5,
+      "default": "standard",
+      "validation": {
+        "enum": [
+          "standard",
+          "premium"
+        ]
+      }
+    },
+    {
+      "key": "softDeleteRetentionDays",
+      "tfPath": "soft_delete_retention_days",
+      "label": "Soft Delete Retention (Days)",
+      "section": "general",
+      "order": 6,
+      "default": 90,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "purgeProtectionEnabled",
+      "tfPath": "purge_protection_enabled",
+      "label": "Purge Protection",
+      "section": "general",
+      "order": 7,
+      "default": true,
+      "validation": {
+        "type": "boolean"
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 8,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "3.0"
+}

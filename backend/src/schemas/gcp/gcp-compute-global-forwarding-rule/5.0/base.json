@@ -1,0 +1,100 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_global_forwarding_rule",
+  "canvasType": "gcp-compute-global-forwarding-rule",
+  "displayName": "GCP Global Forwarding Rule",
+  "icon": "Network",
+  "color": "#4285F4",
+  "category": "networking",
+  "description": "Global entry point for HTTP(S) Application Load Balancers.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Forwarding Rule Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "http-global-forwarding-rule"
+    },
+    {
+      "key": "target",
+      "tfPath": "target",
+      "label": "Target Proxy ID",
+      "section": "general",
+      "order": 2,
+      "required": true
+    },
+    {
+      "key": "portRange",
+      "tfPath": "port_range",
+      "label": "Port Range",
+      "section": "general",
+      "order": 3,
+      "default": "80"
+    },
+    {
+      "key": "ipAddress",
+      "tfPath": "ip_address",
+      "label": "Global IP Address",
+      "section": "general",
+      "order": 4
+    },
+    {
+      "key": "loadBalancingScheme",
+      "tfPath": "load_balancing_scheme",
+      "label": "Load Balancing Scheme",
+      "section": "general",
+      "order": 5,
+      "default": "EXTERNAL_MANAGED",
+      "validation": {
+        "enum": [
+          "EXTERNAL",
+          "EXTERNAL_MANAGED"
+        ]
+      }
+    },
+    {
+      "key": "ipProtocol",
+      "tfPath": "ip_protocol",
+      "label": "IP Protocol",
+      "section": "general",
+      "order": 6,
+      "default": "TCP",
+      "validation": {
+        "enum": [
+          "TCP",
+          "UDP"
+        ]
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-target-http-proxy",
+      "linkField": "target",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "gcp-compute-target-https-proxy",
+      "linkField": "target",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "gcp-compute-global-address",
+      "linkField": "ipAddress",
+      "sourceOutput": "address"
+    }
+  ],
+  "version": "5.0",
+  "compatibleWith": ">=5.0.0 <7.0.0"
+}

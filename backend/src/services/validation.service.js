@@ -7,8 +7,16 @@ import { AppError } from "../utils/error.util.js";
  */
 export function inferFieldType(field) {
   if (field.validation?.enum || field.enumValues) return "enum";
-  if (field.validation?.list) return "list";
-  if (field.validation?.map || field.type === "object") return "map";
+  if (
+    field.validation?.list ||
+    field.type === "list" ||
+    field.type === "array" ||
+    field.validation?.type === "array" ||
+    Array.isArray(field.default)
+  ) {
+    return "list";
+  }
+  if (field.validation?.map || field.type === "object" || field.validation?.type === "map") return "map";
   if (field.validation?.multiline) return "multiline";
   if (field.type) return field.type;
   if (typeof field.default === "boolean") return "boolean";
@@ -28,6 +36,7 @@ export function coerceValue(value, type) {
     case "number":
       const num = Number(value);
       return isNaN(num) ? undefined : num;
+    case "array":
     case "list":
       if (Array.isArray(value)) return value.filter(Boolean);
       if (typeof value === "string") {
@@ -57,11 +66,13 @@ function shouldValidateField(field, userValues) {
 
 /**
  * Validate all required fields are present and non-empty.
+ * If a field is satisfied by a reference in refMap, it is considered fulfilled.
  */
-export function validateRequiredFields(schema, userValues) {
-  for (const field of schema.fields) {
+export function validateRequiredFields(schema, userValues, refMap = {}) {
+  for (const field of schema.fields || []) {
     if (!shouldValidateField(field, userValues)) continue;
     if (!field.required) continue;
+    if (refMap[field.key]) continue;
     const value = userValues[field.key];
     if (value === undefined || value === null || value === "") {
       throw new AppError(`Missing required field: ${field.label} (${field.tfPath})`);

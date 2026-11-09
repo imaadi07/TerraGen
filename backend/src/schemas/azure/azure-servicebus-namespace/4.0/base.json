@@ -1,0 +1,82 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_servicebus_namespace",
+  "canvasType": "azure-servicebus-namespace",
+  "displayName": "Azure Service Bus Namespace",
+  "icon": "Serverless",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "serverless",
+  "description": "Enterprise message broker with message queues and publish-subscribe topics.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Namespace Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "sb-app-messaging"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "sku",
+      "tfPath": "sku",
+      "label": "Messaging SKU",
+      "section": "general",
+      "order": 4,
+      "default": "Standard",
+      "validation": {
+        "enum": [
+          "Basic",
+          "Standard",
+          "Premium"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 5,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "4.0"
+}

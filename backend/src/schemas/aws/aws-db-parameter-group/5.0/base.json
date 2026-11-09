@@ -1,0 +1,58 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_db_parameter_group",
+  "canvasType": "aws-db-parameter-group",
+  "displayName": "AWS DB Parameter Group",
+  "category": "database",
+  "icon": "Database",
+  "color": "#336791",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "Parameter Group Details",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Parameter Group Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "The name of the DB parameter group."
+    },
+    {
+      "key": "family",
+      "tfPath": "family",
+      "label": "DB Family",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "postgres15",
+      "helpText": "The family of the DB parameter group (e.g. postgres15, mysql8.0)."
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 3,
+      "required": false,
+      "default": "Custom database parameter group managed by Terraform"
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 4,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

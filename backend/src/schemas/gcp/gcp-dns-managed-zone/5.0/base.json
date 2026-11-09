@@ -1,0 +1,74 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_dns_managed_zone",
+  "canvasType": "gcp-dns-managed-zone",
+  "displayName": "GCP Cloud DNS Managed Zone",
+  "icon": "Globe",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "category": "networking",
+  "description": "Create a Cloud DNS Managed Zone for public or private authoritative DNS.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Zone Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "prod-zone"
+    },
+    {
+      "key": "dnsName",
+      "tfPath": "dns_name",
+      "label": "DNS Name (FQDN)",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "example.internal.",
+      "helpText": "Must end with a trailing dot (.)."
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 3,
+      "default": "Production Cloud DNS Managed Zone"
+    },
+    {
+      "key": "visibility",
+      "tfPath": "visibility",
+      "label": "Visibility",
+      "section": "general",
+      "order": 4,
+      "default": "public",
+      "validation": {
+        "enum": [
+          "public",
+          "private"
+        ]
+      }
+    },
+    {
+      "key": "labels",
+      "tfPath": "labels",
+      "label": "Labels",
+      "section": "general",
+      "order": 5,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "version": "5.0"
+}

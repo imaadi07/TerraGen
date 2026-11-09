@@ -1,0 +1,44 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_secret_manager_secret",
+  "canvasType": "gcp-secret-manager-secret",
+  "displayName": "Secret Manager Secret",
+  "category": "security",
+  "icon": "Security",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "Secret Metadata",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "secretId",
+      "tfPath": "secret_id",
+      "label": "Secret ID",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "db-master-credentials",
+      "description": "Unique identifier of the secret."
+    },
+    {
+      "key": "replicationAutomatic",
+      "tfPath": "replication.0.auto",
+      "label": "Automatic Geo-Replication",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "boolean",
+      "required": false,
+      "defaultValue": true,
+      "description": "Automatically replicate secret across multiple regions."
+    }
+  ],
+  "version": "5.0"
+}

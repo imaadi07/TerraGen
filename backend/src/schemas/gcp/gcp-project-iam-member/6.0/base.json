@@ -1,0 +1,96 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_project_iam_member",
+  "canvasType": "gcp-project-iam-member",
+  "displayName": "Project IAM Role Binding",
+  "category": "security",
+  "icon": "Security",
+  "color": "#4285F4",
+  "compatibleWith": ">=6.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-service-account",
+      "terraformType": "google_service_account",
+      "displayName": "Service Account",
+      "reason": "Grants the role to this service account.",
+      "linkField": "member",
+      "tfOutputRef": "serviceAccount:${google_service_account.{resourceName}.email}",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Role Assignment",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "role",
+      "tfPath": "role",
+      "label": "GCP IAM Role",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "select",
+      "required": true,
+      "defaultValue": "roles/container.admin",
+      "options": [
+        {
+          "label": "Kubernetes Engine Admin (roles/container.admin)",
+          "value": "roles/container.admin"
+        },
+        {
+          "label": "Cloud Run Developer (roles/run.developer)",
+          "value": "roles/run.developer"
+        },
+        {
+          "label": "Cloud SQL Client (roles/cloudsql.client)",
+          "value": "roles/cloudsql.client"
+        },
+        {
+          "label": "Storage Object Viewer (roles/storage.objectViewer)",
+          "value": "roles/storage.objectViewer"
+        },
+        {
+          "label": "Storage Object Admin (roles/storage.objectAdmin)",
+          "value": "roles/storage.objectAdmin"
+        },
+        {
+          "label": "Secret Manager Secret Accessor (roles/secretmanager.secretAccessor)",
+          "value": "roles/secretmanager.secretAccessor"
+        },
+        {
+          "label": "Project Viewer (roles/viewer)",
+          "value": "roles/viewer"
+        }
+      ],
+      "description": "Predefined or custom GCP IAM role to grant."
+    },
+    {
+      "key": "member",
+      "tfPath": "member",
+      "label": "Member Identity",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": true,
+      "placeholder": "serviceAccount:my-sa@project.iam.gserviceaccount.com",
+      "description": "Identity receiving the role (e.g. serviceAccount:email). Auto-populated by canvas link."
+    },
+    {
+      "key": "project",
+      "tfPath": "project",
+      "label": "GCP Project ID",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "string",
+      "required": false,
+      "defaultValue": "var.project_id",
+      "description": "The project ID to apply the role binding to."
+    }
+  ],
+  "version": "6.0"
+}

@@ -1,0 +1,49 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_kms_alias",
+  "canvasType": "aws-kms-alias",
+  "displayName": "AWS KMS Alias",
+  "icon": "Key",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "version": "5.0",
+  "category": "security",
+  "description": "Create a display alias for an AWS KMS Key.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Alias Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "alias/app-encryption-key",
+      "helpText": "Must begin with alias/ followed by the name."
+    },
+    {
+      "key": "targetKeyId",
+      "tfPath": "target_key_id",
+      "label": "Target KMS Key ID or ARN",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "helpText": "Reference or ID of the AWS KMS key."
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "aws-kms-key",
+      "linkField": "targetKeyId",
+      "sourceOutput": "id"
+    }
+  ]
+}

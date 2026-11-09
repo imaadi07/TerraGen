@@ -1,0 +1,114 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_redis_instance",
+  "canvasType": "gcp-redis-instance",
+  "displayName": "GCP Memorystore for Redis",
+  "icon": "Database",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "category": "database",
+  "description": "Create a fully managed Memorystore for Redis in-memory cache instance.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Instance Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "app-redis-cache"
+    },
+    {
+      "key": "tier",
+      "tfPath": "tier",
+      "label": "Service Tier",
+      "section": "general",
+      "order": 2,
+      "default": "BASIC",
+      "validation": {
+        "enum": [
+          "BASIC",
+          "STANDARD_HA"
+        ]
+      }
+    },
+    {
+      "key": "memorySizeGb",
+      "tfPath": "memory_size_gb",
+      "label": "Memory Size (GB)",
+      "section": "general",
+      "order": 3,
+      "default": 1,
+      "validation": {
+        "type": "number",
+        "min": 1,
+        "max": 300
+      }
+    },
+    {
+      "key": "region",
+      "tfPath": "region",
+      "label": "Region",
+      "section": "general",
+      "order": 4,
+      "default": "us-central1"
+    },
+    {
+      "key": "redisVersion",
+      "tfPath": "redis_version",
+      "label": "Redis Engine Version",
+      "section": "general",
+      "order": 5,
+      "default": "REDIS_7_0",
+      "validation": {
+        "enum": [
+          "REDIS_7_0",
+          "REDIS_6_X",
+          "REDIS_5_0"
+        ]
+      }
+    },
+    {
+      "key": "displayName",
+      "tfPath": "display_name",
+      "label": "Display Name",
+      "section": "general",
+      "order": 6,
+      "default": "Application Cache"
+    },
+    {
+      "key": "authorizedNetwork",
+      "tfPath": "authorized_network",
+      "label": "Authorized VPC Network ID",
+      "section": "general",
+      "order": 7
+    },
+    {
+      "key": "labels",
+      "tfPath": "labels",
+      "label": "Labels",
+      "section": "general",
+      "order": 8,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-network",
+      "linkField": "authorizedNetwork",
+      "sourceOutput": "id"
+    }
+  ],
+  "version": "5.0"
+}

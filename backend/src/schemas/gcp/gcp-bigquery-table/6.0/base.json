@@ -1,0 +1,77 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_bigquery_table",
+  "canvasType": "gcp-bigquery-table",
+  "displayName": "GCP BigQuery Table",
+  "icon": "Database",
+  "color": "#4285F4",
+  "compatibleWith": ">=6.0.0 <7.0.0",
+  "category": "database",
+  "description": "Create a BigQuery Table within a BigQuery Dataset.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "datasetId",
+      "tfPath": "dataset_id",
+      "label": "Dataset ID",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "analytics_warehouse"
+    },
+    {
+      "key": "tableId",
+      "tfPath": "table_id",
+      "label": "Table ID",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "events_log"
+    },
+    {
+      "key": "deletionProtection",
+      "tfPath": "deletion_protection",
+      "label": "Deletion Protection",
+      "section": "general",
+      "order": 3,
+      "default": false,
+      "validation": {
+        "type": "boolean"
+      }
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 4,
+      "default": "Incoming analytics event stream"
+    },
+    {
+      "key": "labels",
+      "tfPath": "labels",
+      "label": "Labels",
+      "section": "general",
+      "order": 5,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "gcp-bigquery-dataset",
+      "linkField": "datasetId",
+      "sourceOutput": "dataset_id"
+    }
+  ],
+  "version": "6.0"
+}

@@ -1,0 +1,133 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_redis_cache",
+  "canvasType": "azure-redis-cache",
+  "displayName": "Azure Cache for Redis",
+  "icon": "Database",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "database",
+  "description": "Fully managed, open source compatible in-memory data store for Azure apps.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Redis Cache Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "redis-cache-app-prod"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "capacity",
+      "tfPath": "capacity",
+      "label": "Capacity Tier",
+      "section": "general",
+      "order": 4,
+      "default": 1,
+      "validation": {
+        "type": "number",
+        "min": 0,
+        "max": 6
+      }
+    },
+    {
+      "key": "family",
+      "tfPath": "family",
+      "label": "Family",
+      "section": "general",
+      "order": 5,
+      "default": "C",
+      "validation": {
+        "enum": [
+          "C",
+          "P"
+        ]
+      }
+    },
+    {
+      "key": "skuName",
+      "tfPath": "sku_name",
+      "label": "SKU Name",
+      "section": "general",
+      "order": 6,
+      "default": "Standard",
+      "validation": {
+        "enum": [
+          "Basic",
+          "Standard",
+          "Premium"
+        ]
+      }
+    },
+    {
+      "key": "enableNonSslPort",
+      "tfPath": "enable_non_ssl_port",
+      "label": "Enable Non-SSL Port",
+      "section": "general",
+      "order": 7,
+      "default": false,
+      "validation": {
+        "type": "boolean"
+      }
+    },
+    {
+      "key": "minimumTlsVersion",
+      "tfPath": "minimum_tls_version",
+      "label": "Minimum TLS Version",
+      "section": "general",
+      "order": 8,
+      "default": "1.2",
+      "validation": {
+        "enum": [
+          "1.2"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 9,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "4.0"
+}

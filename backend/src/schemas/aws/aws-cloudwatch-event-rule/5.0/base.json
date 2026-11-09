@@ -1,0 +1,73 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_cloudwatch_event_rule",
+  "canvasType": "aws-cloudwatch-event-rule",
+  "displayName": "AWS EventBridge Rule",
+  "category": "serverless",
+  "icon": "Serverless",
+  "color": "#FF4F8B",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "Rule Definition",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Rule Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Name of the rule."
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 2,
+      "required": false,
+      "helpText": "The description of the rule."
+    },
+    {
+      "key": "scheduleExpression",
+      "tfPath": "schedule_expression",
+      "label": "Schedule Expression",
+      "section": "general",
+      "order": 3,
+      "required": false,
+      "default": "rate(1 hour)",
+      "helpText": "The scheduling expression (e.g. cron(0 20 * * ? *) or rate(5 minutes))."
+    },
+    {
+      "key": "state",
+      "tfPath": "state",
+      "label": "Rule State",
+      "section": "general",
+      "order": 4,
+      "required": false,
+      "default": "ENABLED",
+      "validation": {
+        "enum": [
+          "ENABLED",
+          "DISABLED"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 5,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

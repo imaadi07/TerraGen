@@ -1,0 +1,69 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_key_vault_secret",
+  "canvasType": "azure-key-vault-secret",
+  "displayName": "Azure Key Vault Secret",
+  "icon": "Lock",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "security",
+  "description": "Store a secure secret key-value pair within an Azure Key Vault.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Secret Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "DatabasePassword"
+    },
+    {
+      "key": "value",
+      "tfPath": "value",
+      "label": "Secret Value",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "SecretValue123!",
+      "validation": {
+        "sensitive": true
+      }
+    },
+    {
+      "key": "keyVaultId",
+      "tfPath": "key_vault_id",
+      "label": "Key Vault ID",
+      "section": "general",
+      "order": 3,
+      "required": true
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 4,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-key-vault",
+      "linkField": "keyVaultId",
+      "sourceOutput": "id"
+    }
+  ],
+  "version": "4.0"
+}

@@ -1,0 +1,65 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_target_https_proxy",
+  "canvasType": "gcp-compute-target-https-proxy",
+  "displayName": "GCP Target HTTPS Proxy",
+  "icon": "Network",
+  "color": "#4285F4",
+  "category": "networking",
+  "description": "Receives HTTPS requests, terminates TLS, and routes traffic to a URL map.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Proxy Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "web-target-https-proxy"
+    },
+    {
+      "key": "urlMap",
+      "tfPath": "url_map",
+      "label": "URL Map ID",
+      "section": "general",
+      "order": 2,
+      "required": true
+    },
+    {
+      "key": "sslCertificates",
+      "tfPath": "ssl_certificates",
+      "label": "SSL Certificate IDs",
+      "section": "general",
+      "order": 3,
+      "validation": {
+        "type": "array"
+      }
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 4,
+      "default": "Target HTTPS Proxy for secure load balancing"
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-url-map",
+      "linkField": "urlMap",
+      "sourceOutput": "id"
+    }
+  ],
+  "version": "5.0",
+  "compatibleWith": ">=5.0.0 <7.0.0"
+}

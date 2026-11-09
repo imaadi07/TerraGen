@@ -1,0 +1,64 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_apigatewayv2_api",
+  "canvasType": "aws-apigatewayv2-api",
+  "displayName": "AWS API Gateway (HTTP)",
+  "category": "serverless",
+  "icon": "Serverless",
+  "color": "#FF4F8B",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "API Configuration",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "API Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "The name of the API (e.g. customer-api)."
+    },
+    {
+      "key": "protocolType",
+      "tfPath": "protocol_type",
+      "label": "Protocol Type",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "HTTP",
+      "validation": {
+        "enum": [
+          "HTTP",
+          "WEBSOCKET"
+        ]
+      },
+      "helpText": "The API protocol."
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 3,
+      "required": false,
+      "helpText": "Description of the API."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 4,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

@@ -1,0 +1,44 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_pubsub_topic",
+  "canvasType": "gcp-pubsub-topic",
+  "displayName": "Pub/Sub Topic",
+  "category": "messaging",
+  "icon": "MessageSquare",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "Topic Configuration",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Topic Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "order-events-topic",
+      "description": "Unique name of the Pub/Sub topic."
+    },
+    {
+      "key": "messageRetentionDuration",
+      "tfPath": "message_retention_duration",
+      "label": "Message Retention Duration",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": false,
+      "defaultValue": "604800s",
+      "description": "How long to retain unacknowledged messages (e.g. 604800s for 7 days)."
+    }
+  ],
+  "version": "5.0"
+}

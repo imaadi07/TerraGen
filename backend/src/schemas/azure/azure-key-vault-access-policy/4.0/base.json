@@ -1,0 +1,84 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_key_vault_access_policy",
+  "canvasType": "azure-key-vault-access-policy",
+  "displayName": "Azure Key Vault Access Policy",
+  "icon": "Lock",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "security",
+  "description": "Grant security principals permissions to Azure Key Vault keys and secrets.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "keyVaultId",
+      "tfPath": "key_vault_id",
+      "label": "Key Vault ID",
+      "section": "general",
+      "order": 1,
+      "required": true
+    },
+    {
+      "key": "tenantId",
+      "tfPath": "tenant_id",
+      "label": "Tenant ID",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "key": "objectId",
+      "tfPath": "object_id",
+      "label": "Object / Principal ID",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "key": "secretPermissions",
+      "tfPath": "secret_permissions",
+      "label": "Secret Permissions",
+      "section": "general",
+      "order": 4,
+      "default": [
+        "Get",
+        "List"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    },
+    {
+      "key": "keyPermissions",
+      "tfPath": "key_permissions",
+      "label": "Key Permissions",
+      "section": "general",
+      "order": 5,
+      "default": [
+        "Get",
+        "List"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-key-vault",
+      "linkField": "keyVaultId",
+      "sourceOutput": "id"
+    }
+  ],
+  "version": "4.0"
+}

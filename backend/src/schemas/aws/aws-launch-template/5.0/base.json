@@ -1,0 +1,201 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_launch_template",
+  "canvasType": "aws-launch-template",
+  "displayName": "AWS Launch Template",
+  "category": "compute",
+  "icon": "Compute",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-security-group",
+      "terraformType": "aws_security_group",
+      "displayName": "Security Groups",
+      "reason": "Security groups associated with instances launched from this template.",
+      "linkField": "vpcSecurityGroupIds",
+      "tfOutputRef": "aws_security_group.{resourceName}.id",
+      "isMulti": true,
+      "required": false
+    },
+    {
+      "resourceType": "aws-iam-instance-profile",
+      "terraformType": "aws_iam_instance_profile",
+      "displayName": "IAM Instance Profile",
+      "reason": "Grants instances AWS permissions via an IAM role.",
+      "linkField": "iamInstanceProfileArn",
+      "tfOutputRef": "aws_iam_instance_profile.{resourceName}.arn",
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Instance Specifications",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "storage",
+      "label": "Storage & Networking",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Launch Template Name",
+      "type": "string",
+      "sectionKey": "general",
+      "order": 1,
+      "required": true,
+      "placeholder": "my-app-launch-template",
+      "description": "Unique name for the launch template."
+    },
+    {
+      "key": "imageId",
+      "tfPath": "image_id",
+      "label": "AMI ID",
+      "type": "string",
+      "sectionKey": "general",
+      "order": 2,
+      "required": true,
+      "defaultValue": "ami-0c55b159cbfafe1f0",
+      "placeholder": "ami-0c55b159cbfafe1f0",
+      "description": "The AMI ID with which to launch the instance."
+    },
+    {
+      "key": "instanceType",
+      "tfPath": "instance_type",
+      "label": "Instance Type",
+      "type": "select",
+      "sectionKey": "general",
+      "order": 3,
+      "required": true,
+      "defaultValue": "t3.micro",
+      "options": [
+        {
+          "label": "t3.micro (2 vCPU, 1 GiB)",
+          "value": "t3.micro"
+        },
+        {
+          "label": "t3.small (2 vCPU, 2 GiB)",
+          "value": "t3.small"
+        },
+        {
+          "label": "t3.medium (2 vCPU, 4 GiB)",
+          "value": "t3.medium"
+        },
+        {
+          "label": "t3.large (2 vCPU, 8 GiB)",
+          "value": "t3.large"
+        },
+        {
+          "label": "c5.large (2 vCPU, 4 GiB Compute)",
+          "value": "c5.large"
+        },
+        {
+          "label": "m5.large (2 vCPU, 8 GiB General)",
+          "value": "m5.large"
+        }
+      ],
+      "description": "EC2 hardware instance sizing."
+    },
+    {
+      "key": "keyName",
+      "tfPath": "key_name",
+      "label": "SSH Key Pair Name",
+      "type": "string",
+      "sectionKey": "general",
+      "order": 4,
+      "required": false,
+      "placeholder": "prod-ssh-key",
+      "description": "The key name to use for the instance."
+    },
+    {
+      "key": "vpcSecurityGroupIds",
+      "tfPath": "vpc_security_group_ids",
+      "label": "Security Group IDs",
+      "type": "array",
+      "sectionKey": "storage",
+      "order": 1,
+      "required": false,
+      "description": "Security groups attached to instances. Auto-populated by canvas link."
+    },
+    {
+      "key": "iamInstanceProfileArn",
+      "tfPath": "iam_instance_profile.arn",
+      "label": "IAM Instance Profile ARN",
+      "type": "string",
+      "sectionKey": "storage",
+      "order": 2,
+      "required": false,
+      "description": "IAM instance profile ARN. Auto-populated by canvas link."
+    },
+    {
+      "key": "ebsVolumeSize",
+      "tfPath": "block_device_mappings.0.ebs.volume_size",
+      "label": "Root Volume Size (GiB)",
+      "type": "number",
+      "sectionKey": "storage",
+      "order": 3,
+      "required": false,
+      "defaultValue": 20,
+      "description": "Root block device volume size in GiB."
+    },
+    {
+      "key": "ebsVolumeType",
+      "tfPath": "block_device_mappings.0.ebs.volume_type",
+      "label": "Volume Type",
+      "type": "select",
+      "sectionKey": "storage",
+      "order": 4,
+      "required": false,
+      "defaultValue": "gp3",
+      "options": [
+        {
+          "label": "General Purpose SSD (gp3)",
+          "value": "gp3"
+        },
+        {
+          "label": "General Purpose SSD (gp2)",
+          "value": "gp2"
+        },
+        {
+          "label": "Provisioned IOPS SSD (io2)",
+          "value": "io2"
+        }
+      ],
+      "description": "Root storage volume type."
+    },
+    {
+      "key": "enableMonitoring",
+      "tfPath": "monitoring.enabled",
+      "label": "Detailed Monitoring",
+      "type": "boolean",
+      "sectionKey": "storage",
+      "order": 5,
+      "required": false,
+      "defaultValue": true,
+      "description": "Enable detailed CloudWatch monitoring (1-minute intervals)."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Resource Tags",
+      "type": "map",
+      "sectionKey": "storage",
+      "order": 6,
+      "required": false,
+      "defaultValue": {
+        "Environment": "production"
+      },
+      "description": "Key-value tags for tracking."
+    }
+  ],
+  "version": "5.0"
+}

@@ -1,0 +1,77 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_sql_database",
+  "canvasType": "gcp-sql-database",
+  "displayName": "Cloud SQL Database",
+  "category": "database",
+  "icon": "Database",
+  "color": "#4285F4",
+  "compatibleWith": ">=6.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-sql-database-instance",
+      "terraformType": "google_sql_database_instance",
+      "displayName": "SQL Database Instance",
+      "reason": "Database belongs to a Cloud SQL instance.",
+      "linkField": "instance",
+      "tfOutputRef": "google_sql_database_instance.{resourceName}.name",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Database Details",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Database Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "myapp_production",
+      "description": "The name of the database in the Cloud SQL instance."
+    },
+    {
+      "key": "instance",
+      "tfPath": "instance",
+      "label": "Cloud SQL Instance",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": true,
+      "placeholder": "Connect a Cloud SQL Instance on canvas",
+      "description": "Name of the parent database instance. Auto-populated by canvas link."
+    },
+    {
+      "key": "charset",
+      "tfPath": "charset",
+      "label": "Character Set",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "string",
+      "required": false,
+      "defaultValue": "UTF8",
+      "description": "The charset value for the database."
+    },
+    {
+      "key": "collation",
+      "tfPath": "collation",
+      "label": "Collation",
+      "sectionKey": "general",
+      "order": 4,
+      "type": "string",
+      "required": false,
+      "defaultValue": "en_US.UTF8",
+      "description": "The collation value for the database."
+    }
+  ],
+  "version": "6.0"
+}

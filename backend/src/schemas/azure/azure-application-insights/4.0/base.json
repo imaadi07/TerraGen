@@ -1,0 +1,94 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_application_insights",
+  "canvasType": "azure-application-insights",
+  "displayName": "Azure Application Insights",
+  "icon": "Shield",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "security",
+  "description": "Application Performance Monitoring (APM) and live analytics telemetry.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "App Insights Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "appi-app-prod"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "workspaceId",
+      "tfPath": "workspace_id",
+      "label": "Log Analytics Workspace ID",
+      "section": "general",
+      "order": 4,
+      "required": true
+    },
+    {
+      "key": "applicationType",
+      "tfPath": "application_type",
+      "label": "Application Type",
+      "section": "general",
+      "order": 5,
+      "default": "web",
+      "validation": {
+        "enum": [
+          "web",
+          "other"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 6,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-log-analytics-workspace",
+      "linkField": "workspaceId",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "4.0"
+}

@@ -1,0 +1,114 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_mssql_server",
+  "canvasType": "azure-mssql-server",
+  "displayName": "Azure SQL Server",
+  "icon": "Database",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "database",
+  "description": "Create an Azure SQL Database Logical Server.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Server Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "sqlserver-app-prod"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "version",
+      "tfPath": "version",
+      "label": "Server Version",
+      "section": "general",
+      "order": 4,
+      "default": "12.0",
+      "validation": {
+        "enum": [
+          "12.0"
+        ]
+      }
+    },
+    {
+      "key": "administratorLogin",
+      "tfPath": "administrator_login",
+      "label": "Admin Login",
+      "section": "general",
+      "order": 5,
+      "default": "sqladminuser"
+    },
+    {
+      "key": "administratorLoginPassword",
+      "tfPath": "administrator_login_password",
+      "label": "Admin Password",
+      "section": "general",
+      "order": 6,
+      "default": "P@ssw0rd1234!",
+      "validation": {
+        "sensitive": true
+      }
+    },
+    {
+      "key": "minimumTlsVersion",
+      "tfPath": "minimum_tls_version",
+      "label": "Minimum TLS Version",
+      "section": "general",
+      "order": 7,
+      "default": "1.2",
+      "validation": {
+        "enum": [
+          "1.2",
+          "1.0",
+          "1.1"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 8,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "3.0"
+}

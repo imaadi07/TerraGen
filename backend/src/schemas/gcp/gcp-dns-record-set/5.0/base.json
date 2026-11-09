@@ -1,0 +1,96 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_dns_record_set",
+  "canvasType": "gcp-dns-record-set",
+  "displayName": "GCP Cloud DNS Record Set",
+  "icon": "Globe",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "category": "networking",
+  "description": "Create a DNS Record Set within a Cloud DNS Managed Zone.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Record Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "frontend.example.internal."
+    },
+    {
+      "key": "managedZone",
+      "tfPath": "managed_zone",
+      "label": "Managed Zone Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "prod-zone"
+    },
+    {
+      "key": "type",
+      "tfPath": "type",
+      "label": "Record Type",
+      "section": "general",
+      "order": 3,
+      "default": "A",
+      "validation": {
+        "enum": [
+          "A",
+          "AAAA",
+          "CAA",
+          "CNAME",
+          "MX",
+          "NAPTR",
+          "NS",
+          "PTR",
+          "SOA",
+          "SPF",
+          "SRV",
+          "TXT"
+        ]
+      }
+    },
+    {
+      "key": "ttl",
+      "tfPath": "ttl",
+      "label": "TTL (Seconds)",
+      "section": "general",
+      "order": 4,
+      "default": 300,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "rrdatas",
+      "tfPath": "rrdatas",
+      "label": "Resource Record Data",
+      "section": "general",
+      "order": 5,
+      "default": [
+        "10.0.0.1"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "gcp-dns-managed-zone",
+      "linkField": "managedZone",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "5.0"
+}

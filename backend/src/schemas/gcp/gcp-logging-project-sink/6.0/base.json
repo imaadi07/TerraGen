@@ -1,0 +1,77 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_logging_project_sink",
+  "canvasType": "gcp-logging-project-sink",
+  "displayName": "Cloud Audit Logging Sink",
+  "category": "security",
+  "icon": "Security",
+  "color": "#4285F4",
+  "compatibleWith": ">=6.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-storage-bucket",
+      "terraformType": "google_storage_bucket",
+      "displayName": "Audit Log Storage Bucket",
+      "reason": "Exports audit logs into a dedicated Cloud Storage archive bucket.",
+      "linkField": "destination",
+      "tfOutputRef": "storage.googleapis.com/${google_storage_bucket.{resourceName}.name}",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Sink Configuration",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Sink Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "compliance-audit-log-sink",
+      "description": "Unique name of the Cloud Logging export sink."
+    },
+    {
+      "key": "destination",
+      "tfPath": "destination",
+      "label": "Destination Bucket URI",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": true,
+      "placeholder": "Connect a Cloud Storage Bucket on canvas",
+      "description": "Destination URI (e.g. storage.googleapis.com/bucket-name). Auto-populated by canvas link."
+    },
+    {
+      "key": "filter",
+      "tfPath": "filter",
+      "label": "Audit Log Filter Query",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "string",
+      "required": false,
+      "defaultValue": "protoPayload.@type=\"type.googleapis.com/google.cloud.audit.AuditLog\"",
+      "description": "The filter to apply when exporting logs (defaults to all Cloud Audit Logs)."
+    },
+    {
+      "key": "uniqueWriterIdentity",
+      "tfPath": "unique_writer_identity",
+      "label": "Unique Writer Identity",
+      "sectionKey": "general",
+      "order": 4,
+      "type": "boolean",
+      "required": false,
+      "defaultValue": true,
+      "description": "Creates a dedicated service account to write the logs to the destination bucket."
+    }
+  ],
+  "version": "6.0"
+}

@@ -1,0 +1,101 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_lb",
+  "canvasType": "azure-lb",
+  "displayName": "Azure Load Balancer",
+  "icon": "Network",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "networking",
+  "description": "Layer-4 inbound and outbound network traffic load balancing.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Load Balancer Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "lb-app-prod"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "sku",
+      "tfPath": "sku",
+      "label": "SKU",
+      "section": "general",
+      "order": 4,
+      "default": "Standard",
+      "validation": {
+        "enum": [
+          "Standard",
+          "Basic"
+        ]
+      }
+    },
+    {
+      "key": "frontendIpConfigurationName",
+      "tfPath": "frontend_ip_configuration.name",
+      "label": "Frontend IP Name",
+      "section": "general",
+      "order": 5,
+      "default": "PublicIPAddress"
+    },
+    {
+      "key": "frontendIpConfigurationPublicIpId",
+      "tfPath": "frontend_ip_configuration.public_ip_address_id",
+      "label": "Public IP ID",
+      "section": "general",
+      "order": 6
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 7,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-public-ip",
+      "linkField": "frontendIpConfigurationPublicIpId",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "4.0"
+}

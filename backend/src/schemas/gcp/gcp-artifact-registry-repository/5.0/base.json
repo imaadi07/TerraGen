@@ -1,0 +1,78 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_artifact_registry_repository",
+  "canvasType": "gcp-artifact-registry-repository",
+  "displayName": "GCP Artifact Registry Repository",
+  "icon": "Package",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "category": "serverless",
+  "description": "Manage container images and language packages with Artifact Registry.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "repositoryId",
+      "tfPath": "repository_id",
+      "label": "Repository ID",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "docker-repo"
+    },
+    {
+      "key": "format",
+      "tfPath": "format",
+      "label": "Format",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "DOCKER",
+      "validation": {
+        "enum": [
+          "DOCKER",
+          "MAVEN",
+          "NPM",
+          "PYTHON",
+          "APT",
+          "YUM"
+        ]
+      }
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "us-central1"
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 4,
+      "default": "Container repository for Cloud Run and GKE"
+    },
+    {
+      "key": "labels",
+      "tfPath": "labels",
+      "label": "Labels",
+      "section": "general",
+      "order": 5,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "version": "5.0"
+}

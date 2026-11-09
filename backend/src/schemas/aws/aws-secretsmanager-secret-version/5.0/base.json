@@ -1,0 +1,52 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_secretsmanager_secret_version",
+  "canvasType": "aws-secretsmanager-secret-version",
+  "displayName": "AWS Secrets Manager Secret Version",
+  "category": "security",
+  "icon": "Security",
+  "color": "#DD344C",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-secretsmanager-secret",
+      "terraformType": "aws_secretsmanager_secret",
+      "displayName": "Secret",
+      "reason": "Secret version must be attached to an existing Secret resource.",
+      "linkField": "secretId",
+      "tfOutputRef": "aws_secretsmanager_secret.{resourceName}.id",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Secret Value",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "secretId",
+      "tfPath": "secret_id",
+      "label": "Secret ID",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "ID or ARN of the Secrets Manager secret."
+    },
+    {
+      "key": "secretString",
+      "tfPath": "secret_string",
+      "label": "Secret Value (JSON or Plaintext)",
+      "section": "general",
+      "order": 2,
+      "type": "textarea",
+      "required": true,
+      "helpText": "Plaintext or JSON string value to encrypt and store inside the secret."
+    }
+  ],
+  "version": "5.0"
+}

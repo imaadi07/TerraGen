@@ -1,0 +1,276 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_instance",
+  "canvasType": "aws-ec2",
+  "displayName": "AWS EC2 Instance",
+  "icon": "Server",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-subnet",
+      "terraformType": "aws_subnet",
+      "displayName": "Subnet",
+      "reason": "EC2 instances are placed inside a subnet. Use an existing subnet or let the system create one (which will also create a VPC).",
+      "linkField": "subnetId",
+      "tfOutputRef": "aws_subnet.{resourceName}.id",
+      "required": false,
+      "resolutionStrategy": {
+        "defaultMode": "existing",
+        "allowModeSwitch": true
+      },
+      "existingTfOutputRef": "data.aws_subnet.{resourceName}.id",
+      "existingDataSource": {
+        "endpoint": "/api/dynamic/aws/ec2/subnets"
+      },
+      "existingLabel": "Subnet ID"
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "network",
+      "label": "Network",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    },
+    {
+      "key": "storage",
+      "label": "Storage",
+      "order": 3,
+      "defaultExpanded": false,
+      "collapsible": true
+    },
+    {
+      "key": "advanced",
+      "label": "Advanced",
+      "order": 4,
+      "defaultExpanded": false,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "instanceType",
+      "tfPath": "instance_type",
+      "label": "Instance Type",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "t3.micro",
+      "dataSource": {
+        "endpoint": "/api/dynamic/aws/ec2/instance-types"
+      },
+      "helpText": "Dynamically fetched EC2 instance types from AWS."
+    },
+    {
+      "key": "ami",
+      "tfPath": "ami",
+      "label": "AMI ID",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "dataSource": {
+        "endpoint": "/api/dynamic/aws/ec2/amis"
+      },
+      "helpText": "Dynamically fetched AMIs from AWS."
+    },
+    {
+      "key": "keyName",
+      "tfPath": "key_name",
+      "label": "Key Pair Name",
+      "section": "general",
+      "order": 3,
+      "dataSource": {
+        "endpoint": "/api/dynamic/aws/ec2/keypairs"
+      },
+      "helpText": "Existing EC2 key pairs."
+    },
+    {
+      "key": "iamInstanceProfile",
+      "tfPath": "iam_instance_profile",
+      "label": "IAM Instance Profile",
+      "section": "general",
+      "order": 4,
+      "helpText": "IAM instance profile name."
+    },
+    {
+      "key": "monitoring",
+      "tfPath": "monitoring",
+      "label": "Detailed Monitoring",
+      "section": "general",
+      "order": 5,
+      "default": false,
+      "helpText": "Enable detailed CloudWatch monitoring."
+    },
+    {
+      "key": "ebsOptimized",
+      "tfPath": "ebs_optimized",
+      "label": "EBS Optimized",
+      "section": "general",
+      "order": 6,
+      "default": false,
+      "helpText": "Enable optimized EBS throughput."
+    },
+    {
+      "key": "disableApiTermination",
+      "tfPath": "disable_api_termination",
+      "label": "Termination Protection",
+      "section": "general",
+      "order": 7,
+      "default": false,
+      "helpText": "Prevent accidental termination."
+    },
+    {
+      "key": "subnetId",
+      "tfPath": "subnet_id",
+      "label": "Subnet ID",
+      "section": "network",
+      "order": 1,
+      "dataSource": {
+        "endpoint": "/api/dynamic/aws/ec2/subnets"
+      },
+      "helpText": "Available AWS subnets."
+    },
+    {
+      "key": "vpcSecurityGroupIds",
+      "tfPath": "vpc_security_group_ids",
+      "label": "Security Group IDs",
+      "section": "network",
+      "order": 2,
+      "validation": {
+        "list": true
+      },
+      "dataSource": {
+        "endpoint": "/api/dynamic/aws/ec2/security-groups"
+      },
+      "helpText": "AWS Security Groups."
+    },
+    {
+      "key": "associatePublicIpAddress",
+      "tfPath": "associate_public_ip_address",
+      "label": "Associate Public IP",
+      "section": "network",
+      "order": 3,
+      "default": false,
+      "helpText": "Assign a public IP address."
+    },
+    {
+      "key": "privateIp",
+      "tfPath": "private_ip",
+      "label": "Private IP Address",
+      "section": "network",
+      "order": 4,
+      "helpText": "Custom private IP."
+    },
+    {
+      "key": "rootBlockDeviceVolumeSize",
+      "tfPath": "root_block_device.volume_size",
+      "label": "Root Volume Size",
+      "section": "storage",
+      "order": 1,
+      "default": 20,
+      "validation": {
+        "min": 8,
+        "max": 16384
+      },
+      "helpText": "Root EBS volume size."
+    },
+    {
+      "key": "rootBlockDeviceVolumeType",
+      "tfPath": "root_block_device.volume_type",
+      "label": "Root Volume Type",
+      "section": "storage",
+      "order": 2,
+      "default": "gp3",
+      "validation": {
+        "enum": [
+          "gp2",
+          "gp3",
+          "io1",
+          "io2",
+          "sc1",
+          "st1",
+          "standard"
+        ]
+      },
+      "helpText": "Root EBS volume type."
+    },
+    {
+      "key": "rootBlockDeviceEncrypted",
+      "tfPath": "root_block_device.encrypted",
+      "label": "Encrypt Root Volume",
+      "section": "storage",
+      "order": 3,
+      "default": false
+    },
+    {
+      "key": "rootBlockDeviceDeleteOnTermination",
+      "tfPath": "root_block_device.delete_on_termination",
+      "label": "Delete Root Volume on Termination",
+      "section": "storage",
+      "order": 4,
+      "default": true
+    },
+    {
+      "key": "userData",
+      "tfPath": "user_data",
+      "label": "User Data",
+      "section": "advanced",
+      "order": 1,
+      "validation": {
+        "multiline": true
+      },
+      "helpText": "Shell script executed during boot."
+    },
+    {
+      "key": "instanceInitiatedShutdownBehavior",
+      "tfPath": "instance_initiated_shutdown_behavior",
+      "label": "Shutdown Behaviour",
+      "section": "advanced",
+      "order": 2,
+      "default": "stop",
+      "validation": {
+        "enum": [
+          "stop",
+          "terminate"
+        ]
+      }
+    },
+    {
+      "key": "tenancy",
+      "tfPath": "tenancy",
+      "label": "Tenancy",
+      "section": "advanced",
+      "order": 3,
+      "default": "default",
+      "validation": {
+        "enum": [
+          "default",
+          "dedicated",
+          "host"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "advanced",
+      "order": 4,
+      "validation": {
+        "map": true
+      },
+      "helpText": "Tags in key=value format."
+    }
+  ],
+  "version": "5.0",
+  "category": "compute"
+}

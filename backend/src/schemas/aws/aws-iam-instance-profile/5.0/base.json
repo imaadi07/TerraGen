@@ -1,0 +1,59 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_iam_instance_profile",
+  "canvasType": "aws-iam-instance-profile",
+  "displayName": "AWS IAM Instance Profile",
+  "category": "security",
+  "icon": "Security",
+  "color": "#DD344C",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-iam-role",
+      "terraformType": "aws_iam_role",
+      "displayName": "IAM Role",
+      "reason": "An Instance Profile attaches an IAM Role to EC2 instances.",
+      "linkField": "role",
+      "tfOutputRef": "aws_iam_role.{resourceName}.name",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Instance Profile Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Name of the instance profile."
+    },
+    {
+      "key": "role",
+      "tfPath": "role",
+      "label": "IAM Role Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "helpText": "Name of the IAM role to associate with this instance profile."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 3,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

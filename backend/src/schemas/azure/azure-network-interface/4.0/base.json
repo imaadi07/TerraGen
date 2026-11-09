@@ -1,0 +1,114 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_network_interface",
+  "canvasType": "azure-network-interface",
+  "displayName": "Azure Network Interface (NIC)",
+  "icon": "Network",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "networking",
+  "description": "Create a Network Interface to connect VMs to Azure subnets.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "NIC Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "nic-app-vm"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "ipConfigurationName",
+      "tfPath": "ip_configuration.name",
+      "label": "IP Config Name",
+      "section": "general",
+      "order": 4,
+      "default": "internal"
+    },
+    {
+      "key": "ipConfigurationSubnetId",
+      "tfPath": "ip_configuration.subnet_id",
+      "label": "Subnet ID",
+      "section": "general",
+      "order": 5,
+      "required": true
+    },
+    {
+      "key": "ipConfigurationPrivateIpAllocation",
+      "tfPath": "ip_configuration.private_ip_address_allocation",
+      "label": "Private IP Allocation",
+      "section": "general",
+      "order": 6,
+      "default": "Dynamic",
+      "validation": {
+        "enum": [
+          "Dynamic",
+          "Static"
+        ]
+      }
+    },
+    {
+      "key": "ipConfigurationPublicIpId",
+      "tfPath": "ip_configuration.public_ip_address_id",
+      "label": "Public IP ID",
+      "section": "general",
+      "order": 7
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 8,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-subnet",
+      "linkField": "ipConfigurationSubnetId",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "azure-public-ip",
+      "linkField": "ipConfigurationPublicIpId",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "4.0"
+}

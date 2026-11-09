@@ -1,0 +1,126 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_iam_role",
+  "canvasType": "aws-iam-role",
+  "displayName": "AWS IAM Role",
+  "category": "security",
+  "icon": "Security",
+  "color": "#DD344C",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "trust",
+      "label": "Trust Entity & Principal",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    },
+    {
+      "key": "permissions",
+      "label": "Permissions & Managed Policies",
+      "order": 3,
+      "defaultExpanded": true,
+      "collapsible": true
+    },
+    {
+      "key": "tags",
+      "label": "Tags",
+      "order": 4,
+      "defaultExpanded": false,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Role Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "app-lambda-exec-role",
+      "description": "Friendly name of the role (e.g. app-lambda-exec-role)."
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": false,
+      "placeholder": "Execution role for production application",
+      "description": "Description of the role's purpose."
+    },
+    {
+      "key": "maxSessionDuration",
+      "tfPath": "max_session_duration",
+      "label": "Max Session Duration (Seconds)",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "number",
+      "required": false,
+      "defaultValue": 3600,
+      "description": "Maximum session duration in seconds (between 3600 and 43200)."
+    },
+    {
+      "key": "trustedService",
+      "label": "Trusted AWS Service (Principal)",
+      "sectionKey": "trust",
+      "order": 1,
+      "type": "select",
+      "required": false,
+      "defaultValue": "lambda.amazonaws.com",
+      "dataSource": {
+        "endpoint": "/api/dynamic/aws/iam/trust-services"
+      },
+      "description": "Select the AWS service allowed to assume this role (e.g. Lambda, EC2, ECS)."
+    },
+    {
+      "key": "assumeRolePolicy",
+      "tfPath": "assume_role_policy",
+      "label": "Assume Role Trust Policy (JSON)",
+      "sectionKey": "trust",
+      "order": 2,
+      "type": "code",
+      "required": true,
+      "defaultValue": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"lambda.amazonaws.com\"\n      }\n    }\n  ]\n}",
+      "description": "The STS policy document that grants permissions to assume this role."
+    },
+    {
+      "key": "managedPolicyArns",
+      "tfPath": "managed_policy_arns",
+      "label": "AWS Managed Policies",
+      "sectionKey": "permissions",
+      "order": 1,
+      "type": "array",
+      "required": false,
+      "dataSource": {
+        "endpoint": "/api/dynamic/aws/iam/managed-policies",
+        "multiple": true
+      },
+      "description": "Select standard AWS Managed Policies to attach directly to this role."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "sectionKey": "tags",
+      "order": 1,
+      "type": "map",
+      "defaultValue": {
+        "Environment": "production"
+      },
+      "description": "Key-value tags for the IAM role."
+    }
+  ],
+  "version": "5.0"
+}

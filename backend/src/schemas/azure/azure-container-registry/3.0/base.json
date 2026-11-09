@@ -1,0 +1,94 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_container_registry",
+  "canvasType": "azure-container-registry",
+  "displayName": "Azure Container Registry (ACR)",
+  "icon": "Package",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "compute",
+  "description": "Manage and store container images for Azure Kubernetes Service and Container Apps.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Registry Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "acrappproduction",
+      "helpText": "Alphanumeric only, 5-50 characters."
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "sku",
+      "tfPath": "sku",
+      "label": "SKU Tier",
+      "section": "general",
+      "order": 4,
+      "default": "Standard",
+      "validation": {
+        "enum": [
+          "Basic",
+          "Standard",
+          "Premium"
+        ]
+      }
+    },
+    {
+      "key": "adminEnabled",
+      "tfPath": "admin_enabled",
+      "label": "Admin User Enabled",
+      "section": "general",
+      "order": 5,
+      "default": true,
+      "validation": {
+        "type": "boolean"
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 6,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "3.0"
+}

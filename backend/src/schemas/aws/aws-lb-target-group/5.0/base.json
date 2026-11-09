@@ -1,0 +1,105 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_lb_target_group",
+  "canvasType": "aws-lb-target-group",
+  "displayName": "AWS LB Target Group",
+  "category": "networking",
+  "icon": "Network",
+  "color": "#8C4FFF",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-vpc",
+      "terraformType": "aws_vpc",
+      "displayName": "VPC",
+      "reason": "Target group routes traffic to registered targets within a VPC.",
+      "linkField": "vpcId",
+      "tfOutputRef": "aws_vpc.{resourceName}.id",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Target Group Configuration",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Target Group Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Name of the target group."
+    },
+    {
+      "key": "port",
+      "tfPath": "port",
+      "label": "Port",
+      "section": "general",
+      "order": 2,
+      "type": "number",
+      "default": 80,
+      "required": true
+    },
+    {
+      "key": "protocol",
+      "tfPath": "protocol",
+      "label": "Protocol",
+      "section": "general",
+      "order": 3,
+      "type": "select",
+      "default": "HTTP",
+      "options": [
+        "HTTP",
+        "HTTPS",
+        "TCP",
+        "TLS",
+        "UDP",
+        "TCP_UDP",
+        "GENEVE"
+      ],
+      "required": true
+    },
+    {
+      "key": "targetType",
+      "tfPath": "target_type",
+      "label": "Target Type",
+      "section": "general",
+      "order": 4,
+      "type": "select",
+      "default": "ip",
+      "options": [
+        "instance",
+        "ip",
+        "lambda",
+        "alb"
+      ],
+      "required": true,
+      "helpText": "Type of target that you must specify when registering targets with this target group."
+    },
+    {
+      "key": "vpcId",
+      "tfPath": "vpc_id",
+      "label": "VPC ID",
+      "section": "general",
+      "order": 5,
+      "required": true,
+      "helpText": "Identifier of the VPC where targets are located."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 6,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

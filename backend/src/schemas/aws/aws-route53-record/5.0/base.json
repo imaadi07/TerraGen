@@ -1,0 +1,93 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_route53_record",
+  "canvasType": "aws-route53-record",
+  "displayName": "AWS Route53 Record",
+  "icon": "Globe",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "version": "5.0",
+  "category": "networking",
+  "description": "Create an Amazon Route 53 DNS Record.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "zoneId",
+      "tfPath": "zone_id",
+      "label": "Hosted Zone ID",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Route53 Zone ID."
+    },
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Record Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "api.example.com"
+    },
+    {
+      "key": "type",
+      "tfPath": "type",
+      "label": "Record Type",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "A",
+      "validation": {
+        "enum": [
+          "A",
+          "AAAA",
+          "CNAME",
+          "MX",
+          "TXT",
+          "NS",
+          "PTR",
+          "SRV"
+        ]
+      }
+    },
+    {
+      "key": "ttl",
+      "tfPath": "ttl",
+      "label": "TTL (Seconds)",
+      "section": "general",
+      "order": 4,
+      "default": 300,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "records",
+      "tfPath": "records",
+      "label": "Records",
+      "section": "general",
+      "order": 5,
+      "default": [
+        "192.0.2.1"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "aws-route53-zone",
+      "linkField": "zoneId",
+      "sourceOutput": "zone_id"
+    }
+  ]
+}

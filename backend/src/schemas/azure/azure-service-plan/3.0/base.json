@@ -1,0 +1,99 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_service_plan",
+  "canvasType": "azure-service-plan",
+  "displayName": "Azure App Service Plan",
+  "icon": "ServerRack",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "serverless",
+  "description": "Managed hosting compute plan for Azure App Services and Functions.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Service Plan Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "asp-app-prod"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "osType",
+      "tfPath": "os_type",
+      "label": "Operating System",
+      "section": "general",
+      "order": 4,
+      "default": "Linux",
+      "validation": {
+        "enum": [
+          "Linux",
+          "Windows"
+        ]
+      }
+    },
+    {
+      "key": "skuName",
+      "tfPath": "sku_name",
+      "label": "Pricing SKU",
+      "section": "general",
+      "order": 5,
+      "default": "P1v2",
+      "validation": {
+        "enum": [
+          "B1",
+          "B2",
+          "S1",
+          "P1v2",
+          "P2v2",
+          "Y1"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 6,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "3.0"
+}

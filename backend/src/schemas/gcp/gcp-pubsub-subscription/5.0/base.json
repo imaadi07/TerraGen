@@ -1,0 +1,66 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_pubsub_subscription",
+  "canvasType": "gcp-pubsub-subscription",
+  "displayName": "Pub/Sub Subscription",
+  "category": "messaging",
+  "icon": "MessageSquare",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-pubsub-topic",
+      "terraformType": "google_pubsub_topic",
+      "displayName": "Pub/Sub Topic",
+      "reason": "Subscription pulls or pushes events from this topic.",
+      "linkField": "topic",
+      "tfOutputRef": "google_pubsub_topic.{resourceName}.name",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Subscription Details",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Subscription Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "order-processor-sub",
+      "description": "Unique name of the Pub/Sub subscription."
+    },
+    {
+      "key": "topic",
+      "tfPath": "topic",
+      "label": "Pub/Sub Topic",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": true,
+      "placeholder": "Connect a Pub/Sub Topic on canvas",
+      "description": "The name of the topic to subscribe to. Auto-populated by canvas link."
+    },
+    {
+      "key": "ackDeadlineSeconds",
+      "tfPath": "ack_deadline_seconds",
+      "label": "Ack Deadline (Seconds)",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "number",
+      "required": false,
+      "defaultValue": 20,
+      "description": "Maximum time after a subscriber receives a message before the subscriber must acknowledge it."
+    }
+  ],
+  "version": "5.0"
+}

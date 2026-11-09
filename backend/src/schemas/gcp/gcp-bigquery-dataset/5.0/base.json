@@ -1,0 +1,85 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_bigquery_dataset",
+  "canvasType": "gcp-bigquery-dataset",
+  "displayName": "GCP BigQuery Dataset",
+  "icon": "Database",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "category": "database",
+  "description": "Create a BigQuery Dataset for analytical data warehousing.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "datasetId",
+      "tfPath": "dataset_id",
+      "label": "Dataset ID",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "analytics_warehouse"
+    },
+    {
+      "key": "friendlyName",
+      "tfPath": "friendly_name",
+      "label": "Friendly Name",
+      "section": "general",
+      "order": 2,
+      "default": "Enterprise Analytics"
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 3,
+      "default": "Production BigQuery Data Warehouse"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 4,
+      "default": "US",
+      "validation": {
+        "enum": [
+          "US",
+          "EU",
+          "us-central1",
+          "europe-west1"
+        ]
+      }
+    },
+    {
+      "key": "defaultTableExpirationMs",
+      "tfPath": "default_table_expiration_ms",
+      "label": "Default Table Expiration (ms)",
+      "section": "general",
+      "order": 5,
+      "default": 31536000000,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "labels",
+      "tfPath": "labels",
+      "label": "Labels",
+      "section": "general",
+      "order": 6,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "version": "5.0"
+}

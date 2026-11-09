@@ -1,0 +1,185 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_instance_template",
+  "canvasType": "gcp-compute-instance-template",
+  "displayName": "GCP Instance Template",
+  "category": "compute",
+  "icon": "Compute",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-network",
+      "terraformType": "google_compute_network",
+      "displayName": "VPC Network",
+      "reason": "Attaches instances to the VPC network.",
+      "linkField": "network",
+      "tfOutputRef": "google_compute_network.{resourceName}.name",
+      "required": false
+    },
+    {
+      "resourceType": "gcp-compute-subnetwork",
+      "terraformType": "google_compute_subnetwork",
+      "displayName": "Subnetwork",
+      "reason": "Subnetwork within the VPC for instances.",
+      "linkField": "subnetwork",
+      "tfOutputRef": "google_compute_subnetwork.{resourceName}.name",
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Instance Specifications",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "networking",
+      "label": "Disk & Networking",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Template Name",
+      "type": "string",
+      "sectionKey": "general",
+      "order": 1,
+      "required": true,
+      "placeholder": "my-instance-template",
+      "description": "Unique name of the instance template."
+    },
+    {
+      "key": "machineType",
+      "tfPath": "machine_type",
+      "label": "Machine Type",
+      "type": "select",
+      "sectionKey": "general",
+      "order": 2,
+      "required": true,
+      "defaultValue": "e2-medium",
+      "options": [
+        {
+          "label": "e2-micro (2 vCPU, 1 GB)",
+          "value": "e2-micro"
+        },
+        {
+          "label": "e2-small (2 vCPU, 2 GB)",
+          "value": "e2-small"
+        },
+        {
+          "label": "e2-medium (2 vCPU, 4 GB)",
+          "value": "e2-medium"
+        },
+        {
+          "label": "e2-standard-2 (2 vCPU, 8 GB)",
+          "value": "e2-standard-2"
+        },
+        {
+          "label": "n2-standard-2 (2 vCPU, 8 GB)",
+          "value": "n2-standard-2"
+        }
+      ],
+      "description": "Compute Engine machine type."
+    },
+    {
+      "key": "sourceImage",
+      "tfPath": "disk.0.source_image",
+      "label": "Boot Disk Image",
+      "type": "string",
+      "sectionKey": "networking",
+      "order": 1,
+      "required": true,
+      "defaultValue": "debian-cloud/debian-11",
+      "placeholder": "debian-cloud/debian-11",
+      "description": "The image from which to initialize this disk."
+    },
+    {
+      "key": "diskSizeGb",
+      "tfPath": "disk.0.disk_size_gb",
+      "label": "Disk Size (GB)",
+      "type": "number",
+      "sectionKey": "networking",
+      "order": 2,
+      "required": false,
+      "defaultValue": 20,
+      "description": "Size of the persistent disk in GB."
+    },
+    {
+      "key": "diskType",
+      "tfPath": "disk.0.disk_type",
+      "label": "Disk Type",
+      "type": "select",
+      "sectionKey": "networking",
+      "order": 3,
+      "required": false,
+      "defaultValue": "pd-standard",
+      "options": [
+        {
+          "label": "Standard Persistent Disk (pd-standard)",
+          "value": "pd-standard"
+        },
+        {
+          "label": "Balanced Persistent Disk (pd-balanced)",
+          "value": "pd-balanced"
+        },
+        {
+          "label": "SSD Persistent Disk (pd-ssd)",
+          "value": "pd-ssd"
+        }
+      ],
+      "description": "GCE persistent disk storage type."
+    },
+    {
+      "key": "network",
+      "tfPath": "network_interface.0.network",
+      "label": "VPC Network",
+      "type": "string",
+      "sectionKey": "networking",
+      "order": 4,
+      "required": false,
+      "description": "The name or self_link of the network to attach to. Auto-filled when connected on canvas."
+    },
+    {
+      "key": "subnetwork",
+      "tfPath": "network_interface.0.subnetwork",
+      "label": "Subnetwork",
+      "type": "string",
+      "sectionKey": "networking",
+      "order": 5,
+      "required": false,
+      "description": "The name or self_link of the subnetwork. Auto-filled when connected on canvas."
+    },
+    {
+      "key": "canIpForward",
+      "tfPath": "can_ip_forward",
+      "label": "IP Forwarding",
+      "type": "boolean",
+      "sectionKey": "networking",
+      "order": 6,
+      "required": false,
+      "defaultValue": false,
+      "description": "Whether to allow sending and receiving of packets with non-matching destination or source IPs."
+    },
+    {
+      "key": "labels",
+      "tfPath": "labels",
+      "label": "Resource Labels",
+      "type": "map",
+      "sectionKey": "networking",
+      "order": 7,
+      "required": false,
+      "defaultValue": {
+        "env": "prod"
+      },
+      "description": "Key-value labels for tracking."
+    }
+  ],
+  "version": "5.0"
+}

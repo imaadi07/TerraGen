@@ -1,0 +1,105 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_cloudfront_distribution",
+  "canvasType": "aws-cloudfront-distribution",
+  "displayName": "AWS CloudFront Distribution",
+  "icon": "Globe",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "version": "5.0",
+  "category": "networking",
+  "description": "Create an Amazon CloudFront CDN Distribution.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "enabled",
+      "tfPath": "enabled",
+      "label": "Enabled",
+      "section": "general",
+      "order": 1,
+      "default": true,
+      "validation": {
+        "type": "boolean"
+      }
+    },
+    {
+      "key": "comment",
+      "tfPath": "comment",
+      "label": "Comment",
+      "section": "general",
+      "order": 2,
+      "default": "CDN Distribution"
+    },
+    {
+      "key": "defaultRootObject",
+      "tfPath": "default_root_object",
+      "label": "Default Root Object",
+      "section": "general",
+      "order": 3,
+      "default": "index.html"
+    },
+    {
+      "key": "priceClass",
+      "tfPath": "price_class",
+      "label": "Price Class",
+      "section": "general",
+      "order": 4,
+      "default": "PriceClass_100",
+      "validation": {
+        "enum": [
+          "PriceClass_All",
+          "PriceClass_200",
+          "PriceClass_100"
+        ]
+      }
+    },
+    {
+      "key": "originDomainName",
+      "tfPath": "origin.domain_name",
+      "label": "Origin Domain Name",
+      "section": "general",
+      "order": 5,
+      "required": true,
+      "default": "mybucket.s3.amazonaws.com"
+    },
+    {
+      "key": "originId",
+      "tfPath": "origin.origin_id",
+      "label": "Origin ID",
+      "section": "general",
+      "order": 6,
+      "required": true,
+      "default": "S3-Origin"
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 7,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "aws-s3",
+      "linkField": "originDomainName",
+      "sourceOutput": "bucket_regional_domain_name"
+    },
+    {
+      "resourceType": "aws-lb",
+      "linkField": "originDomainName",
+      "sourceOutput": "dns_name"
+    }
+  ]
+}

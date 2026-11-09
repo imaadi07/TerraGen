@@ -1,0 +1,151 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_kubernetes_cluster",
+  "canvasType": "azure-kubernetes-cluster",
+  "displayName": "Azure Kubernetes Service (AKS)",
+  "icon": "Cpu",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "compute",
+  "description": "Deploy a managed Azure Kubernetes Service (AKS) cluster.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "AKS Cluster Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "aks-cluster-prod"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "dnsPrefix",
+      "tfPath": "dns_prefix",
+      "label": "DNS Prefix",
+      "section": "general",
+      "order": 4,
+      "required": true,
+      "default": "aks-prod"
+    },
+    {
+      "key": "defaultNodePoolName",
+      "tfPath": "default_node_pool.name",
+      "label": "Default Pool Name",
+      "section": "general",
+      "order": 5,
+      "default": "default"
+    },
+    {
+      "key": "defaultNodePoolNodeCount",
+      "tfPath": "default_node_pool.node_count",
+      "label": "Node Count",
+      "section": "general",
+      "order": 6,
+      "default": 3,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "defaultNodePoolVmSize",
+      "tfPath": "default_node_pool.vm_size",
+      "label": "VM SKU",
+      "section": "general",
+      "order": 7,
+      "default": "Standard_D4s_v5",
+      "validation": {
+        "enum": [
+          "Standard_D2s_v5",
+          "Standard_D4s_v5",
+          "Standard_D8s_v5",
+          "Standard_B2s"
+        ]
+      }
+    },
+    {
+      "key": "defaultNodePoolVnetSubnetId",
+      "tfPath": "default_node_pool.vnet_subnet_id",
+      "label": "VNet Subnet ID",
+      "section": "general",
+      "order": 8
+    },
+    {
+      "key": "identityType",
+      "tfPath": "identity.type",
+      "label": "Identity Type",
+      "section": "general",
+      "order": 9,
+      "default": "SystemAssigned",
+      "validation": {
+        "enum": [
+          "SystemAssigned",
+          "UserAssigned"
+        ]
+      }
+    },
+    {
+      "key": "networkPlugin",
+      "tfPath": "network_profile.network_plugin",
+      "label": "Network Plugin",
+      "section": "general",
+      "order": 10,
+      "default": "azure",
+      "validation": {
+        "enum": [
+          "azure",
+          "kubenet"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 11,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-subnet",
+      "linkField": "defaultNodePoolVnetSubnetId",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "4.0"
+}

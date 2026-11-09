@@ -1,0 +1,55 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_url_map",
+  "canvasType": "gcp-compute-url-map",
+  "displayName": "GCP URL Map (Load Balancer)",
+  "icon": "Network",
+  "color": "#4285F4",
+  "category": "networking",
+  "description": "Routes incoming requests to backend services based on path and host rules.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "URL Map Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "web-url-map"
+    },
+    {
+      "key": "defaultService",
+      "tfPath": "default_service",
+      "label": "Default Backend Service ID",
+      "section": "general",
+      "order": 2,
+      "required": true
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 3,
+      "default": "Global URL Map load balancer routing"
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-backend-service",
+      "linkField": "defaultService",
+      "sourceOutput": "id"
+    }
+  ],
+  "version": "5.0",
+  "compatibleWith": ">=5.0.0 <7.0.0"
+}

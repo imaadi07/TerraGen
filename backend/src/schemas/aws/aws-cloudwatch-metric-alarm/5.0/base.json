@@ -1,0 +1,132 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_cloudwatch_metric_alarm",
+  "canvasType": "aws-cloudwatch-metric-alarm",
+  "displayName": "AWS CloudWatch Metric Alarm",
+  "icon": "Bell",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "version": "5.0",
+  "category": "serverless",
+  "description": "Create a CloudWatch Metric Alarm for proactive infrastructure monitoring.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "alarmName",
+      "tfPath": "alarm_name",
+      "label": "Alarm Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "high-cpu-utilization"
+    },
+    {
+      "key": "comparisonOperator",
+      "tfPath": "comparison_operator",
+      "label": "Comparison Operator",
+      "section": "general",
+      "order": 2,
+      "default": "GreaterThanOrEqualToThreshold",
+      "validation": {
+        "enum": [
+          "GreaterThanOrEqualToThreshold",
+          "GreaterThanThreshold",
+          "LessThanThreshold",
+          "LessThanOrEqualToThreshold"
+        ]
+      }
+    },
+    {
+      "key": "evaluationPeriods",
+      "tfPath": "evaluation_periods",
+      "label": "Evaluation Periods",
+      "section": "general",
+      "order": 3,
+      "default": 2,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "metricName",
+      "tfPath": "metric_name",
+      "label": "Metric Name",
+      "section": "general",
+      "order": 4,
+      "default": "CPUUtilization"
+    },
+    {
+      "key": "namespace",
+      "tfPath": "namespace",
+      "label": "Metric Namespace",
+      "section": "general",
+      "order": 5,
+      "default": "AWS/EC2"
+    },
+    {
+      "key": "period",
+      "tfPath": "period",
+      "label": "Period (Seconds)",
+      "section": "general",
+      "order": 6,
+      "default": 120,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "statistic",
+      "tfPath": "statistic",
+      "label": "Statistic",
+      "section": "general",
+      "order": 7,
+      "default": "Average",
+      "validation": {
+        "enum": [
+          "SampleCount",
+          "Average",
+          "Sum",
+          "Minimum",
+          "Maximum"
+        ]
+      }
+    },
+    {
+      "key": "threshold",
+      "tfPath": "threshold",
+      "label": "Threshold Value",
+      "section": "general",
+      "order": 8,
+      "default": 80,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "alarmDescription",
+      "tfPath": "alarm_description",
+      "label": "Alarm Description",
+      "section": "general",
+      "order": 9,
+      "default": "Alarm when CPU exceeds threshold"
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 10,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_storage_container",
+  "canvasType": "azure-storage-container",
+  "displayName": "Azure Storage Container",
+  "icon": "Storage",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "storage",
+  "description": "Blob storage container within an Azure Storage Account.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Container Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "data-blobs"
+    },
+    {
+      "key": "storageAccountName",
+      "tfPath": "storage_account_name",
+      "label": "Storage Account Name",
+      "section": "general",
+      "order": 2,
+      "required": true
+    },
+    {
+      "key": "containerAccessType",
+      "tfPath": "container_access_type",
+      "label": "Access Type",
+      "section": "general",
+      "order": 3,
+      "default": "private",
+      "validation": {
+        "enum": [
+          "private",
+          "blob",
+          "container"
+        ]
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-storage-account",
+      "linkField": "storageAccountName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "3.0"
+}

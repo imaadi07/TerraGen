@@ -1,0 +1,46 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_eip",
+  "canvasType": "aws-eip",
+  "displayName": "AWS Elastic IP",
+  "icon": "Globe",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "version": "5.0",
+  "category": "networking",
+  "description": "Allocate a static public IPv4 Elastic IP address.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "domain",
+      "tfPath": "domain",
+      "label": "Domain",
+      "section": "general",
+      "order": 1,
+      "default": "vpc",
+      "validation": {
+        "enum": [
+          "vpc"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 2,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ]
+}

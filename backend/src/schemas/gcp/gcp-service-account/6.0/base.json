@@ -1,0 +1,55 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_service_account",
+  "canvasType": "gcp-service-account",
+  "displayName": "GCP Service Account",
+  "category": "security",
+  "icon": "Security",
+  "color": "#4285F4",
+  "compatibleWith": ">=6.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "Identity Details",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "accountId",
+      "tfPath": "account_id",
+      "label": "Service Account ID",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "app-runner-sa",
+      "description": "Unique account identifier (6-30 chars, lowercase alphanumeric and hyphens)."
+    },
+    {
+      "key": "displayName",
+      "tfPath": "display_name",
+      "label": "Display Name",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": true,
+      "placeholder": "Application Runtime Service Account",
+      "description": "Human-readable display name for the service account."
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "string",
+      "required": false,
+      "placeholder": "Used by GKE nodes and Cloud Run workloads",
+      "description": "Textual description of the service account role."
+    }
+  ],
+  "version": "6.0"
+}

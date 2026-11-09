@@ -1,0 +1,106 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_cloudtrail",
+  "canvasType": "aws-cloudtrail",
+  "displayName": "AWS CloudTrail",
+  "category": "security",
+  "icon": "Security",
+  "color": "#DD344C",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-s3",
+      "terraformType": "aws_s3_bucket",
+      "displayName": "S3 Bucket",
+      "reason": "CloudTrail requires an S3 bucket to store audit log files.",
+      "linkField": "s3BucketName",
+      "tfOutputRef": "aws_s3_bucket.{resourceName}.id",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "logging",
+      "label": "Log Configuration",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Trail Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Name of the trail."
+    },
+    {
+      "key": "s3BucketName",
+      "tfPath": "s3_bucket_name",
+      "label": "S3 Bucket Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "helpText": "Name of the S3 bucket designated for publishing log files."
+    },
+    {
+      "key": "isMultiRegionTrail",
+      "tfPath": "is_multi_region_trail",
+      "label": "Multi-Region Trail",
+      "section": "logging",
+      "order": 1,
+      "type": "boolean",
+      "default": true,
+      "helpText": "Specifies whether the trail is created in all regions."
+    },
+    {
+      "key": "enableLogging",
+      "tfPath": "enable_logging",
+      "label": "Enable Logging",
+      "section": "logging",
+      "order": 2,
+      "type": "boolean",
+      "default": true,
+      "helpText": "Enables logging for the trail."
+    },
+    {
+      "key": "enableLogFileValidation",
+      "tfPath": "enable_log_file_validation",
+      "label": "Enable Log File Validation",
+      "section": "logging",
+      "order": 3,
+      "type": "boolean",
+      "default": true,
+      "helpText": "Specifies whether log file integrity validation is enabled."
+    },
+    {
+      "key": "includeGlobalServiceEvents",
+      "tfPath": "include_global_service_events",
+      "label": "Include Global Service Events",
+      "section": "logging",
+      "order": 4,
+      "type": "boolean",
+      "default": true,
+      "helpText": "Specifies whether the trail includes events from IAM and other global services."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 3,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

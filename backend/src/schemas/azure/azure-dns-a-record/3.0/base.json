@@ -1,0 +1,96 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_dns_a_record",
+  "canvasType": "azure-dns-a-record",
+  "displayName": "Azure DNS A Record",
+  "icon": "Network",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "networking",
+  "description": "Map a domain name to IPv4 addresses within an Azure DNS Zone.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Record Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "api"
+    },
+    {
+      "key": "zoneName",
+      "tfPath": "zone_name",
+      "label": "DNS Zone Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "example.com"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "ttl",
+      "tfPath": "ttl",
+      "label": "TTL (Seconds)",
+      "section": "general",
+      "order": 4,
+      "default": 300,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "records",
+      "tfPath": "records",
+      "label": "IPv4 Addresses",
+      "section": "general",
+      "order": 5,
+      "default": [
+        "10.0.0.1"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 6,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-dns-zone",
+      "linkField": "zoneName",
+      "sourceOutput": "name"
+    },
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "3.0"
+}

@@ -1,0 +1,66 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_secretsmanager_secret",
+  "canvasType": "aws-secretsmanager-secret",
+  "displayName": "AWS Secrets Manager Secret",
+  "category": "security",
+  "icon": "Security",
+  "color": "#DD344C",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "lifecycle",
+      "label": "Lifecycle",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Secret Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Friendly name of the secret (e.g. prod/app/db-credentials)."
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 2,
+      "required": false,
+      "helpText": "Description of the secret."
+    },
+    {
+      "key": "recoveryWindowInDays",
+      "tfPath": "recovery_window_in_days",
+      "label": "Recovery Window (Days)",
+      "section": "lifecycle",
+      "order": 1,
+      "type": "number",
+      "default": 30,
+      "required": false,
+      "helpText": "Number of days that AWS Secrets Manager waits before it can delete the secret (0 to 30)."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 3,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

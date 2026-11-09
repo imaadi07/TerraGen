@@ -1,0 +1,188 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_cloudfunctions2_function",
+  "canvasType": "gcp-cloudfunctions2-function",
+  "displayName": "Cloud Functions (Gen2)",
+  "category": "serverless",
+  "icon": "Compute",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-storage-bucket",
+      "terraformType": "google_storage_bucket",
+      "displayName": "Source Code Storage Bucket",
+      "reason": "Storage bucket containing the zipped function code archive.",
+      "linkField": "storageSourceBucket",
+      "tfOutputRef": "google_storage_bucket.{resourceName}.name",
+      "required": false
+    },
+    {
+      "resourceType": "gcp-service-account",
+      "terraformType": "google_service_account",
+      "displayName": "Service Account",
+      "reason": "Execution service account for the Cloud Function.",
+      "linkField": "serviceAccountEmail",
+      "tfOutputRef": "google_service_account.{resourceName}.email",
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Function Configuration",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "service",
+      "label": "Runtime & Resources",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Function Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "my-cloud-function",
+      "description": "Unique name of the Cloud Function."
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Region",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": true,
+      "defaultValue": "us-central1",
+      "description": "GCP region where the function will be deployed."
+    },
+    {
+      "key": "runtime",
+      "tfPath": "build_config.0.runtime",
+      "label": "Runtime Language",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "select",
+      "required": true,
+      "defaultValue": "python312",
+      "options": [
+        {
+          "label": "Python 3.12 (python312)",
+          "value": "python312"
+        },
+        {
+          "label": "Node.js 20 (nodejs20)",
+          "value": "nodejs20"
+        },
+        {
+          "label": "Go 1.22 (go122)",
+          "value": "go122"
+        },
+        {
+          "label": "Java 17 (java17)",
+          "value": "java17"
+        }
+      ],
+      "description": "Execution language runtime."
+    },
+    {
+      "key": "entryPoint",
+      "tfPath": "build_config.0.entry_point",
+      "label": "Entry Point Function",
+      "sectionKey": "general",
+      "order": 4,
+      "type": "string",
+      "required": true,
+      "defaultValue": "hello_http",
+      "placeholder": "hello_http",
+      "description": "The name of the function inside your code that will be executed."
+    },
+    {
+      "key": "storageSourceBucket",
+      "tfPath": "build_config.0.source.0.storage_source.0.bucket",
+      "label": "Source Code GCS Bucket",
+      "sectionKey": "general",
+      "order": 5,
+      "type": "string",
+      "required": false,
+      "placeholder": "Connect a Cloud Storage Bucket on canvas",
+      "description": "Bucket holding function source code. Auto-populated by canvas link."
+    },
+    {
+      "key": "storageSourceObject",
+      "tfPath": "build_config.0.source.0.storage_source.0.object",
+      "label": "Source Code Object Key",
+      "sectionKey": "general",
+      "order": 6,
+      "type": "string",
+      "required": false,
+      "defaultValue": "function-source.zip",
+      "description": "Zip archive object path in the bucket."
+    },
+    {
+      "key": "memory",
+      "tfPath": "service_config.0.available_memory",
+      "label": "Available Memory",
+      "sectionKey": "service",
+      "order": 1,
+      "type": "select",
+      "required": false,
+      "defaultValue": "256M",
+      "options": [
+        {
+          "label": "128 MiB (128M)",
+          "value": "128M"
+        },
+        {
+          "label": "256 MiB (256M)",
+          "value": "256M"
+        },
+        {
+          "label": "512 MiB (512M)",
+          "value": "512M"
+        },
+        {
+          "label": "1024 MiB (1024M)",
+          "value": "1024M"
+        },
+        {
+          "label": "2048 MiB (2048M)",
+          "value": "2048M"
+        }
+      ],
+      "description": "Memory limit for the function container."
+    },
+    {
+      "key": "timeoutSeconds",
+      "tfPath": "service_config.0.timeout_seconds",
+      "label": "Timeout (Seconds)",
+      "sectionKey": "service",
+      "order": 2,
+      "type": "number",
+      "required": false,
+      "defaultValue": 60,
+      "description": "Maximum execution time in seconds (up to 3600 for Gen2)."
+    },
+    {
+      "key": "serviceAccountEmail",
+      "tfPath": "service_config.0.service_account_email",
+      "label": "Execution Service Account",
+      "sectionKey": "service",
+      "order": 3,
+      "type": "string",
+      "required": false,
+      "description": "Service account identity used during execution. Auto-populated by canvas link."
+    }
+  ],
+  "version": "5.0"
+}

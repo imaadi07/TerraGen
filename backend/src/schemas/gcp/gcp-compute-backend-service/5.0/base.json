@@ -1,0 +1,117 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_backend_service",
+  "canvasType": "gcp-compute-backend-service",
+  "displayName": "GCP Backend Service",
+  "icon": "Network",
+  "color": "#4285F4",
+  "category": "networking",
+  "description": "Defines groups of backends (Instance Groups, NEGs) for Global Load Balancing.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Backend Service Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "web-backend-service"
+    },
+    {
+      "key": "protocol",
+      "tfPath": "protocol",
+      "label": "Protocol",
+      "section": "general",
+      "order": 2,
+      "default": "HTTP",
+      "validation": {
+        "enum": [
+          "HTTP",
+          "HTTPS",
+          "HTTP2",
+          "TCP",
+          "SSL",
+          "GRPC"
+        ]
+      }
+    },
+    {
+      "key": "portName",
+      "tfPath": "port_name",
+      "label": "Port Name",
+      "section": "general",
+      "order": 3,
+      "default": "http"
+    },
+    {
+      "key": "timeoutSec",
+      "tfPath": "timeout_sec",
+      "label": "Timeout (Seconds)",
+      "section": "general",
+      "order": 4,
+      "default": 30,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "healthChecks",
+      "tfPath": "health_checks",
+      "label": "Health Checks",
+      "section": "general",
+      "order": 5,
+      "required": true,
+      "default": [
+        "health-check-id"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    },
+    {
+      "key": "loadBalancingScheme",
+      "tfPath": "load_balancing_scheme",
+      "label": "Load Balancing Scheme",
+      "section": "general",
+      "order": 6,
+      "default": "EXTERNAL_MANAGED",
+      "validation": {
+        "enum": [
+          "EXTERNAL",
+          "EXTERNAL_MANAGED",
+          "INTERNAL_SELF_MANAGED"
+        ]
+      }
+    },
+    {
+      "key": "enableCdn",
+      "tfPath": "enable_cdn",
+      "label": "Enable Cloud CDN",
+      "section": "general",
+      "order": 7,
+      "default": false,
+      "validation": {
+        "type": "boolean"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-health-check",
+      "linkField": "healthChecks",
+      "sourceOutput": "id",
+      "isMulti": true
+    }
+  ],
+  "version": "5.0",
+  "compatibleWith": ">=5.0.0 <7.0.0"
+}

@@ -1,0 +1,50 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_internet_gateway",
+  "canvasType": "aws-internet-gateway",
+  "displayName": "AWS Internet Gateway",
+  "category": "networking",
+  "icon": "Network",
+  "color": "#8C4FFF",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-vpc",
+      "terraformType": "aws_vpc",
+      "displayName": "VPC",
+      "reason": "An Internet Gateway attaches to a VPC to enable internet routing.",
+      "linkField": "vpcId",
+      "tfOutputRef": "aws_vpc.{resourceName}.id",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "vpcId",
+      "tfPath": "vpc_id",
+      "label": "VPC ID",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "The VPC ID to create the Internet Gateway in."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 2,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

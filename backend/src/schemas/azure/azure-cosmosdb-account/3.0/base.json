@@ -1,0 +1,130 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_cosmosdb_account",
+  "canvasType": "azure-cosmosdb-account",
+  "displayName": "Azure Cosmos DB Account",
+  "icon": "Database",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "database",
+  "description": "Globally distributed, multi-model NoSQL database service.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Cosmos Account Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "cosmos-app-prod"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "offerType",
+      "tfPath": "offer_type",
+      "label": "Offer Type",
+      "section": "general",
+      "order": 4,
+      "default": "Standard",
+      "validation": {
+        "enum": [
+          "Standard"
+        ]
+      }
+    },
+    {
+      "key": "kind",
+      "tfPath": "kind",
+      "label": "API Kind",
+      "section": "general",
+      "order": 5,
+      "default": "GlobalDocumentDB",
+      "validation": {
+        "enum": [
+          "GlobalDocumentDB",
+          "MongoDB"
+        ]
+      }
+    },
+    {
+      "key": "consistencyLevel",
+      "tfPath": "consistency_policy.consistency_level",
+      "label": "Consistency Level",
+      "section": "general",
+      "order": 6,
+      "default": "Session",
+      "validation": {
+        "enum": [
+          "Eventual",
+          "Session",
+          "BoundedStaleness",
+          "Strong",
+          "ConsistentPrefix"
+        ]
+      }
+    },
+    {
+      "key": "geoLocLocation",
+      "tfPath": "geo_location.location",
+      "label": "Geo Location",
+      "section": "general",
+      "order": 7,
+      "default": "eastus"
+    },
+    {
+      "key": "geoLocFailoverPriority",
+      "tfPath": "geo_location.failover_priority",
+      "label": "Failover Priority",
+      "section": "general",
+      "order": 8,
+      "default": 0,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 9,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "3.0"
+}

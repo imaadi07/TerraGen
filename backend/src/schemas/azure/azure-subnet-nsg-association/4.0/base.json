@@ -1,0 +1,51 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_subnet_network_security_group_association",
+  "canvasType": "azure-subnet-nsg-association",
+  "displayName": "Azure Subnet NSG Association",
+  "icon": "Link",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "networking",
+  "description": "Associate a Network Security Group with an Azure Subnet.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "subnetId",
+      "tfPath": "subnet_id",
+      "label": "Subnet ID",
+      "section": "general",
+      "order": 1,
+      "required": true
+    },
+    {
+      "key": "networkSecurityGroupId",
+      "tfPath": "network_security_group_id",
+      "label": "NSG ID",
+      "section": "general",
+      "order": 2,
+      "required": true
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-subnet",
+      "linkField": "subnetId",
+      "sourceOutput": "id"
+    },
+    {
+      "resourceType": "azure-network-security-group",
+      "linkField": "networkSecurityGroupId",
+      "sourceOutput": "id"
+    }
+  ],
+  "version": "4.0"
+}

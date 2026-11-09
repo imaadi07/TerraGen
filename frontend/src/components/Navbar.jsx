@@ -58,23 +58,24 @@ export default function Navbar({ view, onHome }) {
         {/* Terraform-ish "T" mark */}
         <div style={{
           width: 34, height: 34,
-          background: "linear-gradient(135deg, #7b42f6 0%, #4285F4 100%)",
+          background: "var(--text)",
           borderRadius: 8,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "#fff",
+          color: "var(--bg)",
           fontWeight: 900,
           fontSize: 18,
           letterSpacing: "-1px",
           flexShrink: 0,
+          fontFamily: "var(--font-display)",
         }}>T</div>
         <div>
-          <div style={{ fontWeight: 800, fontSize: 15, lineHeight: 1.1, color: "var(--text)" }}>
+          <div style={{ fontWeight: 800, fontSize: 15, lineHeight: 1.1, color: "var(--text)", fontFamily: "var(--font-display)", letterSpacing: "-0.02em" }}>
             TerraGen
           </div>
-          <div style={{ fontSize: 11, color: "var(--text-dim)", lineHeight: 1 }}>
-            Infrastructure as Code
+          <div style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1, letterSpacing: "0.02em", marginTop: 2 }}>
+            Infrastructure Studio
           </div>
         </div>
       </div>
@@ -98,8 +99,38 @@ export default function Navbar({ view, onHome }) {
           {view.provider && (
             <>
               <span style={{ color: "var(--text-dim)" }}>›</span>
-              <span style={{ color: "var(--text)", fontWeight: 600 }}>
+              <span
+                onClick={view.onProviderClick}
+                style={{
+                  color: view.onProviderClick ? "var(--accent)" : "var(--text)",
+                  fontWeight: 600,
+                  cursor: view.onProviderClick ? "pointer" : "default",
+                }}
+              >
                 {view.provider.toUpperCase()}
+              </span>
+            </>
+          )}
+          {view.mode && (
+            <>
+              <span style={{ color: "var(--text-dim)" }}>›</span>
+              <span
+                onClick={view.onModeClick}
+                style={{
+                  color: view.onModeClick ? "var(--accent)" : "var(--text)",
+                  fontWeight: 600,
+                  cursor: view.onModeClick ? "pointer" : "default",
+                }}
+              >
+                {view.mode}
+              </span>
+            </>
+          )}
+          {view.submode && (
+            <>
+              <span style={{ color: "var(--text-dim)" }}>›</span>
+              <span style={{ color: "var(--text)", fontWeight: 600 }}>
+                {view.submode}
               </span>
             </>
           )}

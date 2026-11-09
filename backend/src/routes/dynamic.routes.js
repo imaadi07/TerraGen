@@ -11,6 +11,11 @@ import {
 } from "../providers/aws/ec2.provider.js";
 import { getNamespaces } from "../providers/aws/redshift-serverless.provider.js";
 import {
+  getManagedPolicies,
+  getTrustServices,
+  generateAssumeRolePolicy,
+} from "../providers/aws/iam.provider.js";
+import {
   getZones,
   getRegions,
   getMachineTypes,
@@ -110,6 +115,40 @@ router.get("/aws/redshift/namespaces", async (_req, res, next) => {
   try {
     const data = await getNamespaces();
     return res.json({ success: true, data });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// IAM Managed Policies (zero-credentials catalog)
+router.get("/aws/iam/managed-policies", async (req, res, next) => {
+  try {
+    const data = await getManagedPolicies({
+      search: req.query.search,
+      category: req.query.category,
+    });
+    return res.json({ success: true, data });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// IAM Service Trust Principals (zero-credentials catalog)
+router.get("/aws/iam/trust-services", async (_req, res, next) => {
+  try {
+    const data = await getTrustServices();
+    return res.json({ success: true, data });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// IAM Assume Role Policy JSON Generator
+router.post("/aws/iam/assume-role-policy", (req, res, next) => {
+  try {
+    const servicePrincipal = req.body?.servicePrincipal || "lambda.amazonaws.com";
+    const policyJson = generateAssumeRolePolicy(servicePrincipal);
+    return res.json({ success: true, policyJson });
   } catch (error) {
     next(error);
   }

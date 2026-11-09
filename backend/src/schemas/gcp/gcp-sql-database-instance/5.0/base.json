@@ -1,0 +1,209 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_sql_database_instance",
+  "canvasType": "gcp-sql-database-instance",
+  "displayName": "Cloud SQL Instance",
+  "category": "database",
+  "icon": "Database",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-network",
+      "terraformType": "google_compute_network",
+      "displayName": "Private VPC Network",
+      "reason": "Enables private IP connectivity for the Cloud SQL database.",
+      "linkField": "privateNetwork",
+      "tfOutputRef": "google_compute_network.{resourceName}.id",
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Engine & Sizing",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "storage",
+      "label": "Storage & High Availability",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Instance Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "prod-sql-instance",
+      "description": "Unique name of the Cloud SQL instance."
+    },
+    {
+      "key": "databaseVersion",
+      "tfPath": "database_version",
+      "label": "Database Engine Version",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "select",
+      "required": true,
+      "defaultValue": "POSTGRES_16",
+      "options": [
+        {
+          "label": "PostgreSQL 16 (POSTGRES_16)",
+          "value": "POSTGRES_16"
+        },
+        {
+          "label": "PostgreSQL 15 (POSTGRES_15)",
+          "value": "POSTGRES_15"
+        },
+        {
+          "label": "MySQL 8.0 (MYSQL_8_0)",
+          "value": "MYSQL_8_0"
+        },
+        {
+          "label": "SQL Server 2019 Standard (SQLSERVER_2019_STANDARD)",
+          "value": "SQLSERVER_2019_STANDARD"
+        }
+      ],
+      "description": "The database engine type and version."
+    },
+    {
+      "key": "region",
+      "tfPath": "region",
+      "label": "Region",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "string",
+      "required": true,
+      "defaultValue": "us-central1",
+      "description": "The GCP region for the database instance."
+    },
+    {
+      "key": "tier",
+      "tfPath": "settings.0.tier",
+      "label": "Instance Tier (Compute Size)",
+      "sectionKey": "general",
+      "order": 4,
+      "type": "select",
+      "required": true,
+      "defaultValue": "db-custom-2-7680",
+      "options": [
+        {
+          "label": "db-custom-2-7680 (2 vCPU, 7.5 GB)",
+          "value": "db-custom-2-7680"
+        },
+        {
+          "label": "db-custom-4-15360 (4 vCPU, 15 GB)",
+          "value": "db-custom-4-15360"
+        },
+        {
+          "label": "db-custom-8-30720 (8 vCPU, 30 GB)",
+          "value": "db-custom-8-30720"
+        },
+        {
+          "label": "db-f1-micro (Shared 0.6 GB - Dev only)",
+          "value": "db-f1-micro"
+        },
+        {
+          "label": "db-g1-small (Shared 1.7 GB - Staging)",
+          "value": "db-g1-small"
+        }
+      ],
+      "description": "Compute and memory machine sizing."
+    },
+    {
+      "key": "availabilityType",
+      "tfPath": "settings.0.availability_type",
+      "label": "Availability Type (HA Failover)",
+      "sectionKey": "storage",
+      "order": 1,
+      "type": "select",
+      "required": false,
+      "defaultValue": "REGIONAL",
+      "options": [
+        {
+          "label": "REGIONAL (High Availability with automatic failover)",
+          "value": "REGIONAL"
+        },
+        {
+          "label": "ZONAL (Single zone - lower cost)",
+          "value": "ZONAL"
+        }
+      ],
+      "description": "HA setup for production fault tolerance."
+    },
+    {
+      "key": "diskSize",
+      "tfPath": "settings.0.disk_size",
+      "label": "Disk Size (GB)",
+      "sectionKey": "storage",
+      "order": 2,
+      "type": "number",
+      "required": false,
+      "defaultValue": 20,
+      "description": "Initial storage disk size in GB."
+    },
+    {
+      "key": "diskType",
+      "tfPath": "settings.0.disk_type",
+      "label": "Disk Type",
+      "sectionKey": "storage",
+      "order": 3,
+      "type": "select",
+      "required": false,
+      "defaultValue": "PD_SSD",
+      "options": [
+        {
+          "label": "SSD (PD_SSD - Recommended)",
+          "value": "PD_SSD"
+        },
+        {
+          "label": "Standard HDD (PD_HDD)",
+          "value": "PD_HDD"
+        }
+      ],
+      "description": "Underlying storage hardware."
+    },
+    {
+      "key": "diskAutoresize",
+      "tfPath": "settings.0.disk_autoresize",
+      "label": "Auto-increase Storage",
+      "sectionKey": "storage",
+      "order": 4,
+      "type": "boolean",
+      "required": false,
+      "defaultValue": true,
+      "description": "Automatically increase storage capacity when space is low."
+    },
+    {
+      "key": "deletionProtection",
+      "tfPath": "deletion_protection",
+      "label": "Deletion Protection",
+      "sectionKey": "storage",
+      "order": 5,
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "description": "Whether to protect the database against accidental Terraform destroy."
+    },
+    {
+      "key": "privateNetwork",
+      "tfPath": "settings.0.ip_configuration.0.private_network",
+      "label": "Private Network URI",
+      "sectionKey": "storage",
+      "order": 6,
+      "type": "string",
+      "required": false,
+      "description": "VPC Network ID for Private IP access. Auto-populated by canvas link."
+    }
+  ],
+  "version": "5.0"
+}

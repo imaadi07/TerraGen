@@ -1,0 +1,90 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_kms_key",
+  "canvasType": "aws-kms-key",
+  "displayName": "AWS KMS Key",
+  "icon": "Key",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "version": "5.0",
+  "category": "security",
+  "description": "Create an AWS Key Management Service (KMS) Customer Master Key.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Key Description",
+      "section": "general",
+      "order": 1,
+      "default": "Customer Managed KMS Key"
+    },
+    {
+      "key": "deletionWindowInDays",
+      "tfPath": "deletion_window_in_days",
+      "label": "Deletion Window (Days)",
+      "section": "general",
+      "order": 2,
+      "default": 30,
+      "validation": {
+        "type": "number",
+        "min": 7,
+        "max": 30
+      }
+    },
+    {
+      "key": "enableKeyRotation",
+      "tfPath": "enable_key_rotation",
+      "label": "Enable Automatic Rotation",
+      "section": "general",
+      "order": 3,
+      "default": true,
+      "validation": {
+        "type": "boolean"
+      }
+    },
+    {
+      "key": "isEnabled",
+      "tfPath": "is_enabled",
+      "label": "Enabled",
+      "section": "general",
+      "order": 4,
+      "default": true,
+      "validation": {
+        "type": "boolean"
+      }
+    },
+    {
+      "key": "keyUsage",
+      "tfPath": "key_usage",
+      "label": "Key Usage",
+      "section": "general",
+      "order": 5,
+      "default": "ENCRYPT_DECRYPT",
+      "validation": {
+        "enum": [
+          "ENCRYPT_DECRYPT",
+          "SIGN_VERIFY"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 6,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ]
+}

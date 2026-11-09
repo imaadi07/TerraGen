@@ -1,0 +1,67 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_cloudwatch_log_group",
+  "canvasType": "aws-cloudwatch-log-group",
+  "displayName": "AWS CloudWatch Log Group",
+  "icon": "Shield",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "version": "5.0",
+  "category": "security",
+  "description": "Create an Amazon CloudWatch Log Group for unified audit and application logging.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Log Group Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "/aws/application/workload"
+    },
+    {
+      "key": "retentionInDays",
+      "tfPath": "retention_in_days",
+      "label": "Retention (Days)",
+      "section": "general",
+      "order": 2,
+      "default": 30,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "kmsKeyId",
+      "tfPath": "kms_key_id",
+      "label": "KMS Key ARN (Optional)",
+      "section": "general",
+      "order": 3
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 4,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "aws-kms-key",
+      "linkField": "kmsKeyId",
+      "sourceOutput": "arn"
+    }
+  ]
+}

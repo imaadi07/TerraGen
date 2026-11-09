@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "test": "node test/schema-and-generator.test.js && node test/graph-generator.test.js && node test/canvas-route.test.js && node test/connection-resolver.test.js && node test/aws-name-validator.test.js && node test/cost-estimator.test.js && node test/production-terraform.test.js && node test/zip.test.js && node test/api-response.test.js"
   },
   "keywords": [],
   "author": "",

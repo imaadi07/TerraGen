@@ -1,0 +1,71 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_lambda_permission",
+  "canvasType": "aws-lambda-permission",
+  "displayName": "AWS Lambda Permission",
+  "category": "serverless",
+  "icon": "Serverless",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-lambda-function",
+      "terraformType": "aws_lambda_function",
+      "displayName": "Lambda Function",
+      "reason": "Grants external services (e.g. API Gateway, EventBridge, S3) permission to invoke the Lambda.",
+      "linkField": "functionName",
+      "tfOutputRef": "aws_lambda_function.{resourceName}.function_name",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Permission Specifications",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "statementId",
+      "tfPath": "statement_id",
+      "label": "Statement ID",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "AllowExecutionFromExternal",
+      "helpText": "A unique statement identifier for the permission."
+    },
+    {
+      "key": "action",
+      "tfPath": "action",
+      "label": "Action",
+      "section": "general",
+      "order": 2,
+      "default": "lambda:InvokeFunction",
+      "required": true
+    },
+    {
+      "key": "functionName",
+      "tfPath": "function_name",
+      "label": "Function Name",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "helpText": "Name or ARN of the Lambda function."
+    },
+    {
+      "key": "principal",
+      "tfPath": "principal",
+      "label": "Principal",
+      "section": "general",
+      "order": 4,
+      "default": "apigateway.amazonaws.com",
+      "required": true,
+      "helpText": "The principal who is getting this permission (e.g. apigateway.amazonaws.com, events.amazonaws.com, s3.amazonaws.com)."
+    }
+  ],
+  "version": "5.0"
+}

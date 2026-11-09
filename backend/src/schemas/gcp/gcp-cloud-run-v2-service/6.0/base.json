@@ -1,0 +1,200 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_cloud_run_v2_service",
+  "canvasType": "gcp-cloud-run-v2-service",
+  "displayName": "Cloud Run Service (v2)",
+  "category": "serverless",
+  "icon": "Compute",
+  "color": "#4285F4",
+  "compatibleWith": ">=6.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-service-account",
+      "terraformType": "google_service_account",
+      "displayName": "Runtime Service Account",
+      "reason": "Least-privilege service account used by the Cloud Run service.",
+      "linkField": "serviceAccount",
+      "tfOutputRef": "google_service_account.{resourceName}.email",
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Container & Service Specifications",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "scaling",
+      "label": "Scaling & Ingress",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Service Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "my-cloud-run-service",
+      "description": "Unique name of the Cloud Run service."
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Region",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": true,
+      "defaultValue": "us-central1",
+      "description": "The GCP region where Cloud Run runs."
+    },
+    {
+      "key": "image",
+      "tfPath": "template.0.containers.0.image",
+      "label": "Container Image URI",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "string",
+      "required": true,
+      "defaultValue": "gcr.io/cloudrun/hello",
+      "placeholder": "us-docker.pkg.dev/project/repo/image:tag",
+      "description": "Artifact Registry or Container Registry image URI."
+    },
+    {
+      "key": "port",
+      "tfPath": "template.0.containers.0.ports.0.container_port",
+      "label": "Container Port",
+      "sectionKey": "general",
+      "order": 4,
+      "type": "number",
+      "required": false,
+      "defaultValue": 8080,
+      "description": "Port on which the container listens for HTTP requests."
+    },
+    {
+      "key": "cpu",
+      "tfPath": "template.0.containers.0.resources.0.limits.cpu",
+      "label": "CPU Limit",
+      "sectionKey": "general",
+      "order": 5,
+      "type": "select",
+      "required": false,
+      "defaultValue": "1",
+      "options": [
+        {
+          "label": "1 vCPU",
+          "value": "1"
+        },
+        {
+          "label": "2 vCPU",
+          "value": "2"
+        },
+        {
+          "label": "4 vCPU",
+          "value": "4"
+        }
+      ],
+      "description": "Allocated CPU cores per container instance."
+    },
+    {
+      "key": "memory",
+      "tfPath": "template.0.containers.0.resources.0.limits.memory",
+      "label": "Memory Limit",
+      "sectionKey": "general",
+      "order": 6,
+      "type": "select",
+      "required": false,
+      "defaultValue": "512Mi",
+      "options": [
+        {
+          "label": "256 MiB",
+          "value": "256Mi"
+        },
+        {
+          "label": "512 MiB",
+          "value": "512Mi"
+        },
+        {
+          "label": "1 GiB",
+          "value": "1Gi"
+        },
+        {
+          "label": "2 GiB",
+          "value": "2Gi"
+        },
+        {
+          "label": "4 GiB",
+          "value": "4Gi"
+        }
+      ],
+      "description": "Allocated RAM memory per container instance."
+    },
+    {
+      "key": "serviceAccount",
+      "tfPath": "template.0.service_account",
+      "label": "Service Account Email",
+      "sectionKey": "general",
+      "order": 7,
+      "type": "string",
+      "required": false,
+      "description": "Identity assumed by running container instances. Auto-populated by canvas link."
+    },
+    {
+      "key": "minInstanceCount",
+      "tfPath": "template.0.scaling.0.min_instance_count",
+      "label": "Min Instances (Cold-Start Prevention)",
+      "sectionKey": "scaling",
+      "order": 1,
+      "type": "number",
+      "required": false,
+      "defaultValue": 0,
+      "description": "Minimum running instances to keep warm."
+    },
+    {
+      "key": "maxInstanceCount",
+      "tfPath": "template.0.scaling.0.max_instance_count",
+      "label": "Max Instances",
+      "sectionKey": "scaling",
+      "order": 2,
+      "type": "number",
+      "required": false,
+      "defaultValue": 10,
+      "description": "Maximum instances to scale to under load."
+    },
+    {
+      "key": "ingress",
+      "tfPath": "ingress",
+      "label": "Ingress Access Control",
+      "sectionKey": "scaling",
+      "order": 3,
+      "type": "select",
+      "required": false,
+      "defaultValue": "INGRESS_TRAFFIC_ALL",
+      "options": [
+        {
+          "label": "Allow All Traffic (Public Internet)",
+          "value": "INGRESS_TRAFFIC_ALL"
+        },
+        {
+          "label": "Internal and Cloud Load Balancing Only",
+          "value": "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+        },
+        {
+          "label": "Internal VPC Only",
+          "value": "INGRESS_TRAFFIC_INTERNAL_ONLY"
+        }
+      ],
+      "description": "Network ingress boundary configuration."
+    }
+  ],
+  "version": "6.0"
+}

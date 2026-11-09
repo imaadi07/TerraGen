@@ -1,0 +1,167 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_ecs_service",
+  "canvasType": "aws-ecs-service",
+  "displayName": "AWS ECS Service",
+  "category": "compute",
+  "icon": "Server",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-ecs-cluster",
+      "terraformType": "aws_ecs_cluster",
+      "displayName": "ECS Cluster",
+      "reason": "The service runs tasks inside an ECS Cluster.",
+      "linkField": "cluster",
+      "tfOutputRef": "aws_ecs_cluster.{resourceName}.id",
+      "required": true
+    },
+    {
+      "resourceType": "aws-ecs-task-definition",
+      "terraformType": "aws_ecs_task_definition",
+      "displayName": "Task Definition",
+      "reason": "Specifies which task definition to launch and maintain.",
+      "linkField": "taskDefinition",
+      "tfOutputRef": "aws_ecs_task_definition.{resourceName}.arn",
+      "required": true
+    },
+    {
+      "resourceType": "aws-subnet",
+      "terraformType": "aws_subnet",
+      "displayName": "Subnets",
+      "reason": "Subnets where the Fargate task ENIs will be provisioned.",
+      "linkField": "subnets",
+      "tfOutputRef": "aws_subnet.{resourceName}.id",
+      "isMulti": true,
+      "required": true
+    },
+    {
+      "resourceType": "aws-security-group",
+      "terraformType": "aws_security_group",
+      "displayName": "Security Groups",
+      "reason": "Security groups applied to the task network interfaces.",
+      "linkField": "securityGroups",
+      "tfOutputRef": "aws_security_group.{resourceName}.id",
+      "isMulti": true,
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Service Settings",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "network",
+      "label": "Network Configuration",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Service Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Name of the service."
+    },
+    {
+      "key": "cluster",
+      "tfPath": "cluster",
+      "label": "Cluster ID / ARN",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "helpText": "ARN of an ECS cluster."
+    },
+    {
+      "key": "taskDefinition",
+      "tfPath": "task_definition",
+      "label": "Task Definition ARN",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "helpText": "Family and revision (family:revision) or full ARN of the task definition."
+    },
+    {
+      "key": "desiredCount",
+      "tfPath": "desired_count",
+      "label": "Desired Tasks Count",
+      "section": "general",
+      "order": 4,
+      "type": "number",
+      "required": true,
+      "default": 1,
+      "helpText": "Number of instances of the task definition to place and keep running."
+    },
+    {
+      "key": "launchType",
+      "tfPath": "launch_type",
+      "label": "Launch Type",
+      "section": "general",
+      "order": 5,
+      "required": false,
+      "default": "FARGATE",
+      "validation": {
+        "enum": [
+          "FARGATE",
+          "EC2"
+        ]
+      },
+      "helpText": "Launch type on which to run your service."
+    },
+    {
+      "key": "subnets",
+      "tfPath": "network_configuration.subnets",
+      "label": "Subnet IDs",
+      "section": "network",
+      "order": 1,
+      "type": "list",
+      "required": true,
+      "validation": {
+        "selectionMode": "multi"
+      },
+      "helpText": "Subnets associated with the task or service."
+    },
+    {
+      "key": "securityGroups",
+      "tfPath": "network_configuration.security_groups",
+      "label": "Security Group IDs",
+      "section": "network",
+      "order": 2,
+      "type": "list",
+      "required": false,
+      "validation": {
+        "selectionMode": "multi"
+      },
+      "helpText": "Security groups associated with the task or service."
+    },
+    {
+      "key": "assignPublicIp",
+      "tfPath": "network_configuration.assign_public_ip",
+      "label": "Assign Public IP",
+      "section": "network",
+      "order": 3,
+      "type": "boolean",
+      "default": false,
+      "helpText": "Assign a public IP address to the ENI (Fargate only)."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 6,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

@@ -1,0 +1,253 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_db_instance",
+  "canvasType": "aws-db-instance",
+  "displayName": "AWS RDS DB Instance",
+  "category": "database",
+  "icon": "Database",
+  "color": "#E7157B",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-db-subnet-group",
+      "terraformType": "aws_db_subnet_group",
+      "displayName": "DB Subnet Group",
+      "reason": "RDS instances are placed inside a DB Subnet Group.",
+      "linkField": "dbSubnetGroupName",
+      "tfOutputRef": "aws_db_subnet_group.{resourceName}.name",
+      "required": false
+    },
+    {
+      "resourceType": "aws-db-parameter-group",
+      "terraformType": "aws_db_parameter_group",
+      "displayName": "DB Parameter Group",
+      "reason": "Associates custom engine parameters with the RDS instance.",
+      "linkField": "parameterGroupName",
+      "tfOutputRef": "aws_db_parameter_group.{resourceName}.name",
+      "required": false
+    },
+    {
+      "resourceType": "aws-security-group",
+      "terraformType": "aws_security_group",
+      "displayName": "Security Groups",
+      "reason": "Controls network access to the database.",
+      "linkField": "vpcSecurityGroupIds",
+      "tfOutputRef": "aws_security_group.{resourceName}.id",
+      "isMulti": true,
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Engine Configuration",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "sizing",
+      "label": "Instance & Storage",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    },
+    {
+      "key": "auth",
+      "label": "Credentials & Auth",
+      "order": 3,
+      "defaultExpanded": true,
+      "collapsible": true
+    },
+    {
+      "key": "network",
+      "label": "Network & High Availability",
+      "order": 4,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "identifier",
+      "tfPath": "identifier",
+      "label": "DB Instance Identifier",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Unique name of the database instance."
+    },
+    {
+      "key": "engine",
+      "tfPath": "engine",
+      "label": "Engine",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "postgres",
+      "validation": {
+        "enum": [
+          "postgres",
+          "mysql",
+          "mariadb",
+          "oracle-ee",
+          "sqlserver-ex"
+        ]
+      },
+      "helpText": "Database engine type."
+    },
+    {
+      "key": "engineVersion",
+      "tfPath": "engine_version",
+      "label": "Engine Version",
+      "section": "general",
+      "order": 3,
+      "required": false,
+      "default": "16.1",
+      "helpText": "Database engine version."
+    },
+    {
+      "key": "instanceClass",
+      "tfPath": "instance_class",
+      "label": "Instance Class",
+      "section": "sizing",
+      "order": 1,
+      "required": true,
+      "default": "db.t4g.micro",
+      "validation": {
+        "enum": [
+          "db.t4g.micro",
+          "db.t4g.small",
+          "db.t4g.medium",
+          "db.t3.micro",
+          "db.t3.small",
+          "db.t3.medium",
+          "db.r6g.large",
+          "db.m6g.large"
+        ]
+      },
+      "helpText": "Compute capacity for the database."
+    },
+    {
+      "key": "allocatedStorage",
+      "tfPath": "allocated_storage",
+      "label": "Allocated Storage (GB)",
+      "section": "sizing",
+      "order": 2,
+      "type": "number",
+      "required": true,
+      "default": 20,
+      "helpText": "Initial storage size in gigabytes."
+    },
+    {
+      "key": "maxAllocatedStorage",
+      "tfPath": "max_allocated_storage",
+      "label": "Max Storage Autoscaling (GB)",
+      "section": "sizing",
+      "order": 3,
+      "type": "number",
+      "required": false,
+      "default": 100,
+      "helpText": "Upper limit for storage autoscaling."
+    },
+    {
+      "key": "dbName",
+      "tfPath": "db_name",
+      "label": "Database Name",
+      "section": "auth",
+      "order": 1,
+      "required": false,
+      "default": "appdb",
+      "helpText": "Name of the default database created on startup."
+    },
+    {
+      "key": "username",
+      "tfPath": "username",
+      "label": "Master Username",
+      "section": "auth",
+      "order": 2,
+      "required": true,
+      "default": "dbadmin",
+      "helpText": "Master administrator username."
+    },
+    {
+      "key": "password",
+      "tfPath": "password",
+      "label": "Master Password",
+      "section": "auth",
+      "order": 3,
+      "type": "password",
+      "required": true,
+      "helpText": "Password for the master DB user."
+    },
+    {
+      "key": "multiAz",
+      "tfPath": "multi_az",
+      "label": "Multi-AZ Deployment",
+      "section": "network",
+      "order": 1,
+      "type": "boolean",
+      "default": false,
+      "helpText": "Specifies if the RDS instance is Multi-AZ for failover."
+    },
+    {
+      "key": "publiclyAccessible",
+      "tfPath": "publicly_accessible",
+      "label": "Publicly Accessible",
+      "section": "network",
+      "order": 2,
+      "type": "boolean",
+      "default": false,
+      "helpText": "Whether the database is accessible from outside the VPC."
+    },
+    {
+      "key": "dbSubnetGroupName",
+      "tfPath": "db_subnet_group_name",
+      "label": "DB Subnet Group",
+      "section": "network",
+      "order": 3,
+      "required": false,
+      "helpText": "DB Subnet Group name to place the instance in a VPC."
+    },
+    {
+      "key": "parameterGroupName",
+      "tfPath": "parameter_group_name",
+      "label": "DB Parameter Group",
+      "section": "general",
+      "order": 6,
+      "required": false,
+      "helpText": "Name of the DB parameter group to associate with this instance."
+    },
+    {
+      "key": "vpcSecurityGroupIds",
+      "tfPath": "vpc_security_group_ids",
+      "label": "VPC Security Group IDs",
+      "section": "network",
+      "order": 4,
+      "type": "list",
+      "validation": {
+        "selectionMode": "multi"
+      },
+      "helpText": "List of VPC Security Group IDs."
+    },
+    {
+      "key": "skipFinalSnapshot",
+      "tfPath": "skip_final_snapshot",
+      "label": "Skip Final Snapshot on Destroy",
+      "section": "general",
+      "order": 4,
+      "type": "boolean",
+      "default": true,
+      "helpText": "Determines whether a final DB snapshot is created before the DB instance is deleted."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 5,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

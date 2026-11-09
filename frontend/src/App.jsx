@@ -1,16 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { apiClient } from "./services/api.service.js";
 
 import { ThemeProvider } from "./context/ThemeContext";
 import { getProvider } from "./config/providers.jsx";
 
 import Navbar from "./components/Navbar";
-import ProviderPage from "./components/ProviderPage";
+import LandingPage from "./components/landing/LandingPage";
 import ResourceListPage from "./components/ResourceListPage";
 import DynamicForm from "./components/DynamicForm";
 import DependencySection from "./components/DependencySection";
-
-const API_BASE = "http://localhost:5000/api";
+import CanvasStudio from "./components/canvas/CanvasStudio";
+import TerraformOutputPage from "./components/canvas/TerraformOutputPage";
+import CostEstimationPage from "./components/cost/CostEstimationPage";
 
 // ─── Helpers (unchanged logic from original) ─────────────────────────────────
 
@@ -56,8 +57,7 @@ function findMissingRequiredField(schema, values) {
 async function loadDependencyTree(resourceSchema, collected = {}) {
   for (const dep of resourceSchema.dependencies || []) {
     if (collected[dep.resourceType]) continue;
-    const res = await axios.get(`${API_BASE}/schema/${dep.resourceType}`);
-    const depSchema = res.data.data;
+    const depSchema = await apiClient.getSchema(dep.resourceType);
     collected[dep.resourceType] = depSchema;
     await loadDependencyTree(depSchema, collected);
   }
@@ -256,6 +256,8 @@ function RecursiveDeps({
 function FormPage({ selectedResource, providerKey, onBack }) {
   const [schema, setSchema] = useState(null);
   const [formData, setFormData] = useState({});
+  const [selectedVersion, setSelectedVersion] = useState(null);
+  const [availableVersions, setAvailableVersions] = useState([]);
   const [depSchemas, setDepSchemas] = useState({});
   const [depFormData, setDepFormData] = useState({});
   const [depModes, setDepModes] = useState({});
@@ -274,8 +276,14 @@ function FormPage({ selectedResource, providerKey, onBack }) {
       try {
         setLoadingSchema(true);
         setError("");
-        const res = await axios.get(`${API_BASE}/schema/${selectedResource}`);
-        const primarySchema = res.data.data;
+        const primarySchema = await apiClient.getSchema(selectedResource, selectedVersion);
+        const schemaVer = primarySchema.version || "5.0";
+        const versions = await apiClient.getSchemaVersions(selectedResource).catch(() => [schemaVer]);
+        setAvailableVersions(versions);
+        if (!selectedVersion) {
+          setSelectedVersion(schemaVer);
+        }
+
         const allDepSchemas = await loadDependencyTree(primarySchema);
         const defaultFormData = initFormData(primarySchema);
         const defaultDepFormData = buildDefaultDepFormData(allDepSchemas);
@@ -291,11 +299,11 @@ function FormPage({ selectedResource, providerKey, onBack }) {
         if ((primarySchema.dependencies || []).length > 0) {
           setLoadingDependencies(true);
           try {
-            const resolutionRes = await axios.post(
-              `${API_BASE}/dependencies/resolve/${selectedResource}`,
-              { context: defaultFormData },
-            );
-            const resolutionTree = resolutionRes.data.data?.dependencies || {};
+            const resolutionRes = await apiClient.resolveDependencies({
+              resourceId: selectedResource,
+              context: defaultFormData,
+            });
+            const resolutionTree = resolutionRes.data?.dependencies || {};
             const flatResolution = flattenDependencyResolution(resolutionTree);
 
             setDependencyResolution(flatResolution);
@@ -343,7 +351,7 @@ function FormPage({ selectedResource, providerKey, onBack }) {
       }
     }
     load();
-  }, [selectedResource]);
+  }, [selectedResource, selectedVersion]);
 
   const dependencyPayload = useMemo(() => {
     if (!schema) return {};
@@ -382,18 +390,18 @@ function FormPage({ selectedResource, providerKey, onBack }) {
 
       const hasDeps = (schema?.dependencies || []).length > 0;
       if (hasDeps) {
-        const res = await axios.post(`${API_BASE}/terraform/multi/${selectedResource}`, {
+        const res = await apiClient.generateMultiResource(selectedResource, {
           primary: formData,
           dependencies: dependencyPayload,
         });
-        setTerraformOutput(res.data.terraform);
+        setTerraformOutput(res.terraform);
       } else {
-        const res = await axios.post(`${API_BASE}/terraform/${selectedResource}`, formData);
-        setTerraformOutput(res.data.terraform);
+        const tf = await apiClient.generateResource(selectedResource, formData);
+        setTerraformOutput(tf);
       }
     } catch (err) {
       console.error(err);
-      setError(err?.response?.data?.error || "Terraform generation failed");
+      setError(err?.message || "Terraform generation failed");
     } finally {
       setLoading(false);
     }
@@ -475,6 +483,51 @@ function FormPage({ selectedResource, providerKey, onBack }) {
         }}>
           {schema.terraformType}
         </code>
+
+        {/* Version Badge or Selector */}
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>
+            Provider Version:
+          </span>
+          {availableVersions.length > 1 ? (
+            <select
+              value={selectedVersion || schema.version}
+              onChange={(e) => setSelectedVersion(e.target.value)}
+              style={{
+                background: "var(--surface)",
+                border: "1.5px solid var(--border)",
+                borderRadius: 6,
+                padding: "4px 8px",
+                fontSize: 12,
+                fontWeight: 700,
+                color: "var(--text)",
+                cursor: "pointer",
+                fontFamily: "var(--mono)",
+              }}
+            >
+              {availableVersions.map((v) => (
+                <option key={v} value={v}>
+                  v{v}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 700,
+                fontFamily: "var(--mono)",
+                background: "var(--surface-3)",
+                border: "1px solid var(--border)",
+                borderRadius: 6,
+                padding: "3px 8px",
+                color: "var(--text)",
+              }}
+            >
+              v{schema.version || "5.0"}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Primary form */}
@@ -526,7 +579,7 @@ function FormPage({ selectedResource, providerKey, onBack }) {
           letterSpacing: "0.01em",
         }}
       >
-        {loading ? "Generating…" : "⚡ Generate Terraform"}
+        {loading ? "Generating..." : "Generate Terraform"}
       </button>
 
       {error && (
@@ -571,7 +624,7 @@ function FormPage({ selectedResource, providerKey, onBack }) {
                 transition: "background 0.2s",
               }}
             >
-              {copied ? "✓ Copied!" : "Copy"}
+              {copied ? "Copied!" : "Copy"}
             </button>
           </div>
           <pre style={{
@@ -600,18 +653,24 @@ function AppInner() {
   const [loadingResources, setLoadingResources] = useState(true);
   const [error, setError] = useState(null);
 
-  // view: "home" | { type: "list", provider } | { type: "form", provider, resource }
+  // view: "home" | { type: "list", provider } | { type: "form", provider, resource } | { type: "canvas", provider } | { type: "output", ... } | { type: "cost", ... }
   const [view, setView] = useState("home");
 
+  // Keep visual canvas state per provider so navigation back and forth preserves all nodes and wires
+  const [canvasDataByProvider, setCanvasDataByProvider] = useState({});
+
   useEffect(() => {
-    axios.get(`${API_BASE}/resources`).then((res) => {
-      setAllResources(res.data.data || []);
-      setLoadingResources(false);
-    }).catch((err) => {
-      console.error(err);
-      setError(err.message || "Failed to fetch resources");
-      setLoadingResources(false);
-    });
+    apiClient
+      .getResources()
+      .then((resources) => {
+        setAllResources(resources);
+        setLoadingResources(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError(err.message || "Failed to fetch resources");
+        setLoadingResources(false);
+      });
   }, []);
 
   // Derive unique provider keys from resources, preserving insertion order
@@ -631,9 +690,25 @@ function AppInner() {
 
   const navView = view === "home"
     ? "home"
-    : view.type === "list"
-      ? { provider: view.provider }
-      : { provider: view.provider, resource: view.resource };
+    : view.type === "canvas"
+      ? { provider: view.provider, mode: "Canvas Studio" }
+      : view.type === "output"
+        ? {
+            provider: view.provider,
+            mode: "Canvas Studio",
+            onModeClick: () => setView({ type: "canvas", provider: view.provider }),
+            submode: "Generated Terraform",
+          }
+        : view.type === "cost"
+          ? {
+              provider: view.provider,
+              mode: "Canvas Studio",
+              onModeClick: () => setView({ type: "canvas", provider: view.provider }),
+              submode: "Cost Estimation",
+            }
+          : view.type === "list"
+            ? { provider: view.provider }
+            : { provider: view.provider, resource: view.resource };
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
@@ -643,11 +718,87 @@ function AppInner() {
       />
 
       {view === "home" && (
-        <ProviderPage
+        <LandingPage
           providers={providerKeys}
           loading={loadingResources}
           error={error}
-          onSelect={(key) => setView({ type: "list", provider: key })}
+          onSelect={(key) => setView({ type: "canvas", provider: key })}
+          onBrowseCatalog={(key) => setView({ type: "list", provider: key })}
+        />
+      )}
+
+      {view !== "home" && view.type === "canvas" && (
+        <CanvasStudio
+          providerKey={view.provider}
+          initialNodes={canvasDataByProvider[view.provider]?.nodes || []}
+          initialEdges={canvasDataByProvider[view.provider]?.edges || []}
+          onStateChange={({ nodes, edges }) => {
+            setCanvasDataByProvider((prev) => ({
+              ...prev,
+              [view.provider]: { nodes, edges },
+            }));
+          }}
+          onOpenOutput={({ terraform, files, sortedNodes, nodes, edges }) => {
+            setCanvasDataByProvider((prev) => ({
+              ...prev,
+              [view.provider]: { nodes, edges },
+            }));
+            setView({
+              type: "output",
+              provider: view.provider,
+              terraform,
+              files,
+              sortedNodes,
+              nodes,
+              edges,
+            });
+          }}
+          onBack={() => setView("home")}
+        />
+      )}
+
+      {view !== "home" && view.type === "output" && (
+        <TerraformOutputPage
+          providerKey={view.provider}
+          terraform={view.terraform}
+          files={view.files}
+          sortedNodes={view.sortedNodes}
+          onUpdateTerraform={(newTf) => setView((prev) => ({ ...prev, terraform: newTf }))}
+          onUpdateFiles={(newFiles) => setView((prev) => ({ ...prev, files: newFiles }))}
+          onBackToCanvas={() => setView({ type: "canvas", provider: view.provider })}
+          onEstimateCost={() =>
+            setView({
+              type: "cost",
+              provider: view.provider,
+              terraform: view.terraform,
+              files: view.files,
+              sortedNodes: view.sortedNodes,
+              nodes: view.nodes || canvasDataByProvider[view.provider]?.nodes || [],
+              edges: view.edges || canvasDataByProvider[view.provider]?.edges || [],
+              initialDays: 30,
+            })
+          }
+        />
+      )}
+
+      {view !== "home" && view.type === "cost" && (
+        <CostEstimationPage
+          providerKey={view.provider}
+          nodes={view.nodes || canvasDataByProvider[view.provider]?.nodes || []}
+          terraform={view.terraform}
+          initialDays={view.initialDays || 30}
+          onBackToOutput={() =>
+            setView({
+              type: "output",
+              provider: view.provider,
+              terraform: view.terraform,
+              files: view.files,
+              sortedNodes: view.sortedNodes,
+              nodes: view.nodes,
+              edges: view.edges,
+            })
+          }
+          onBackToCanvas={() => setView({ type: "canvas", provider: view.provider })}
         />
       )}
 

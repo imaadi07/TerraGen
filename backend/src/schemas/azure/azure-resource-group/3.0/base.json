@@ -1,0 +1,64 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_resource_group",
+  "canvasType": "azure-resource-group",
+  "displayName": "Azure Resource Group",
+  "icon": "Layers",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "general",
+  "description": "Create an Azure Resource Group to contain and manage resources.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location / Region",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "eastus",
+      "validation": {
+        "enum": [
+          "eastus",
+          "eastus2",
+          "westus2",
+          "westus3",
+          "centralus",
+          "northeurope",
+          "westeurope",
+          "southeastasia",
+          "uksouth"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 3,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "version": "3.0"
+}

@@ -1,0 +1,83 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_budgets_budget",
+  "canvasType": "aws-budgets-budget",
+  "displayName": "AWS Cost Budget",
+  "category": "security",
+  "icon": "Shield",
+  "color": "#DD344C",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "Budget Specifications",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Budget Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Name of the cost budget (e.g. monthly-cloud-spend-limit)."
+    },
+    {
+      "key": "budgetType",
+      "tfPath": "budget_type",
+      "label": "Budget Type",
+      "section": "general",
+      "order": 2,
+      "type": "select",
+      "default": "COST",
+      "options": [
+        "COST",
+        "USAGE",
+        "RI_UTILIZATION",
+        "RI_COVERAGE",
+        "SAVINGS_PLANS_UTILIZATION"
+      ],
+      "required": true
+    },
+    {
+      "key": "limitAmount",
+      "tfPath": "limit_amount",
+      "label": "Limit Amount",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "500",
+      "helpText": "Cost or usage limit (e.g. '500' for $500 USD)."
+    },
+    {
+      "key": "limitUnit",
+      "tfPath": "limit_unit",
+      "label": "Limit Unit",
+      "section": "general",
+      "order": 4,
+      "default": "USD",
+      "required": true
+    },
+    {
+      "key": "timeUnit",
+      "tfPath": "time_unit",
+      "label": "Time Unit",
+      "section": "general",
+      "order": 5,
+      "type": "select",
+      "default": "MONTHLY",
+      "options": [
+        "DAILY",
+        "MONTHLY",
+        "QUARTERLY",
+        "ANNUALLY"
+      ],
+      "required": true
+    }
+  ],
+  "version": "5.0"
+}

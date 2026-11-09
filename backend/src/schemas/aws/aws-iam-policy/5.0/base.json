@@ -1,0 +1,74 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_iam_policy",
+  "canvasType": "aws-iam-policy",
+  "displayName": "AWS IAM Policy",
+  "category": "security",
+  "icon": "Security",
+  "color": "#DD344C",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "document",
+      "label": "Policy Document",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Policy Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "s3-read-write-policy",
+      "description": "The name of the policy (e.g. s3-read-write-policy)."
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": false,
+      "placeholder": "Provides read and write access to S3 buckets",
+      "description": "Description of the policy."
+    },
+    {
+      "key": "policy",
+      "tfPath": "policy",
+      "label": "Policy Document (JSON)",
+      "sectionKey": "document",
+      "order": 1,
+      "type": "code",
+      "required": true,
+      "defaultValue": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:GetObject\",\n        \"s3:PutObject\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}",
+      "description": "The JSON policy document defining allowed or denied actions."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "map",
+      "defaultValue": {
+        "Environment": "production"
+      },
+      "description": "Key-value tags."
+    }
+  ],
+  "version": "5.0"
+}

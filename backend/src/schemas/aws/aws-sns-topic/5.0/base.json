@@ -1,0 +1,58 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_sns_topic",
+  "canvasType": "aws-sns-topic",
+  "displayName": "AWS SNS Topic",
+  "category": "serverless",
+  "icon": "Serverless",
+  "color": "#FF4F8B",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "Topic Details",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Topic Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "The name of the topic. For FIFO topics, must end with .fifo."
+    },
+    {
+      "key": "displayName",
+      "tfPath": "display_name",
+      "label": "Display Name",
+      "section": "general",
+      "order": 2,
+      "required": false,
+      "helpText": "The display name for SNS notifications."
+    },
+    {
+      "key": "fifoTopic",
+      "tfPath": "fifo_topic",
+      "label": "FIFO Topic",
+      "section": "general",
+      "order": 3,
+      "type": "boolean",
+      "default": false,
+      "helpText": "Boolean designating a FIFO topic."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 4,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

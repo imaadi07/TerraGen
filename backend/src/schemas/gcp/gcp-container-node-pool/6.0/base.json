@@ -1,0 +1,154 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_container_node_pool",
+  "canvasType": "gcp-container-node-pool",
+  "displayName": "GKE Node Pool",
+  "category": "compute",
+  "icon": "Compute",
+  "color": "#4285F4",
+  "compatibleWith": ">=6.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-container-cluster",
+      "terraformType": "google_container_cluster",
+      "displayName": "GKE Cluster",
+      "reason": "Node pool belongs to a GKE cluster.",
+      "linkField": "cluster",
+      "tfOutputRef": "google_container_cluster.{resourceName}.name",
+      "required": true
+    },
+    {
+      "resourceType": "gcp-service-account",
+      "terraformType": "google_service_account",
+      "displayName": "Node Service Account",
+      "reason": "Least-privilege service account used by nodes.",
+      "linkField": "serviceAccount",
+      "tfOutputRef": "google_service_account.{resourceName}.email",
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Node Pool Specifications",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "autoscaling",
+      "label": "Autoscaling & Sizing",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Node Pool Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "primary-node-pool",
+      "description": "Unique name of the node pool."
+    },
+    {
+      "key": "cluster",
+      "tfPath": "cluster",
+      "label": "GKE Cluster",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": true,
+      "placeholder": "Connect a GKE Cluster on canvas",
+      "description": "Cluster to attach this pool to. Auto-populated by canvas link."
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location (Region / Zone)",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "string",
+      "required": true,
+      "defaultValue": "us-central1",
+      "description": "Region or zone where nodes will run."
+    },
+    {
+      "key": "machineType",
+      "tfPath": "node_config.0.machine_type",
+      "label": "Machine Type",
+      "sectionKey": "general",
+      "order": 4,
+      "type": "select",
+      "required": true,
+      "defaultValue": "e2-standard-4",
+      "options": [
+        {
+          "label": "e2-standard-2 (2 vCPU, 8 GB)",
+          "value": "e2-standard-2"
+        },
+        {
+          "label": "e2-standard-4 (4 vCPU, 16 GB)",
+          "value": "e2-standard-4"
+        },
+        {
+          "label": "n2-standard-4 (4 vCPU, 16 GB)",
+          "value": "n2-standard-4"
+        },
+        {
+          "label": "e2-medium (2 vCPU, 4 GB)",
+          "value": "e2-medium"
+        }
+      ],
+      "description": "GCE machine type for nodes."
+    },
+    {
+      "key": "diskSizeGb",
+      "tfPath": "node_config.0.disk_size_gb",
+      "label": "Node Disk Size (GB)",
+      "sectionKey": "general",
+      "order": 5,
+      "type": "number",
+      "required": false,
+      "defaultValue": 100,
+      "description": "Size of the disk attached to each node."
+    },
+    {
+      "key": "serviceAccount",
+      "tfPath": "node_config.0.service_account",
+      "label": "Service Account Email",
+      "sectionKey": "general",
+      "order": 6,
+      "type": "string",
+      "required": false,
+      "description": "Service account used by running nodes. Auto-populated by canvas link."
+    },
+    {
+      "key": "minNodeCount",
+      "tfPath": "autoscaling.0.min_node_count",
+      "label": "Min Node Count",
+      "sectionKey": "autoscaling",
+      "order": 1,
+      "type": "number",
+      "required": false,
+      "defaultValue": 1,
+      "description": "Minimum nodes for cluster autoscaler."
+    },
+    {
+      "key": "maxNodeCount",
+      "tfPath": "autoscaling.0.max_node_count",
+      "label": "Max Node Count",
+      "sectionKey": "autoscaling",
+      "order": 2,
+      "type": "number",
+      "required": false,
+      "defaultValue": 5,
+      "description": "Maximum nodes for cluster autoscaler."
+    }
+  ],
+  "version": "6.0"
+}

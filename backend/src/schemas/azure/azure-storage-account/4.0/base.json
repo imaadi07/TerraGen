@@ -1,0 +1,98 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_storage_account",
+  "canvasType": "azure-storage-account",
+  "displayName": "Azure Storage Account",
+  "icon": "Storage",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "storage",
+  "description": "High performance Blob, File, and Queue object storage account.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Storage Account Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "stappproddata",
+      "helpText": "3-24 characters, lowercase alphanumeric only."
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "accountTier",
+      "tfPath": "account_tier",
+      "label": "Account Tier",
+      "section": "general",
+      "order": 4,
+      "default": "Standard",
+      "validation": {
+        "enum": [
+          "Standard",
+          "Premium"
+        ]
+      }
+    },
+    {
+      "key": "accountReplicationType",
+      "tfPath": "account_replication_type",
+      "label": "Replication Type",
+      "section": "general",
+      "order": 5,
+      "default": "LRS",
+      "validation": {
+        "enum": [
+          "LRS",
+          "GRS",
+          "RAGRS",
+          "ZRS"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 6,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "4.0"
+}

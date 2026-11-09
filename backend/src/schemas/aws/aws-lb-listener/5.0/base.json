@@ -1,0 +1,88 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_lb_listener",
+  "canvasType": "aws-lb-listener",
+  "displayName": "AWS LB Listener",
+  "category": "networking",
+  "icon": "Network",
+  "color": "#8C4FFF",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-lb",
+      "terraformType": "aws_lb",
+      "displayName": "Load Balancer",
+      "reason": "A listener must be attached to an existing Load Balancer.",
+      "linkField": "loadBalancerArn",
+      "tfOutputRef": "aws_lb.{resourceName}.arn",
+      "required": true
+    },
+    {
+      "resourceType": "aws-lb-target-group",
+      "terraformType": "aws_lb_target_group",
+      "displayName": "Target Group",
+      "reason": "Default action forward rule targets a Target Group.",
+      "linkField": "targetGroupArn",
+      "tfOutputRef": "aws_lb_target_group.{resourceName}.arn",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Listener Details",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "loadBalancerArn",
+      "tfPath": "load_balancer_arn",
+      "label": "Load Balancer ARN",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "ARN of the load balancer to which this listener is attached."
+    },
+    {
+      "key": "port",
+      "tfPath": "port",
+      "label": "Port",
+      "section": "general",
+      "order": 2,
+      "type": "number",
+      "default": 80,
+      "required": true
+    },
+    {
+      "key": "protocol",
+      "tfPath": "protocol",
+      "label": "Protocol",
+      "section": "general",
+      "order": 3,
+      "type": "select",
+      "default": "HTTP",
+      "options": [
+        "HTTP",
+        "HTTPS",
+        "TCP",
+        "TLS",
+        "UDP",
+        "TCP_UDP"
+      ],
+      "required": true
+    },
+    {
+      "key": "targetGroupArn",
+      "tfPath": "default_action.target_group_arn",
+      "label": "Forward Target Group ARN",
+      "section": "general",
+      "order": 4,
+      "required": true,
+      "helpText": "Target group ARN to forward incoming traffic to."
+    }
+  ],
+  "version": "5.0"
+}

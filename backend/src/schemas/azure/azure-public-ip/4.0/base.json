@@ -1,0 +1,95 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_public_ip",
+  "canvasType": "azure-public-ip",
+  "displayName": "Azure Public IP",
+  "icon": "Network",
+  "color": "#0078D4",
+  "compatibleWith": ">=4.0.0 <5.0.0",
+  "category": "networking",
+  "description": "Allocate a static or dynamic public IP address in Azure.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Public IP Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "pip-app-prod"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "allocationMethod",
+      "tfPath": "allocation_method",
+      "label": "Allocation Method",
+      "section": "general",
+      "order": 4,
+      "default": "Static",
+      "validation": {
+        "enum": [
+          "Static",
+          "Dynamic"
+        ]
+      }
+    },
+    {
+      "key": "sku",
+      "tfPath": "sku",
+      "label": "SKU",
+      "section": "general",
+      "order": 5,
+      "default": "Standard",
+      "validation": {
+        "enum": [
+          "Standard",
+          "Basic"
+        ]
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 6,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "4.0"
+}

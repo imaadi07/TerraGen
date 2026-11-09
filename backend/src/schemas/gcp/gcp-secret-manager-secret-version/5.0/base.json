@@ -1,0 +1,55 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_secret_manager_secret_version",
+  "canvasType": "gcp-secret-manager-secret-version",
+  "displayName": "Secret Manager Secret Version",
+  "category": "security",
+  "icon": "Security",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-secret-manager-secret",
+      "terraformType": "google_secret_manager_secret",
+      "displayName": "Secret Container",
+      "reason": "Payload version stored inside the Secret Manager secret.",
+      "linkField": "secret",
+      "tfOutputRef": "google_secret_manager_secret.{resourceName}.id",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Secret Payload",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "secret",
+      "tfPath": "secret",
+      "label": "Secret ID / Resource Link",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "Connect a Secret Manager Secret on canvas",
+      "description": "The secret container to store this version under. Auto-populated by canvas link."
+    },
+    {
+      "key": "secretData",
+      "tfPath": "secret_data",
+      "label": "Secret Value (Payload)",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "password",
+      "required": true,
+      "placeholder": "Enter secret text or sensitive credentials",
+      "description": "The confidential data payload to encrypt and store in Secret Manager."
+    }
+  ],
+  "version": "5.0"
+}

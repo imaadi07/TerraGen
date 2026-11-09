@@ -1,0 +1,81 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_dynamodb_table",
+  "canvasType": "aws-dynamodb-table",
+  "displayName": "AWS DynamoDB Table",
+  "category": "database",
+  "icon": "Database",
+  "color": "#E7157B",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "sections": [
+    {
+      "key": "general",
+      "label": "Table Definition",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "keys",
+      "label": "Primary Key Attributes",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Table Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Unique name of the DynamoDB table."
+    },
+    {
+      "key": "billingMode",
+      "tfPath": "billing_mode",
+      "label": "Billing Mode",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "PAY_PER_REQUEST",
+      "validation": {
+        "enum": [
+          "PAY_PER_REQUEST",
+          "PROVISIONED"
+        ]
+      },
+      "helpText": "Controls how you are charged for read and write throughput."
+    },
+    {
+      "key": "hashKey",
+      "tfPath": "hash_key",
+      "label": "Partition Key (Hash Key)",
+      "section": "keys",
+      "order": 1,
+      "required": true,
+      "default": "id",
+      "helpText": "Attribute to use as the partition key."
+    },
+    {
+      "key": "rangeKey",
+      "tfPath": "range_key",
+      "label": "Sort Key (Range Key)",
+      "section": "keys",
+      "order": 2,
+      "required": false,
+      "helpText": "Optional attribute to use as the sort key."
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 3,
+      "type": "map"
+    }
+  ],
+  "version": "5.0"
+}

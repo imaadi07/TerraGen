@@ -1,0 +1,69 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_region_network_endpoint_group",
+  "canvasType": "gcp-compute-region-neg",
+  "displayName": "GCP Serverless NEG",
+  "icon": "Network",
+  "color": "#4285F4",
+  "category": "networking",
+  "description": "Serverless Network Endpoint Group (NEG) connecting Cloud Run or Functions to Load Balancers.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "NEG Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "cloud-run-neg"
+    },
+    {
+      "key": "networkEndpointType",
+      "tfPath": "network_endpoint_type",
+      "label": "Endpoint Type",
+      "section": "general",
+      "order": 2,
+      "default": "SERVERLESS",
+      "validation": {
+        "enum": [
+          "SERVERLESS",
+          "PRIVATE_SERVICE_CONNECT"
+        ]
+      }
+    },
+    {
+      "key": "region",
+      "tfPath": "region",
+      "label": "Region",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "us-central1"
+    },
+    {
+      "key": "cloudRunService",
+      "tfPath": "cloud_run.service",
+      "label": "Cloud Run Service Name",
+      "section": "general",
+      "order": 4
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "gcp-cloud-run-v2-service",
+      "linkField": "cloudRunService",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "6.0",
+  "compatibleWith": ">=6.0.0 <7.0.0"
+}

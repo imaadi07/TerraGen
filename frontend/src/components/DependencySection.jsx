@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { apiClient } from "../services/api.service.js";
 import DynamicForm from "./DynamicForm";
-
-const API_BASE = "http://localhost:5000";
 
 export default function DependencySection({
   dep,
@@ -245,11 +243,8 @@ function ExistingModeInput({
           params[source.queryParam] = dependencyValue;
         }
 
-        const res = await axios.get(`${API_BASE}${source.endpoint}`, {
-          params,
-        });
-
-        setOptions(res.data.data || []);
+        const data = await apiClient.fetchDynamicOptions(source.endpoint, params);
+        setOptions(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error(err);
 

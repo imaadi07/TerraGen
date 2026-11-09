@@ -1,0 +1,55 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_target_http_proxy",
+  "canvasType": "gcp-compute-target-http-proxy",
+  "displayName": "GCP Target HTTP Proxy",
+  "icon": "Network",
+  "color": "#4285F4",
+  "category": "networking",
+  "description": "Receives HTTP requests and routes them to a URL map.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Proxy Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "web-target-http-proxy"
+    },
+    {
+      "key": "urlMap",
+      "tfPath": "url_map",
+      "label": "URL Map ID",
+      "section": "general",
+      "order": 2,
+      "required": true
+    },
+    {
+      "key": "description",
+      "tfPath": "description",
+      "label": "Description",
+      "section": "general",
+      "order": 3,
+      "default": "Target HTTP Proxy for Application Load Balancer"
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-url-map",
+      "linkField": "urlMap",
+      "sourceOutput": "id"
+    }
+  ],
+  "version": "5.0",
+  "compatibleWith": ">=5.0.0 <7.0.0"
+}

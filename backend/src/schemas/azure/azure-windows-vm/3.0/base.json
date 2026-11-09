@@ -1,0 +1,183 @@
+{
+  "providerKey": "azure",
+  "terraformType": "azurerm_windows_virtual_machine",
+  "canvasType": "azure-windows-vm",
+  "displayName": "Azure Windows Virtual Machine",
+  "icon": "Cpu",
+  "color": "#0078D4",
+  "compatibleWith": ">=3.0.0 <4.0.0",
+  "category": "compute",
+  "description": "Deploy an enterprise Windows Server Virtual Machine on Azure.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "VM Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "vm-win-app"
+    },
+    {
+      "key": "resourceGroupName",
+      "tfPath": "resource_group_name",
+      "label": "Resource Group Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "rg-app-production"
+    },
+    {
+      "key": "location",
+      "tfPath": "location",
+      "label": "Location",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "eastus"
+    },
+    {
+      "key": "size",
+      "tfPath": "size",
+      "label": "VM Size",
+      "section": "general",
+      "order": 4,
+      "default": "Standard_D2s_v5",
+      "validation": {
+        "enum": [
+          "Standard_B2s",
+          "Standard_D2s_v5",
+          "Standard_D4s_v5"
+        ]
+      }
+    },
+    {
+      "key": "adminUsername",
+      "tfPath": "admin_username",
+      "label": "Admin Username",
+      "section": "general",
+      "order": 5,
+      "default": "adminuser"
+    },
+    {
+      "key": "adminPassword",
+      "tfPath": "admin_password",
+      "label": "Admin Password",
+      "section": "general",
+      "order": 6,
+      "default": "P@ssw0rd1234!",
+      "validation": {
+        "sensitive": true
+      }
+    },
+    {
+      "key": "networkInterfaceIds",
+      "tfPath": "network_interface_ids",
+      "label": "NIC IDs",
+      "section": "general",
+      "order": 7,
+      "required": true,
+      "default": [
+        "nic-12345"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    },
+    {
+      "key": "osDiskCaching",
+      "tfPath": "os_disk.caching",
+      "label": "OS Disk Caching",
+      "section": "general",
+      "order": 8,
+      "default": "ReadWrite",
+      "validation": {
+        "enum": [
+          "ReadWrite",
+          "ReadOnly",
+          "None"
+        ]
+      }
+    },
+    {
+      "key": "osDiskStorageAccountType",
+      "tfPath": "os_disk.storage_account_type",
+      "label": "OS Disk Storage Type",
+      "section": "general",
+      "order": 9,
+      "default": "StandardSSD_LRS",
+      "validation": {
+        "enum": [
+          "Standard_LRS",
+          "StandardSSD_LRS",
+          "Premium_LRS"
+        ]
+      }
+    },
+    {
+      "key": "sourceImagePublisher",
+      "tfPath": "source_image_reference.publisher",
+      "label": "Image Publisher",
+      "section": "general",
+      "order": 10,
+      "default": "MicrosoftWindowsServer"
+    },
+    {
+      "key": "sourceImageOffer",
+      "tfPath": "source_image_reference.offer",
+      "label": "Image Offer",
+      "section": "general",
+      "order": 11,
+      "default": "WindowsServer"
+    },
+    {
+      "key": "sourceImageSku",
+      "tfPath": "source_image_reference.sku",
+      "label": "Image SKU",
+      "section": "general",
+      "order": 12,
+      "default": "2022-Datacenter"
+    },
+    {
+      "key": "sourceImageVersion",
+      "tfPath": "source_image_reference.version",
+      "label": "Image Version",
+      "section": "general",
+      "order": 13,
+      "default": "latest"
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 14,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "azure-network-interface",
+      "linkField": "networkInterfaceIds",
+      "sourceOutput": "id",
+      "isMulti": true
+    },
+    {
+      "resourceType": "azure-resource-group",
+      "linkField": "resourceGroupName",
+      "sourceOutput": "name"
+    }
+  ],
+  "version": "3.0"
+}

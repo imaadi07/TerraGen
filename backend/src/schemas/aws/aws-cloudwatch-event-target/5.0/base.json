@@ -1,0 +1,70 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_cloudwatch_event_target",
+  "canvasType": "aws-cloudwatch-event-target",
+  "displayName": "AWS EventBridge Rule Target",
+  "category": "serverless",
+  "icon": "Serverless",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-cloudwatch-event-rule",
+      "terraformType": "aws_cloudwatch_event_rule",
+      "displayName": "Event Rule",
+      "reason": "Target must be associated with an EventBridge rule.",
+      "linkField": "rule",
+      "tfOutputRef": "aws_cloudwatch_event_rule.{resourceName}.name",
+      "required": true
+    },
+    {
+      "resourceType": "aws-lambda-function",
+      "terraformType": "aws_lambda_function",
+      "displayName": "Target Lambda",
+      "reason": "Target invokes a Lambda function or SQS queue upon rule trigger.",
+      "linkField": "arn",
+      "tfOutputRef": "aws_lambda_function.{resourceName}.arn",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Event Target Details",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "rule",
+      "tfPath": "rule",
+      "label": "Rule Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "helpText": "Name of the EventBridge rule to associate this target with."
+    },
+    {
+      "key": "targetId",
+      "tfPath": "target_id",
+      "label": "Target ID",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "SendToTarget",
+      "helpText": "Unique target ID within the rule."
+    },
+    {
+      "key": "arn",
+      "tfPath": "arn",
+      "label": "Target Resource ARN",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "helpText": "ARN of the target resource (Lambda function, SQS queue, SNS topic, or ECS task)."
+    }
+  ],
+  "version": "5.0"
+}

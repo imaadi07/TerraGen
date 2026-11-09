@@ -1,0 +1,109 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_monitoring_alert_policy",
+  "canvasType": "gcp-monitoring-alert-policy",
+  "displayName": "GCP Monitoring Alert Policy",
+  "icon": "Bell",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "category": "security",
+  "description": "Create a Cloud Monitoring Alert Policy with metric threshold condition.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "displayName",
+      "tfPath": "display_name",
+      "label": "Policy Display Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "High CPU Utilization Alert"
+    },
+    {
+      "key": "combiner",
+      "tfPath": "combiner",
+      "label": "Combiner",
+      "section": "general",
+      "order": 2,
+      "default": "OR",
+      "validation": {
+        "enum": [
+          "AND",
+          "OR",
+          "AND_WITH_MATCHING_RESOURCE"
+        ]
+      }
+    },
+    {
+      "key": "enabled",
+      "tfPath": "enabled",
+      "label": "Policy Enabled",
+      "section": "general",
+      "order": 3,
+      "default": true,
+      "validation": {
+        "type": "boolean"
+      }
+    },
+    {
+      "key": "conditionsDisplayName",
+      "tfPath": "conditions.display_name",
+      "label": "Condition Name",
+      "section": "general",
+      "order": 4,
+      "default": "CPU > 80%"
+    },
+    {
+      "key": "conditionThresholdFilter",
+      "tfPath": "conditions.condition_threshold.filter",
+      "label": "Metric Filter",
+      "section": "general",
+      "order": 5,
+      "default": "metric.type=\"compute.googleapis.com/instance/cpu/utilization\" AND resource.type=\"gce_instance\""
+    },
+    {
+      "key": "conditionThresholdComparison",
+      "tfPath": "conditions.condition_threshold.comparison",
+      "label": "Comparison",
+      "section": "general",
+      "order": 6,
+      "default": "COMPARISON_GT",
+      "validation": {
+        "enum": [
+          "COMPARISON_GT",
+          "COMPARISON_GE",
+          "COMPARISON_LT",
+          "COMPARISON_LE"
+        ]
+      }
+    },
+    {
+      "key": "conditionThresholdThresholdValue",
+      "tfPath": "conditions.condition_threshold.threshold_value",
+      "label": "Threshold Value (Fraction)",
+      "section": "general",
+      "order": 7,
+      "default": 0.8,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "conditionThresholdDuration",
+      "tfPath": "conditions.condition_threshold.duration",
+      "label": "Duration Window",
+      "section": "general",
+      "order": 8,
+      "default": "60s"
+    }
+  ],
+  "version": "5.0"
+}

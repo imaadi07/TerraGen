@@ -1,0 +1,155 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_forwarding_rule",
+  "canvasType": "gcp-compute-forwarding-rule",
+  "displayName": "GCP Regional Forwarding Rule",
+  "category": "networking",
+  "icon": "Network",
+  "color": "#4285F4",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-network",
+      "terraformType": "google_compute_network",
+      "displayName": "VPC Network",
+      "reason": "Internal forwarding rules require a VPC network.",
+      "linkField": "network",
+      "tfOutputRef": "google_compute_network.{resourceName}.id",
+      "required": false
+    },
+    {
+      "resourceType": "gcp-compute-subnetwork",
+      "terraformType": "google_compute_subnetwork",
+      "displayName": "Subnetwork",
+      "reason": "Subnetwork for the internal forwarding rule frontend IP.",
+      "linkField": "subnetwork",
+      "tfOutputRef": "google_compute_subnetwork.{resourceName}.id",
+      "required": false
+    },
+    {
+      "resourceType": "gcp-compute-region-backend-service",
+      "linkField": "backendService",
+      "sourceOutput": "id",
+      "displayName": "Regional Backend Service"
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Forwarding Rule Details",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Forwarding Rule Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "frontend-forwarding-rule",
+      "description": "Unique name of the forwarding rule."
+    },
+    {
+      "key": "region",
+      "tfPath": "region",
+      "label": "Region",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": true,
+      "defaultValue": "us-central1",
+      "description": "The GCP region for the forwarding rule."
+    },
+    {
+      "key": "loadBalancingScheme",
+      "tfPath": "load_balancing_scheme",
+      "label": "Load Balancing Scheme",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "select",
+      "required": false,
+      "defaultValue": "EXTERNAL",
+      "options": [
+        {
+          "label": "External (Public Internet)",
+          "value": "EXTERNAL"
+        },
+        {
+          "label": "Internal (Private VPC)",
+          "value": "INTERNAL"
+        }
+      ],
+      "description": "Identifies whether the rule is internal or external."
+    },
+    {
+      "key": "ipProtocol",
+      "tfPath": "ip_protocol",
+      "label": "IP Protocol",
+      "sectionKey": "general",
+      "order": 4,
+      "type": "select",
+      "required": false,
+      "defaultValue": "TCP",
+      "options": [
+        {
+          "label": "TCP",
+          "value": "TCP"
+        },
+        {
+          "label": "UDP",
+          "value": "UDP"
+        },
+        {
+          "label": "ESP",
+          "value": "ESP"
+        }
+      ],
+      "description": "IP protocol that rule serves."
+    },
+    {
+      "key": "portRange",
+      "tfPath": "port_range",
+      "label": "Port Range",
+      "sectionKey": "general",
+      "order": 5,
+      "type": "string",
+      "required": false,
+      "defaultValue": "80-80",
+      "placeholder": "80-80 or 443-443",
+      "description": "Applicable ports (e.g. 80-80 or 443-443)."
+    },
+    {
+      "key": "network",
+      "tfPath": "network",
+      "label": "VPC Network",
+      "sectionKey": "general",
+      "order": 6,
+      "type": "string",
+      "required": false,
+      "description": "VPC Network ID. Auto-populated by canvas link."
+    },
+    {
+      "key": "subnetwork",
+      "tfPath": "subnetwork",
+      "label": "Subnetwork",
+      "sectionKey": "general",
+      "order": 7,
+      "type": "string",
+      "required": false,
+      "description": "Subnetwork ID. Auto-populated by canvas link."
+    },
+    {
+      "key": "backendService",
+      "tfPath": "backend_service",
+      "label": "Backend Service ID",
+      "sectionKey": "general",
+      "order": 8
+    }
+  ],
+  "version": "5.0"
+}

@@ -1,0 +1,138 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_autoscaling_policy",
+  "canvasType": "aws-autoscaling-policy",
+  "displayName": "AWS Auto Scaling Policy",
+  "category": "compute",
+  "icon": "Compute",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-autoscaling-group",
+      "terraformType": "aws_autoscaling_group",
+      "displayName": "Auto Scaling Group",
+      "reason": "Policy scales the specified Auto Scaling Group.",
+      "linkField": "autoscalingGroupName",
+      "tfOutputRef": "aws_autoscaling_group.{resourceName}.name",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Policy Settings",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    },
+    {
+      "key": "targetTracking",
+      "label": "Target Tracking Metrics",
+      "order": 2,
+      "defaultExpanded": true,
+      "collapsible": true
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "Policy Name",
+      "type": "string",
+      "sectionKey": "general",
+      "order": 1,
+      "required": true,
+      "placeholder": "cpu-target-tracking-policy",
+      "description": "Unique name of the auto scaling policy."
+    },
+    {
+      "key": "autoscalingGroupName",
+      "tfPath": "autoscaling_group_name",
+      "label": "Target Auto Scaling Group",
+      "type": "string",
+      "sectionKey": "general",
+      "order": 2,
+      "required": true,
+      "placeholder": "Connect an Auto Scaling Group node on canvas",
+      "description": "Name of the ASG to attach to. Auto-filled when connected on canvas."
+    },
+    {
+      "key": "policyType",
+      "tfPath": "policy_type",
+      "label": "Policy Type",
+      "type": "select",
+      "sectionKey": "general",
+      "order": 3,
+      "required": true,
+      "defaultValue": "TargetTrackingScaling",
+      "options": [
+        {
+          "label": "Target Tracking (Recommended)",
+          "value": "TargetTrackingScaling"
+        },
+        {
+          "label": "Simple Scaling",
+          "value": "SimpleScaling"
+        },
+        {
+          "label": "Step Scaling",
+          "value": "StepScaling"
+        }
+      ],
+      "description": "Scaling policy methodology."
+    },
+    {
+      "key": "estimatedInstanceWarmup",
+      "tfPath": "estimated_instance_warmup",
+      "label": "Instance Warmup (Seconds)",
+      "type": "number",
+      "sectionKey": "general",
+      "order": 4,
+      "required": false,
+      "defaultValue": 300,
+      "description": "Estimated time in seconds until a newly launched instance contributes to CloudWatch metrics."
+    },
+    {
+      "key": "predefinedMetricType",
+      "tfPath": "target_tracking_configuration.predefined_metric_specification.predefined_metric_type",
+      "label": "Predefined Metric Type",
+      "type": "select",
+      "sectionKey": "targetTracking",
+      "order": 1,
+      "required": true,
+      "defaultValue": "ASGAverageCPUUtilization",
+      "options": [
+        {
+          "label": "Average CPU Utilization (ASGAverageCPUUtilization)",
+          "value": "ASGAverageCPUUtilization"
+        },
+        {
+          "label": "Average Network In (ASGAverageNetworkIn)",
+          "value": "ASGAverageNetworkIn"
+        },
+        {
+          "label": "Average Network Out (ASGAverageNetworkOut)",
+          "value": "ASGAverageNetworkOut"
+        },
+        {
+          "label": "ALB Request Count Per Target (ALBRequestCountPerTarget)",
+          "value": "ALBRequestCountPerTarget"
+        }
+      ],
+      "description": "Metric monitored to trigger scaling actions."
+    },
+    {
+      "key": "targetValue",
+      "tfPath": "target_tracking_configuration.target_value",
+      "label": "Target Metric Value",
+      "type": "number",
+      "sectionKey": "targetTracking",
+      "order": 2,
+      "required": true,
+      "defaultValue": 60,
+      "description": "The target value for the metric (e.g. 60.0 for 60% CPU)."
+    }
+  ],
+  "version": "5.0"
+}

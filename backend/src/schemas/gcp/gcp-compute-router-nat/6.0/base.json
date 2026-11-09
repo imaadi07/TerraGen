@@ -1,0 +1,119 @@
+{
+  "providerKey": "gcp",
+  "terraformType": "google_compute_router_nat",
+  "canvasType": "gcp-compute-router-nat",
+  "displayName": "Cloud NAT Gateway",
+  "category": "networking",
+  "icon": "Network",
+  "color": "#4285F4",
+  "compatibleWith": ">=6.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "gcp-compute-router",
+      "terraformType": "google_compute_router",
+      "displayName": "Cloud Router",
+      "reason": "Cloud NAT must be configured on a Cloud Router.",
+      "linkField": "router",
+      "tfOutputRef": "google_compute_router.{resourceName}.name",
+      "required": true
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "NAT Configuration",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "name",
+      "tfPath": "name",
+      "label": "NAT Gateway Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "cloud-nat-gateway",
+      "description": "Unique name of the Cloud NAT gateway."
+    },
+    {
+      "key": "router",
+      "tfPath": "router",
+      "label": "Cloud Router",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "string",
+      "required": true,
+      "placeholder": "Connect a Cloud Router on canvas",
+      "description": "The name of the Cloud Router in which this NAT will be configured. Auto-populated by canvas link."
+    },
+    {
+      "key": "region",
+      "tfPath": "region",
+      "label": "Region",
+      "sectionKey": "general",
+      "order": 3,
+      "type": "string",
+      "required": true,
+      "defaultValue": "us-central1",
+      "description": "Region where the NAT gateway resides."
+    },
+    {
+      "key": "natIpAllocateOption",
+      "tfPath": "nat_ip_allocate_option",
+      "label": "NAT IP Allocation",
+      "sectionKey": "general",
+      "order": 4,
+      "type": "select",
+      "required": true,
+      "defaultValue": "AUTO_ONLY",
+      "options": [
+        {
+          "label": "Automatic (AUTO_ONLY - Google allocates external IPs)",
+          "value": "AUTO_ONLY"
+        },
+        {
+          "label": "Manual (MANUAL_ONLY - specify static IP addresses)",
+          "value": "MANUAL_ONLY"
+        }
+      ],
+      "description": "How external IP addresses should be assigned to the NAT gateway."
+    },
+    {
+      "key": "sourceSubnetworkIpRangesToNat",
+      "tfPath": "source_subnetwork_ip_ranges_to_nat",
+      "label": "Source Subnetworks",
+      "sectionKey": "general",
+      "order": 5,
+      "type": "select",
+      "required": true,
+      "defaultValue": "ALL_SUBNETWORKS_ALL_IP_RANGES",
+      "options": [
+        {
+          "label": "All Subnetworks in Region (ALL_SUBNETWORKS_ALL_IP_RANGES)",
+          "value": "ALL_SUBNETWORKS_ALL_IP_RANGES"
+        },
+        {
+          "label": "All Primary IP Ranges (ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES)",
+          "value": "ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES"
+        }
+      ],
+      "description": "How NAT should configure for subnetworks in the region."
+    },
+    {
+      "key": "logConfigEnabled",
+      "tfPath": "log_config.0.enable",
+      "label": "Enable NAT Logging",
+      "sectionKey": "general",
+      "order": 6,
+      "type": "boolean",
+      "required": false,
+      "defaultValue": true,
+      "description": "Indicates whether or not to export logs for NAT connections."
+    }
+  ],
+  "version": "6.0"
+}

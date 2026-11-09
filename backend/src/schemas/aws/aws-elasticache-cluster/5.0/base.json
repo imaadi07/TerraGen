@@ -1,0 +1,112 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_elasticache_cluster",
+  "canvasType": "aws-elasticache-cluster",
+  "displayName": "AWS ElastiCache Cluster",
+  "icon": "Database",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "version": "5.0",
+  "category": "database",
+  "description": "Create an Amazon ElastiCache Redis or Memcached in-memory caching cluster.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "clusterId",
+      "tfPath": "cluster_id",
+      "label": "Cluster Identifier",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "cache-cluster"
+    },
+    {
+      "key": "engine",
+      "tfPath": "engine",
+      "label": "Cache Engine",
+      "section": "general",
+      "order": 2,
+      "default": "redis",
+      "validation": {
+        "enum": [
+          "redis",
+          "memcached"
+        ]
+      }
+    },
+    {
+      "key": "nodeType",
+      "tfPath": "node_type",
+      "label": "Node Instance Type",
+      "section": "general",
+      "order": 3,
+      "default": "cache.t3.micro"
+    },
+    {
+      "key": "numCacheNodes",
+      "tfPath": "num_cache_nodes",
+      "label": "Number of Cache Nodes",
+      "section": "general",
+      "order": 4,
+      "default": 1,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "parameterGroupName",
+      "tfPath": "parameter_group_name",
+      "label": "Parameter Group Name",
+      "section": "general",
+      "order": 5,
+      "default": "default.redis7"
+    },
+    {
+      "key": "port",
+      "tfPath": "port",
+      "label": "Port",
+      "section": "general",
+      "order": 6,
+      "default": 6379,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "securityGroupIds",
+      "tfPath": "security_group_ids",
+      "label": "Security Group IDs",
+      "section": "general",
+      "order": 7,
+      "validation": {
+        "type": "array"
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 8,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "aws-security-group",
+      "linkField": "securityGroupIds",
+      "sourceOutput": "id",
+      "isMulti": true
+    }
+  ]
+}

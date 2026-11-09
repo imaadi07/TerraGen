@@ -1,0 +1,67 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_iam_role_policy_attachment",
+  "canvasType": "aws-iam-role-policy-attachment",
+  "displayName": "AWS IAM Role Policy Attachment",
+  "category": "security",
+  "icon": "Security",
+  "color": "#DD344C",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "dependencies": [
+    {
+      "resourceType": "aws-iam-role",
+      "terraformType": "aws_iam_role",
+      "displayName": "IAM Role",
+      "reason": "Attaches an IAM policy to this IAM role.",
+      "linkField": "role",
+      "tfOutputRef": "aws_iam_role.{resourceName}.name",
+      "required": true
+    },
+    {
+      "resourceType": "aws-iam-policy",
+      "terraformType": "aws_iam_policy",
+      "displayName": "IAM Policy",
+      "reason": "Custom policy created on canvas to attach to the role.",
+      "linkField": "policyArn",
+      "tfOutputRef": "aws_iam_policy.{resourceName}.arn",
+      "required": false
+    }
+  ],
+  "sections": [
+    {
+      "key": "general",
+      "label": "Attachment Details",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "role",
+      "tfPath": "role",
+      "label": "Role Name",
+      "sectionKey": "general",
+      "order": 1,
+      "type": "string",
+      "required": true,
+      "placeholder": "Connect an IAM Role on canvas",
+      "description": "Name of the IAM role to attach the policy to. Auto-filled when connected on canvas."
+    },
+    {
+      "key": "policyArn",
+      "tfPath": "policy_arn",
+      "label": "Policy ARN / AWS Managed Policy",
+      "sectionKey": "general",
+      "order": 2,
+      "type": "select",
+      "required": true,
+      "placeholder": "Select an AWS Managed Policy or connect a custom policy",
+      "dataSource": {
+        "endpoint": "/api/dynamic/aws/iam/managed-policies"
+      },
+      "description": "Select an official AWS Managed Policy from the catalog or connect a custom IAM Policy node on canvas."
+    }
+  ],
+  "version": "5.0"
+}

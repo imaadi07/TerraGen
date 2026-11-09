@@ -1,0 +1,138 @@
+{
+  "providerKey": "aws",
+  "terraformType": "aws_eks_node_group",
+  "canvasType": "aws-eks-node-group",
+  "displayName": "AWS EKS Node Group",
+  "icon": "Cpu",
+  "color": "#FF9900",
+  "compatibleWith": ">=5.0.0 <7.0.0",
+  "version": "5.0",
+  "category": "compute",
+  "description": "Create a managed worker node group for an Amazon EKS cluster.",
+  "sections": [
+    {
+      "key": "general",
+      "label": "General",
+      "order": 1,
+      "defaultExpanded": true,
+      "collapsible": false
+    }
+  ],
+  "fields": [
+    {
+      "key": "clusterName",
+      "tfPath": "cluster_name",
+      "label": "EKS Cluster Name",
+      "section": "general",
+      "order": 1,
+      "required": true,
+      "default": "main-eks"
+    },
+    {
+      "key": "nodeGroupName",
+      "tfPath": "node_group_name",
+      "label": "Node Group Name",
+      "section": "general",
+      "order": 2,
+      "required": true,
+      "default": "primary-node-group"
+    },
+    {
+      "key": "nodeRoleArn",
+      "tfPath": "node_role_arn",
+      "label": "IAM Node Role ARN",
+      "section": "general",
+      "order": 3,
+      "required": true,
+      "default": "arn:aws:iam::123456789012:role/eks-node-role"
+    },
+    {
+      "key": "subnetIds",
+      "tfPath": "subnet_ids",
+      "label": "Subnet IDs",
+      "section": "general",
+      "order": 4,
+      "required": true,
+      "default": [
+        "subnet-12345678"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    },
+    {
+      "key": "instanceTypes",
+      "tfPath": "instance_types",
+      "label": "Instance Types",
+      "section": "general",
+      "order": 5,
+      "default": [
+        "t3.medium"
+      ],
+      "validation": {
+        "type": "array"
+      }
+    },
+    {
+      "key": "scalingDesiredSize",
+      "tfPath": "scaling_config.desired_size",
+      "label": "Desired Node Count",
+      "section": "general",
+      "order": 6,
+      "default": 2,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "scalingMaxSize",
+      "tfPath": "scaling_config.max_size",
+      "label": "Max Node Count",
+      "section": "general",
+      "order": 7,
+      "default": 4,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "scalingMinSize",
+      "tfPath": "scaling_config.min_size",
+      "label": "Min Node Count",
+      "section": "general",
+      "order": 8,
+      "default": 1,
+      "validation": {
+        "type": "number"
+      }
+    },
+    {
+      "key": "tags",
+      "tfPath": "tags",
+      "label": "Tags",
+      "section": "general",
+      "order": 9,
+      "validation": {
+        "type": "map"
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "resourceType": "aws-eks",
+      "linkField": "clusterName",
+      "sourceOutput": "name"
+    },
+    {
+      "resourceType": "aws-iam-role",
+      "linkField": "nodeRoleArn",
+      "sourceOutput": "arn"
+    },
+    {
+      "resourceType": "aws-subnet",
+      "linkField": "subnetIds",
+      "sourceOutput": "id",
+      "isMulti": true
+    }
+  ]
+}
